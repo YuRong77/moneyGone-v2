@@ -1,6 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+:root {
+  --card-color: #fdfdfd;
+  --background-color: #f3f4f8;
+  --title-color: #202124;
+  --subTitle-color: #3f3f46;
+}
+
+.dark {
+  --card-color: #303436;
+  --background-color: #27282a;
+  --title-color: #d5d5d5;
+  --subTitle-color: #9d9d9d;
+}
+
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
   *::before,
   *::after {
     box-sizing: border-box;
@@ -9,6 +26,7 @@
 
 html,
 body {
+  font-family: 'Noto Sans TC', sans-serif;
   height: 100%;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -25,4 +43,15 @@ canvas {
   font-style: italic;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.appWidth {
+  max-width: 768px;
+  margin: 0 auto;
+  @media (min-width: 768px) and (max-width: 1024px) {
+    max-width: 1024px;
+  }
+  @media (min-width: 1025px) {
+    max-width: 768px;
+  }
 }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { router } from '@/router'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:3002',
@@ -27,6 +28,10 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
+      if (error.response.status === 401) {
+        router.push({ name: 'Login' })
+      }
+
       console.error('Response error:', error.response.data)
     } else if (error.request) {
       console.error('Request error:', error.request)

@@ -3,7 +3,7 @@
 </script>
 <template>
   <div>
-    record
+    chart
   </div>
 </template>
 

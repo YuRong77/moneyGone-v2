@@ -29,7 +29,7 @@ export default {
     limit?: number
     orderByAmount?: boolean
   }) {
-    const result = await apiClient.get('/transactions}', { params: data })
+    const result = await apiClient.get('/transactions', { params: data })
     return result.data
   }
 }
