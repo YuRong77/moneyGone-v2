@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { authAPI } from '@/apis'
-import { useRouter } from 'vue-router'
 
 const router = useRouter()
 

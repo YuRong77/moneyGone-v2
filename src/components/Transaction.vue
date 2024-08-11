@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
 import { transactionAPI } from '@/apis'

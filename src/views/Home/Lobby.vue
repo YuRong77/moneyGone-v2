@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
 import type { Transaction } from '@/types'
 import { categoryAPI, transactionAPI } from '@/apis'
 import { useCategoriesStore } from '@/stores/categories'
 import { format, startOfDay, endOfDay } from "date-fns";
 import { emitter } from '@/utils/emitter'
-import Header from "@/components/Header.vue"
-import CategoryTab from "@/components/CategoryTab.vue"
 
 const categoriesStore = useCategoriesStore()
 

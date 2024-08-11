@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { RouterView } from 'vue-router'
 import { emitter } from '@/utils/emitter'
 import type { Transaction as ITransaction, NewTransaction } from '@/types'
-import Footer from "@/components/Footer.vue"
-import Transaction from "@/components/Transaction.vue"
 
 let transactionData = ref<ITransaction | NewTransaction | null>(null)
 let isVisible = ref(false)
