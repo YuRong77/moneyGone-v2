@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import type { Transaction } from '@/types'
 import { categoryAPI, transactionAPI } from '@/apis'
 import { useCategoriesStore } from '@/stores/categories'
 import { format, startOfDay, endOfDay } from "date-fns";
+import { emitter } from '@/utils/emitter'
 import Header from "@/components/Header.vue"
 import CategoryTab from "@/components/CategoryTab.vue"
 
@@ -30,6 +31,10 @@ function getTodayRecord() {
 onMounted(() => {
   getCategories()
   getTodayRecord()
+  emitter.on('refresh', getTodayRecord)
+})
+onBeforeUnmount(() => {
+  emitter.off('refresh')
 })
 </script>
 <template>
@@ -37,12 +42,18 @@ onMounted(() => {
   <div class="content">
 
     <CategoryTab />
-    <div v-for="item in records" :key="item.id">
-      {{ item.name }}
+
+    <div class="record">
+      <div v-for="item in records" :key="item.id">
+        {{ item.name }}
+        {{ item.amount }}
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.content {}
+.record {
+  margin-top: 10px;
+}
 </style>

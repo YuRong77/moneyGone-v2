@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
+import { emitter } from '@/utils/emitter'
 
 const emit = defineEmits(['isSelected'])
 
@@ -11,7 +12,7 @@ const { categories } = storeToRefs(categoriesStore)
 
 <template>
   <div class="categories">
-    <div v-for="category in categories" :key="category.id">
+    <div v-for="category in categories" :key="category.id" @click="emitter.emit('newTransaction', category.id)">
       {{ category.name }}
     </div>
   </div>

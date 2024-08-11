@@ -1,6 +1,32 @@
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterView } from 'vue-router'
+import { emitter } from '@/utils/emitter'
+import type { Transaction as ITransaction, NewTransaction } from '@/types'
 import Footer from "@/components/Footer.vue"
+import Transaction from "@/components/Transaction.vue"
+
+let transactionData = ref<ITransaction | NewTransaction | null>(null)
+let isVisible = ref(false)
+
+function newTransaction(categoryId: number) {
+  const data = {
+    name: '',
+    amount: null,
+    note: '',
+    categoryId: categoryId
+  }
+  transactionData.value = data
+  isVisible.value = true
+}
+
+onMounted(() => {
+  emitter.on('newTransaction', newTransaction)
+})
+onBeforeUnmount(() => {
+  emitter.off('newTransaction')
+})
+
 </script>
 
 <template>
@@ -8,6 +34,7 @@ import Footer from "@/components/Footer.vue"
     <RouterView />
     <Footer />
   </div>
+  <Transaction v-if="transactionData" v-model:isVisible="isVisible" :transactionData="transactionData" />
 </template>
 
 

@@ -1,7 +1,8 @@
 import mitt from 'mitt'
 
 type Events = {
-  test: string
+  newTransaction: number
+  refresh: void
 }
 
 export const emitter = mitt<Events>()

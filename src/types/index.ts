@@ -12,3 +12,10 @@ export interface Transaction {
   categoryName: string
   createdAt: string
 }
+
+export interface NewTransaction {
+  name: string
+  amount: number | null
+  note: string
+  categoryId: number
+}
