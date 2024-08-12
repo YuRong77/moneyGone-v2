@@ -3,6 +3,11 @@ export interface Category {
   name: string
 }
 
+export interface TransactionTotal {
+  date: string
+  details: Transaction[]
+  totalAmount: number
+}
 export interface Transaction {
   id: number
   name: string

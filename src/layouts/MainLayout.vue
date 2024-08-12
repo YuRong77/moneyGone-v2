@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { emitter } from '@/utils/emitter'
-import type { Transaction as ITransaction, NewTransaction } from '@/types'
+import type { Transaction, NewTransaction } from '@/types'
 
-let transactionData = ref<ITransaction | NewTransaction | null>(null)
+let transactionData = ref<Transaction | NewTransaction | null>(null)
 let isVisible = ref(false)
 
 function newTransaction(categoryId: number) {

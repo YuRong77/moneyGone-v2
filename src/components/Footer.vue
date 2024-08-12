@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const router = useRouter()
 
+let isVisible = ref(false)
+
 function routeTo(routeName: string) {
   router.push({ name: routeName })
 }
@@ -10,10 +12,11 @@ function routeTo(routeName: string) {
   <div class="footer appWidth">
     <div @click="routeTo('Lobby')">lobby</div>
     <div @click="routeTo('Record')">record</div>
-    <div>+</div>
+    <div @click="isVisible = true">+</div>
     <div @click="routeTo('Chart')">chart</div>
     <div @click="routeTo('Setting')">setting</div>
   </div>
+  <CategoryCard v-model:isVisible="isVisible" />
 </template>
 
 
