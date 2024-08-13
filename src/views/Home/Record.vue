@@ -2,6 +2,7 @@
 import type { Transaction, TransactionTotal } from '@/types'
 import { transactionAPI } from '@/apis'
 import { format, startOfMonth, endOfMonth } from "date-fns";
+import { emitter } from '@/utils/emitter'
 
 const records = ref<TransactionTotal[]>([])
 
@@ -25,6 +26,10 @@ function getMonthRecord() {
 
 onMounted(() => {
   getMonthRecord()
+  emitter.on('refresh', getMonthRecord)
+})
+onBeforeUnmount(() => {
+  emitter.off('refresh')
 })
 
 </script>

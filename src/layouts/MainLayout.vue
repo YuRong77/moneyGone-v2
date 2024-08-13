@@ -30,7 +30,7 @@ onBeforeUnmount(() => {
     <RouterView />
     <Footer />
   </div>
-  <Transaction v-if="transactionData" v-model:isVisible="isVisible" :transactionData="transactionData" />
+  <Transaction v-if="isVisible" v-model:isVisible="isVisible" :transactionData="transactionData" />
 </template>
 
 

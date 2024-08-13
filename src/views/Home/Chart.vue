@@ -3,7 +3,8 @@
 </script>
 <template>
   <div>
-    chart
+    <BarChart />
+    <PieChart />
   </div>
 </template>
 
