@@ -24,3 +24,10 @@ export interface NewTransaction {
   note: string
   categoryId: number
 }
+
+export interface Chart {
+  timePeriodTotal: { date: string; totalAmount: number }[]
+  categoriesTotal: { id: number; name: string; totalAmount: number }[]
+  categoriesDetails: { id: number; name: string; data: number[] }[]
+  topExpense: Transaction[]
+}
