@@ -15,12 +15,13 @@
   },
   "dependencies": {
     "apexcharts": "^3.52.0",
-    "axios": "^1.7.3",
+    "axios": "^1.7.4",
     "date-fns": "^3.6.0",
     "element-plus": "^2.8.0",
     "mitt": "^3.0.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-inline-svg": "^3.1.2",
     "vue-router": "^4.3.3",
     "vue3-apexcharts": "^1.5.3"
   },
