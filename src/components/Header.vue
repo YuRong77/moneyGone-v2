@@ -18,7 +18,7 @@ const props = defineProps({
   </header>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
   background: var(--background-color);
   padding: 10px 15px;
@@ -30,5 +30,9 @@ const props = defineProps({
   left: 0;
   right: 0;
   height: 80px;
+
+  h1 {
+    color: var(--title-color);
+  }
 }
 </style>

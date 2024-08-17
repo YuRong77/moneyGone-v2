@@ -2,8 +2,9 @@
 
 </script>
 <template>
-  <div>
-    setting
+  <Header title="Setting" />
+  <div class="content">
+    setting123
   </div>
 </template>
 

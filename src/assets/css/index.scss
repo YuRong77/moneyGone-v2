@@ -3,15 +3,17 @@
 :root {
   --card-color: #fdfdfd;
   --background-color: #f3f4f8;
-  --title-color: #202124;
-  --subTitle-color: #3f3f46;
+  --title-color: #23252d;
+  --text-color: #3f3f46;
+  --desc-color: #b8bcc3;
 }
 
 .dark {
   --card-color: #303436;
   --background-color: #27282a;
   --title-color: #d5d5d5;
-  --subTitle-color: #9d9d9d;
+  --text-color: #9d9d9d;
+  --desc-color: #858585;
 }
 
 * {

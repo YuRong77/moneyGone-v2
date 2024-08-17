@@ -51,6 +51,7 @@ watch(() => route.name, val => {
   height: 72px;
   background-color: var(--card-color);
   border-radius: 20px 20px 0 0;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: center;
   align-items: center;

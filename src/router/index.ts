@@ -13,20 +13,20 @@ export const router = createRouter({
     },
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       meta: { requiresAuth: true },
       component: () => import('@/layouts/MainLayout.vue'),
       children: [
-        { path: 'lobby', name: 'Lobby', component: () => import('@/views/Home/Lobby.vue') },
-        { path: 'record', name: 'Record', component: () => import('@/views/Home/Record.vue') },
-        { path: 'chart', name: 'Chart', component: () => import('@/views/Home/Chart.vue') },
-        { path: 'setting', name: 'Setting', component: () => import('@/views/Home/Setting.vue') }
+        { path: 'lobby', name: 'Lobby', component: () => import('@/views/Lobby/Index.vue') },
+        { path: 'record', name: 'Record', component: () => import('@/views/Record/Index.vue') },
+        { path: 'chart', name: 'Chart', component: () => import('@/views/Chart/Index.vue') },
+        { path: 'setting', name: 'Setting', component: () => import('@/views/Setting/Index.vue') }
       ]
     },
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/Login/Login.vue')
+      component: () => import('@/views/Login/Index.vue')
     }
   ]
 })

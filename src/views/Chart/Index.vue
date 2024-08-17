@@ -46,6 +46,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
+  <Header title="Chart" />
   <div class="content">
     <div>
       <BarChart :data="chartData" :setting="setting" />

@@ -34,7 +34,8 @@ onBeforeUnmount(() => {
 
 </script>
 <template>
-  <div>
+  <Header title="Record" />
+  <div class="content">
     <div v-for="item in records" :key="item.date" @click="showDetails(item.details)">
       {{ item.date }}
       {{ item.totalAmount }}
