@@ -5,6 +5,7 @@ import { transactionAPI } from '@/apis'
 import { emitter } from '@/utils/emitter'
 import type { PropType } from 'vue'
 import type { Transaction, NewTransaction } from '@/types'
+import { cloneDeep } from 'lodash';
 
 const props = defineProps({
   isVisible: Boolean,
@@ -18,7 +19,7 @@ const emit = defineEmits(['update:isVisible'])
 const categoriesStore = useCategoriesStore()
 const { categories } = storeToRefs(categoriesStore)
 
-const formData = ref(props.transactionData)
+const formData = ref(cloneDeep(props.transactionData))
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -42,8 +43,16 @@ function submitHandler() {
 }
 
 function editTransaction() {
-
+  const { id, name, amount, note } = formData.value as Transaction
+  transactionAPI.transactionUpdate(id, { name, amount, note }).then(() => {
+    emitter.emit('refresh')
+  })
+    .catch((err) => { })
+    .finally(() => {
+      emit('update:isVisible', false)
+    })
 }
+
 function addTransaction() {
   const data = {
     ...formData.value,

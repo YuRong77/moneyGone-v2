@@ -16,11 +16,18 @@ function newTransaction(categoryId: number) {
   isVisible.value = true
 }
 
+function editTransaction(data: Transaction) {
+  transactionData.value = data
+  isVisible.value = true
+}
+
 onMounted(() => {
   emitter.on('newTransaction', newTransaction)
+  emitter.on('editTransaction', editTransaction)
 })
 onBeforeUnmount(() => {
   emitter.off('newTransaction')
+  emitter.off('editTransaction')
 })
 
 </script>

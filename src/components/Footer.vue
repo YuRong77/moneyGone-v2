@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { categoryAPI } from '@/apis'
+import { useCategoriesStore } from '@/stores/categories'
 import overview from '@/assets/images/svg/overview.svg'
 import list from '@/assets/images/svg/list.svg'
 import chart from '@/assets/images/svg/chart.svg'
@@ -8,6 +10,8 @@ import plus from '@/assets/images/svg/plus.svg'
 const router = useRouter()
 const route = useRoute()
 
+const categoriesStore = useCategoriesStore()
+
 const menuItems = [
   { name: '首頁', route: 'Lobby', icon: overview },
   { name: '紀錄', route: 'Record', icon: list },
@@ -16,16 +20,26 @@ const menuItems = [
 ]
 
 let activeRoute = ref("")
-let isVisible = ref(false)
-
-function routeTo(routeName: string) {
-  router.push({ name: routeName })
-}
+let categoryDialog = ref(false)
 
 watch(() => route.name, val => {
   activeRoute.value = val as string
 }, { immediate: true })
 
+
+function routeTo(routeName: string) {
+  router.push({ name: routeName })
+}
+
+function getCategories() {
+  categoryAPI.categoryList().then(res => {
+    categoriesStore.setCategories(res)
+  })
+}
+
+onMounted(() => {
+  getCategories()
+})
 </script>
 
 <template>
@@ -35,11 +49,21 @@ watch(() => route.name, val => {
       <inline-svg :src="item.icon" height="24" width="24"></inline-svg>
       <span class="itemName">{{ item.name }}</span>
     </div>
-    <button class="transactionButton" @click="isVisible = true">
+    <button class="transactionButton" @click="categoryDialog = true">
       <inline-svg :src="plus" height="30" width="30" color="white"></inline-svg>
     </button>
   </div>
-  <CategoryCard v-model:isVisible="isVisible" />
+  <!-- categoryDialog -->
+  <el-dialog v-model="categoryDialog" title="Tips" width="90%">
+    <div>
+      <CategoryItems @isSelected="categoryDialog = false" />
+    </div>
+    <template #footer>
+      <div>
+        <el-button @click="categoryDialog = false">cancel</el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style lang="scss" scoped>

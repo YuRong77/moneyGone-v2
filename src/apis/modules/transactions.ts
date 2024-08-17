@@ -21,6 +21,10 @@ export default {
     const result = await apiClient.delete(`/transactions/${transactionId}`)
     return result.data
   },
+  async transactionOverview() {
+    const result = await apiClient.get('/transactions/overview')
+    return result.data
+  },
   async transactionTotalList(data: { startDate: string; endDate: string }) {
     const result = await apiClient.get('/transactions/total', { params: data })
     return result.data

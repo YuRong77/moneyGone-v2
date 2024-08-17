@@ -1,56 +1,40 @@
 <script setup lang="ts">
-import type { Transaction } from '@/types'
-import { categoryAPI, transactionAPI } from '@/apis'
-import { useCategoriesStore } from '@/stores/categories'
-import { format, startOfDay, endOfDay } from "date-fns";
+import type { Overview } from '@/types'
+import { transactionAPI } from '@/apis'
 import { emitter } from '@/utils/emitter'
 
-const categoriesStore = useCategoriesStore()
+const overview = ref<Overview>()
 
-const records = ref<Transaction[]>([])
-
-function getCategories() {
-  categoryAPI.categoryList().then(res => {
-    categoriesStore.setCategories(res)
-  })
-}
-
-function getTodayRecord() {
-  const data = {
-    startDate: format(startOfDay(new Date()), 'yyyy-MM-dd'),
-    endDate: format(endOfDay(new Date()), 'yyyy-MM-dd')
-  }
-  transactionAPI.transactionList(data).then(res => {
-    records.value = res
+function getOverview() {
+  transactionAPI.transactionOverview().then((res) => {
+    overview.value = res
   })
 }
 
 onMounted(() => {
-  getCategories()
-  getTodayRecord()
-  emitter.on('refresh', getTodayRecord)
+  getOverview()
+  emitter.on('refresh', getOverview)
 })
 onBeforeUnmount(() => {
   emitter.off('refresh')
 })
 </script>
+
 <template>
   <Header title="Lobby" />
   <div class="content">
-
-    <CategoryTab />
-
+    <Overview class="mb-5" :data="overview" />
+    <CategoryItems class="mb-5" />
     <div class="record">
-      <div v-for="item in records" :key="item.id">
-        {{ item.name }}
-        {{ item.amount }}
-      </div>
+      <RecordItem v-for="item in overview?.todayRecords" :key="item.id" :item="item" />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .record {
-  margin-top: 10px;
+  .recordItem:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 </style>

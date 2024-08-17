@@ -12,17 +12,28 @@ function selectedCategory(categoryId: number) {
   emitter.emit('newTransaction', categoryId)
   emit('isSelected')
 }
-
 </script>
 
 <template>
   <div class="categories">
-    <div v-for="category in categories" :key="category.id" @click="selectedCategory(category.id)">
+    <div class="categoryItem" v-for="category in categories" :key="category.id" @click="selectedCategory(category.id)">
       {{ category.name }}
     </div>
   </div>
 </template>
 
+<style scoped>
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 
-
-<style scoped></style>
+.categoryItem {
+  width: 40%;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--card-color);
+  flex: 1 1 calc(50% - 10px);
+}
+</style>

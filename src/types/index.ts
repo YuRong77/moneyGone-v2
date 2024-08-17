@@ -31,3 +31,10 @@ export interface Chart {
   categoriesDetails: { id: number; name: string; data: number[] }[]
   topExpense: Transaction[]
 }
+
+export interface Overview {
+  monthTotal: number
+  todayTotal: number
+  monthlyBudget: number
+  todayRecords: Transaction[]
+}
