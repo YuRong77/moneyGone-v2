@@ -20,7 +20,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .header {
-  background: var(--background-color);
+  background: var(--backgroundRGB-color);
   padding: 10px 15px;
   display: flex;
   justify-content: space-between;
@@ -30,6 +30,7 @@ const props = defineProps({
   left: 0;
   right: 0;
   height: 80px;
+  z-index: 10;
 
   h1 {
     color: var(--title-color);

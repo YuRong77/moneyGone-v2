@@ -23,8 +23,11 @@ onBeforeUnmount(() => {
 <template>
   <Header title="Lobby" />
   <div class="content">
-    <Overview class="mb-5" :data="overview" />
-    <CategoryItems class="mb-5" />
+    <h4 class="subTitle">概要</h4>
+    <Overview class="mb-10" :data="overview" />
+    <h4 class="subTitle">分類</h4>
+    <CategoryItems class="mb-10" />
+    <h4 class="subTitle">本日花費</h4>
     <div class="record">
       <RecordItem v-for="item in overview?.todayRecords" :key="item.id" :item="item" />
     </div>
@@ -32,6 +35,10 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
+.subTitle {
+  margin-bottom: 10px;
+}
+
 .record {
   .recordItem:not(:last-child) {
     margin-bottom: 10px;

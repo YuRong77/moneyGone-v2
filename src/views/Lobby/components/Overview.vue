@@ -23,9 +23,9 @@ let percentage = ref(10)
 .overview {
   background: var(--card-color);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding: 15px;
-  border-radius: 12px;
+  border-radius: 12px 65px 12px 12px;
 }
 </style>
