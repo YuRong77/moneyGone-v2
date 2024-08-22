@@ -7,11 +7,16 @@ import cat from '@/assets/images/png/cat.png'
 import searchSvg from '@/assets/images/svg/search.svg'
 import right from '@/assets/images/svg/right.svg'
 
-const records = ref<TransactionTotal[]>([])
 
+let date = ref<Date>(new Date())
+const records = ref<TransactionTotal[]>([])
 let rowDetails = ref<Transaction[] | null>(null)
 let isVisible = ref(false)
 let search = ref("")
+
+watch(date, () => {
+  getMonthRecord()
+}, { immediate: true })
 
 function showDetails(details: Transaction[]) {
   rowDetails.value = details
@@ -20,8 +25,8 @@ function showDetails(details: Transaction[]) {
 
 function getMonthRecord() {
   const data = {
-    startDate: format(startOfMonth(new Date()), 'yyyy-MM-dd'),
-    endDate: format(endOfMonth(new Date()), 'yyyy-MM-dd')
+    startDate: format(startOfMonth(date.value), 'yyyy-MM-dd'),
+    endDate: format(endOfMonth(date.value), 'yyyy-MM-dd')
   }
   transactionAPI.transactionTotalList(data).then(res => {
     records.value = res
@@ -29,7 +34,6 @@ function getMonthRecord() {
 }
 
 onMounted(() => {
-  getMonthRecord()
   emitter.on('refresh', getMonthRecord)
 })
 onBeforeUnmount(() => {
@@ -38,7 +42,11 @@ onBeforeUnmount(() => {
 
 </script>
 <template>
-  <Header title="Record" />
+  <Header title="Record">
+    <template #right>
+      <DatePicker v-model:date="date" type="month" />
+    </template>
+  </Header>
   <div class="content">
     <el-input class="mb-3" v-model="search" placeholder="Please Input">
       <template #prefix>
@@ -63,7 +71,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .content {
-  padding-top: 80px;
+  padding-top: 70px;
 }
 
 .totalItem {

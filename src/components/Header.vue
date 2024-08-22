@@ -24,12 +24,12 @@ const props = defineProps({
   padding: 10px 15px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
+  height: 70px;
   z-index: 10;
 
   h1 {

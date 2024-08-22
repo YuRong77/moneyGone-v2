@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { chartAPI } from '@/apis';
+import { chartAPI } from '@/apis'
 import type { Chart } from '@/types'
 import { emitter } from '@/utils/emitter'
+import { format, getYear, getMonth } from 'date-fns'
+import svg1st from '@/assets/images/svg/1st.svg'
+import svg2st from '@/assets/images/svg/2st.svg'
+import svg3st from '@/assets/images/svg/3st.svg'
 
-let chartType = ref('year')
+let date = ref<Date>(new Date())
+let chartType = ref<'year' | 'month'>('year')
 let chartRange = ref<string | null>(null)
 const chartData = ref<Chart | null>(null)
 
@@ -20,24 +25,33 @@ watch(chartType, (val) => {
   getChart()
 })
 
+watch(
+  date,
+  () => {
+    getChart()
+  },
+  { immediate: true }
+)
+
 function getChart() {
   const data = {
     type: chartType.value,
-    year: 2024,
-    month: 8
+    year: getYear(date.value),
+    month: getMonth(date.value) + 1
   }
-  chartAPI.getChart(data).then(res => {
+  chartAPI.getChart(data).then((res) => {
     chartData.value = res
   })
 }
 
-function toggleType() {
-  if (chartType.value === 'year') return chartType.value = 'month'
-  chartType.value = 'year'
+function getIcon(idx: number) {
+  if (idx === 0) return svg1st
+  if (idx === 1) return svg2st
+  if (idx === 2) return svg3st
+  return ''
 }
 
 onMounted(() => {
-  getChart()
   emitter.on('refresh', getChart)
 })
 onBeforeUnmount(() => {
@@ -46,30 +60,98 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Header title="Chart" />
+  <Header title="Chart">
+    <template #right>
+      <DatePicker v-model:date="date" :type="chartType" />
+    </template>
+  </Header>
   <div class="content">
-    <div>
-      <BarChart :data="chartData" :setting="setting" />
+    <div class="chartType">
+      <el-segmented v-model="chartType" :options="['year', 'month']" />
     </div>
-    <el-button @click="toggleType()">toggle type</el-button>
-    <div>{{ chartType }}</div>
-    <el-button @click="chartRange = 'firstHalf'">range 1</el-button>
-    <el-button @click="chartRange = 'secondHalf'">range 2</el-button>
-    <br>
+    <BarChart :data="chartData" :setting="setting" height="200px" />
+    <el-segmented
+      v-if="chartType === 'month'"
+      v-model="chartRange"
+      :options="['firstHalf', 'secondHalf']"
+    />
     <div class="donutArea">
-      <DonutChart :data="chartData" :setting="setting" />
+      <div>
+        <DonutChart :data="chartData" :setting="setting" />
+        <LineChart :data="chartData" :setting="setting" />
+      </div>
       <div class="topExpense">
-        <div v-for="item in chartData?.topExpense" :key="item.id">
-          {{ item.categoryName }}
-          {{ item.amount }}
+        <div class="title">本月 Top 3 花費</div>
+        <div class="itemList">
+          <div class="item" v-for="(item, index) in chartData?.topExpense" :key="item.id">
+            <div class="flexBox">
+              <div class="iconBox">
+                <inline-svg :src="getIcon(index)" height="28" width="28"></inline-svg>
+              </div>
+              <div>
+                <div class="name">{{ item.name }}</div>
+                <div class="date">{{ format(item.createdAt, 'yyyy-MM-dd') }}</div>
+              </div>
+            </div>
+            <div class="amount">
+              {{ item.amount }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.barChart {
+  margin: 10px 0 20px;
+}
+.donutChart {
+  margin-bottom: 20px;
+}
+.lineChart {
+}
 .donutArea {
   display: flex;
+  & > div {
+    flex: 1;
+  }
+}
+.topExpense {
+  .title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .itemList {
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 8px;
+      .flexBox {
+        display: flex;
+        align-items: center;
+      }
+      .iconBox {
+        min-width: 50px;
+        text-align: center;
+      }
+      .name {
+        font-size: 14px;
+      }
+      .date {
+        font-size: 12px;
+      }
+      .amount {
+        font-size: 14px;
+      }
+    }
+  }
+}
+.chartType .el-segmented {
+  --el-segmented-item-selected-color: var(--el-text-color-primary);
+  --el-segmented-item-selected-bg-color: #ffd100;
+  --el-border-radius-base: 16px;
 }
 </style>

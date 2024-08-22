@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
 
   .content {
     flex: 1;
-    padding: 100px 15px 92px; //header + 20 footer + 20
+    padding: 90px 15px 92px; //header + 20 footer + 20
   }
 }
 </style>

@@ -33,8 +33,8 @@ export interface Chart {
 }
 
 export interface Overview {
-  monthTotal: number
-  todayTotal: number
+  monthlyTotal: number
+  dailyTotal: number
   monthlyBudget: number
   todayRecords: Transaction[]
 }
