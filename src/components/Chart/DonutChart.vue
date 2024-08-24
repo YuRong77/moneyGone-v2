@@ -5,6 +5,7 @@ import type { Chart } from '@/types'
 const props = defineProps<{
   data: Chart | null
   setting: { type: string; range: string | null }
+  height?: string
 }>()
 
 const series = computed(() => {
@@ -58,6 +59,9 @@ const options = computed(() => {
     legend: {
       show: false
     },
+    tooltip: {
+      enabled: false
+    },
     theme: {
       mode: 'light'
     }
@@ -67,7 +71,12 @@ const options = computed(() => {
 
 <template>
   <div class="donutChart">
-    <VueApexCharts width="100%" :options="options" :series="series"></VueApexCharts>
+    <VueApexCharts
+      :height="props.height || '100%'"
+      width="100%"
+      :options="options"
+      :series="series"
+    ></VueApexCharts>
   </div>
 </template>
 

@@ -17,7 +17,12 @@ function selectedCategory(categoryId: number) {
 
 <template>
   <div class="categories">
-    <div class="categoryItem" v-for="category in categories" :key="category.id" @click="selectedCategory(category.id)">
+    <div
+      class="categoryItem"
+      v-for="category in categories"
+      :key="category.id"
+      @click="selectedCategory(category.id)"
+    >
       <div class="iconBox">
         <div class="icon" :style="{ backgroundImage: `url(${cat})` }"></div>
       </div>
@@ -34,7 +39,6 @@ function selectedCategory(categoryId: number) {
 }
 
 .categoryItem {
-  width: 40%;
   padding: 8px 12px;
   border-radius: 12px;
   background: var(--card-color);
@@ -53,7 +57,6 @@ function selectedCategory(categoryId: number) {
       height: 24px;
       background-position: center;
       background-size: cover;
-
     }
   }
 }

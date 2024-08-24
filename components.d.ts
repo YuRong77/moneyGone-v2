@@ -8,9 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BarChart: typeof import('./src/components/Chart/BarChart.vue')['default']
+    BarView: typeof import('./src/views/Chart/components/BarView.vue')['default']
     CategoryItems: typeof import('./src/components/Category/CategoryItems.vue')['default']
     DatePicker: typeof import('./src/components/DatePicker.vue')['default']
     DonutChart: typeof import('./src/components/Chart/DonutChart.vue')['default']
+    DonutView: typeof import('./src/views/Chart/components/DonutView.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
@@ -19,6 +21,7 @@ declare module 'vue' {
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElSegmented: typeof import('element-plus/es')['ElSegmented']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     LineChart: typeof import('./src/components/Chart/LineChart.vue')['default']
