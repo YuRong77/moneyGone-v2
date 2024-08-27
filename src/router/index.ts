@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import MainLayout from '@/layouts/MainLayout.vue'
+import Login from '@/views/Login/Index.vue'
 
 export const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -15,7 +17,7 @@ export const router = createRouter({
       path: '/',
       name: 'Home',
       meta: { requiresAuth: true },
-      component: () => import('@/layouts/MainLayout.vue'),
+      component: MainLayout,
       children: [
         { path: 'lobby', name: 'Lobby', component: () => import('@/views/Lobby/Index.vue') },
         { path: 'record', name: 'Record', component: () => import('@/views/Record/Index.vue') },
@@ -26,7 +28,7 @@ export const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/Login/Index.vue')
+      component: Login
     }
   ]
 })
