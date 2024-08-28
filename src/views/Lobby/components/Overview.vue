@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Overview } from '@/types'
+import { priceFormat } from '@/utils/priceFormat'
 
 const props = defineProps<{ data: Overview | undefined }>()
 
@@ -7,7 +8,7 @@ const colors = [
   { color: '#1989fa', percentage: 40 },
   { color: '#5cb87a', percentage: 60 },
   { color: '#e6a23c', percentage: 80 },
-  { color: '#f56c6c', percentage: 100 },
+  { color: '#f56c6c', percentage: 100 }
 ]
 
 //TODO: 負數 預設10000
@@ -22,33 +23,31 @@ const displayInfo = computed(() => {
     percentStr: `${percent.toFixed()}%`
   }
 })
-
-function priceFormat(value: number) {
-  if (!value) return 0
-  return new Intl.NumberFormat("zh-TW", {
-    style: "decimal",
-    currency: "TWD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
 </script>
 
 <template>
-  <div class="overview">
+  <div class="overview cardShadow">
     <div>
-      <div>{{ props.data?.dailyTotal }}</div>
-      <div>{{ props.data?.monthlyTotal }}</div>
+      <div class="mb-3">
+        <div class="label">今日花費</div>
+        <div class="amount">$ {{ priceFormat(props.data?.dailyTotal) }}</div>
+      </div>
+      <div>
+        <div class="label">本月花費</div>
+        <div class="amount">$ {{ priceFormat(props.data?.monthlyTotal) }}</div>
+      </div>
     </div>
-    <div>
-      <el-progress type="dashboard" :percentage="displayInfo.percent" :color="colors" :stroke-width="10">
-        <template #default="{ percentage }">
-          <div>{{ displayInfo.percentStr }}</div>
-          <div>剩餘{{ priceFormat(displayInfo.remainingBudget!) }}</div>
-        </template>
-      </el-progress>
-    </div>
+    <el-progress
+      type="dashboard"
+      :percentage="displayInfo.percent"
+      :color="colors"
+      :stroke-width="10"
+    >
+      <template #default="{ percentage }">
+        <div class="percent">{{ displayInfo.percentStr }}</div>
+        <div class="over">剩餘 ${{ priceFormat(displayInfo.remainingBudget!) }}</div>
+      </template>
+    </el-progress>
   </div>
 </template>
 
@@ -58,7 +57,24 @@ function priceFormat(value: number) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  border-radius: 12px 65px 12px 12px;
+  padding: 15px 25px 15px 15px;
+  border-radius: 12px 80px 12px 12px;
+  .label {
+    font-size: 14px;
+    color: #8d8d8d;
+  }
+  .amount {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+.el-progress {
+  padding-top: 10px;
+  .percent {
+    margin-bottom: 8px;
+  }
+  .over {
+    font-size: 14px;
+  }
 }
 </style>

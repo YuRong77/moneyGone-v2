@@ -2,7 +2,6 @@
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
 import { emitter } from '@/utils/emitter'
-import cat from '@/assets/images/png/cat.png'
 
 const emit = defineEmits(['isSelected'])
 
@@ -18,15 +17,15 @@ function selectedCategory(categoryId: number) {
 <template>
   <div class="categories">
     <div
-      class="categoryItem"
+      class="categoryItem cardShadow"
       v-for="category in categories"
       :key="category.id"
       @click="selectedCategory(category.id)"
     >
-      <div class="iconBox">
-        <div class="icon" :style="{ backgroundImage: `url(${cat})` }"></div>
+      <div class="iconBox" :style="{ background: `${category.color}` }">
+        <div class="icon" :style="{ backgroundImage: `url(${category.imageUrl})` }"></div>
       </div>
-      <div>{{ category.name }}</div>
+      <div class="name">{{ category.name }}</div>
     </div>
   </div>
 </template>
@@ -45,12 +44,12 @@ function selectedCategory(categoryId: number) {
   flex: 1 1 calc(50% - 10px);
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   .iconBox {
     margin-right: 10px;
     padding: 4px;
     border-radius: 8px;
-    background: wheat;
 
     .icon {
       width: 24px;
@@ -58,6 +57,10 @@ function selectedCategory(categoryId: number) {
       background-position: center;
       background-size: cover;
     }
+  }
+  .name {
+    font-size: 14px;
+    font-weight: 500;
   }
 }
 </style>

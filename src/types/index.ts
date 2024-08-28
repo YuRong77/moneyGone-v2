@@ -1,6 +1,8 @@
 export interface Category {
   id: number
   name: string
+  color: string
+  imageUrl: string
 }
 
 export interface TransactionTotal {
@@ -15,6 +17,8 @@ export interface Transaction {
   note: string
   categoryId: number
   categoryName: string
+  categoryColor: string
+  imageUrl: string
   createdAt: string
 }
 

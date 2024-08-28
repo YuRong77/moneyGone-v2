@@ -41,7 +41,7 @@ onBeforeUnmount(() => {
 
 .record {
   .recordItem:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 }
 </style>
