@@ -92,11 +92,11 @@ function deleteTransaction(id: number) {
       }
     }
     .name {
+      color: #8d8d8d;
       font-size: 14px;
-      font-weight: 500;
     }
     .amount {
-      color: #8d8d8d;
+      font-weight: 500;
     }
   }
 }

@@ -19,20 +19,23 @@ const menuItems = [
   { name: '設置', route: 'Setting', icon: setting }
 ]
 
-let activeRoute = ref("")
+let activeRoute = ref('')
 let categoryDialog = ref(false)
 
-watch(() => route.name, val => {
-  activeRoute.value = val as string
-}, { immediate: true })
-
+watch(
+  () => route.name,
+  (val) => {
+    activeRoute.value = val as string
+  },
+  { immediate: true }
+)
 
 function routeTo(routeName: string) {
   router.push({ name: routeName })
 }
 
 function getCategories() {
-  categoryAPI.categoryList().then(res => {
+  categoryAPI.categoryList().then((res) => {
     categoriesStore.setCategories(res)
   })
 }
@@ -44,8 +47,13 @@ onMounted(() => {
 
 <template>
   <div class="footer appWidth">
-    <div v-for="item in menuItems" :key="item.route" class="footerItem" :class="{ active: item.route === activeRoute }"
-      @click="routeTo(item.route)">
+    <div
+      v-for="item in menuItems"
+      :key="item.route"
+      class="footerItem"
+      :class="{ active: item.route === activeRoute }"
+      @click="routeTo(item.route)"
+    >
       <inline-svg :src="item.icon" height="24" width="24"></inline-svg>
       <span class="itemName">{{ item.name }}</span>
     </div>
@@ -88,7 +96,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-bottom: 10px;
+  padding-bottom: 6px;
   cursor: pointer;
 
   svg {
