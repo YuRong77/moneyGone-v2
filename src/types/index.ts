@@ -3,6 +3,12 @@ export interface Category {
   name: string
   color: string
   imageUrl: string
+  shortcuts?: Shortcut[]
+}
+
+export interface Shortcut {
+  id: number
+  name: string
 }
 
 export interface TransactionTotal {
@@ -41,4 +47,12 @@ export interface Overview {
   dailyTotal: number
   monthlyBudget: number
   todayRecords: Transaction[]
+}
+
+export interface User {
+  userName: string
+  email: string
+  lang: string
+  theme: string
+  monthlyBudget: number
 }
