@@ -3,12 +3,19 @@ export interface Category {
   name: string
   color: string
   imageUrl: string
+  imageId: number
   shortcuts?: Shortcut[]
 }
 
 export interface Shortcut {
-  id: number
+  id?: number
   name: string
+}
+
+export interface Image {
+  id: number
+  isDefault: boolean
+  url: string
 }
 
 export interface TransactionTotal {

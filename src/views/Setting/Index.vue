@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { userAPI } from '@/apis'
 import type { User } from '@/types'
+import { useCategoriesStore } from '@/stores/categories'
+import { storeToRefs } from 'pinia'
 import right from '@/assets/images/svg/right.svg'
 
 const router = useRouter()
@@ -8,6 +10,10 @@ const userProfile = ref<Partial<User>>({ theme: 'light' })
 let isShowNameDialog = ref(false)
 let isShowMonthlyBudgetDialog = ref(false)
 let isShowMonthlyLangDialog = ref(false)
+let isShowCategoryDrawer = ref(false)
+
+const categoriesStore = useCategoriesStore()
+const { categories } = storeToRefs(categoriesStore)
 
 function getProfile() {
   userAPI.getProfile().then((res) => {
@@ -60,6 +66,13 @@ onMounted(() => {
           <inline-svg :src="right" height="18" width="18"></inline-svg>
         </div>
       </div>
+      <div class="item" @click="isShowCategoryDrawer = true">
+        <div>分類</div>
+        <div>
+          <span>{{ categories.length }} 個項目</span>
+          <inline-svg :src="right" height="18" width="18"></inline-svg>
+        </div>
+      </div>
       <div class="item">
         <div>主題</div>
         <div>
@@ -93,6 +106,11 @@ onMounted(() => {
     v-if="isShowMonthlyLangDialog"
     v-model:isVisible="isShowMonthlyLangDialog"
     :lang="userProfile?.lang"
+    @getProfile="getProfile()"
+  />
+  <CategoryDrawer
+    v-if="isShowCategoryDrawer"
+    v-model:isVisible="isShowCategoryDrawer"
     @getProfile="getProfile()"
   />
 </template>
