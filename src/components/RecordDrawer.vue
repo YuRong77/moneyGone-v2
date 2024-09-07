@@ -15,20 +15,24 @@ const isVisibleModel = computed({
   get: () => props.isVisible,
   set: (val) => emit('update:isVisible', val)
 })
-
-
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" title="Tips" width="90%">
-    <div v-for="item in props.rowDetails" :key="item.id">
-      {{ item.name }}
-      {{ item.amount }}
-    </div>
+  <el-drawer v-model="isVisibleModel" title="詳情" direction="btt" size="90%">
+    <RecordItem v-for="item in rowDetails" :key="item.id" :item="item" />
     <template #footer>
-      <div></div>
+      <div>
+        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
+      </div>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.recordItem {
+  margin-bottom: 12px;
+}
+.mainBtn {
+  width: 100%;
+}
+</style>

@@ -89,7 +89,7 @@ provide('images', images)
 </script>
 
 <template>
-  <el-drawer v-model="isVisibleModel" title="編輯分類" direction="btt" size="100%">
+  <el-drawer v-model="isVisibleModel" title="編輯分類" direction="btt" size="90%">
     <div class="flex-c-c mb-3">
       <el-input v-model="newCategory" :disabled="isAddLoading" class="mr-2"></el-input>
       <el-button @click="addCategory()" :loading="isAddLoading">add</el-button>

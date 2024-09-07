@@ -119,7 +119,7 @@ onMounted(() => {
 
   &.active {
     svg {
-      color: #6e8efb;
+      color: #208eef;
     }
 
     .itemName {
@@ -134,7 +134,7 @@ onMounted(() => {
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  background: linear-gradient(135deg, #208eef, #1185eb);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;

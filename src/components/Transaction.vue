@@ -21,6 +21,7 @@ const categoriesStore = useCategoriesStore()
 const { categories } = storeToRefs(categoriesStore)
 
 const formData = ref(cloneDeep(props.transactionData))
+let amount = ref()
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -32,10 +33,20 @@ const isEdit = computed(() => {
   return false
 })
 
+const currentShortcuts = computed(() => {
+  const category = categories.value.find((item) => item.id === props.transactionData.categoryId)
+  return category?.shortcuts || []
+})
+
 function getCategoryName(categoryId: number) {
   const Item = categories.value.find((item) => item.id === categoryId)
   if (Item) return Item.name
   return ''
+}
+
+function setName(name: string) {
+  formData.value.name = name
+  amount.value.focus()
 }
 
 function submitHandler() {
@@ -83,25 +94,63 @@ function addTransaction() {
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" title="Tips" width="90%">
+  <el-dialog
+    v-model="isVisibleModel"
+    :title="`新增${getCategoryName(props.transactionData.categoryId)}`"
+    width="90%"
+  >
     <div>
-      <div>{{ getCategoryName(props.transactionData.categoryId) }}</div>
-      <div>名稱</div>
-      <el-input v-model="formData.name" placeholder="Please input" />
-      <div>日期</div>
-      <el-date-picker v-model="formData.createdAt" type="date" placeholder="Pick a day" />
-      <div>金額</div>
-      <el-input v-model.number="formData.amount" type="number" placeholder="Please input" />
-      <div>備註</div>
-      <el-input v-model="formData.note" placeholder="Please input" />
+      <div class="label">日期</div>
+      <el-date-picker
+        v-model="formData.createdAt"
+        :editable="false"
+        :clearable="false"
+        type="date"
+        placeholder="Pick a day"
+      />
+      <div class="label">名稱</div>
+      <el-input v-model="formData.name" class="popupInput" placeholder="Please input" />
+      <div class="shortcutList">
+        <el-check-tag
+          v-for="shortcut in currentShortcuts"
+          :key="shortcut.id"
+          @click="setName(shortcut.name)"
+          type="info"
+          >{{ shortcut.name }}</el-check-tag
+        >
+      </div>
+      <div class="label">金額</div>
+      <el-input
+        v-model.number="formData.amount"
+        ref="amount"
+        class="popupInput"
+        type="tel"
+        placeholder="Please input"
+      />
+      <div class="label">備註</div>
+      <el-input v-model="formData.note" class="popupInput" placeholder="Please input" />
     </div>
     <template #footer>
       <div>
-        <el-button @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button @click="submitHandler()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button color="#208eef" class="mainBtn" @click="submitHandler()">submit</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.label {
+  margin-bottom: 4px;
+}
+.el-input {
+  margin-bottom: 10px;
+}
+.shortcutList {
+  .el-check-tag {
+    margin: 0 4px 4px 0;
+  }
+}
+</style>

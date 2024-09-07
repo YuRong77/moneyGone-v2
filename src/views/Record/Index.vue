@@ -37,9 +37,15 @@ function getMonthRecord() {
     startDate: format(startOfMonth(date.value), 'yyyy-MM-dd'),
     endDate: format(endOfMonth(date.value), 'yyyy-MM-dd')
   }
-  transactionAPI.transactionTotalList(data).then((res) => {
-    records.value = res
-  })
+  transactionAPI
+    .transactionTotalList(data)
+    .then((res) => {
+      records.value = res
+    })
+    .catch((err) => {})
+    .finally(() => {
+      isVisible.value = false
+    })
 }
 
 onMounted(() => {
@@ -82,7 +88,7 @@ onBeforeUnmount(() => {
       <inline-svg :src="right" color="#ababab" height="18" width="18"></inline-svg>
     </div>
   </div>
-  <RecordDetail v-if="rowDetails" v-model:isVisible="isVisible" :rowDetails="rowDetails" />
+  <RecordDrawer v-if="rowDetails" v-model:isVisible="isVisible" :rowDetails="rowDetails" />
 </template>
 
 <style lang="scss" scoped>
