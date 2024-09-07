@@ -39,7 +39,7 @@ onBeforeUnmount(() => {
     <Footer />
   </div>
   <Transaction
-    v-if="transactionData"
+    v-if="isVisible && transactionData"
     v-model:isVisible="isVisible"
     :transactionData="transactionData"
   />
