@@ -6,13 +6,14 @@ export default {
     name: string
     amount: number
     note: string
+    date: string
   }) {
     const result = await apiClient.post('/transactions', data)
     return result.data
   },
   async transactionUpdate(
     transactionId: number,
-    data: { name: string; amount: number; note: string }
+    data: { name: string; amount: number; note: string; date?: string }
   ) {
     const result = await apiClient.put(`/transactions/${transactionId}`, data)
     return result.data

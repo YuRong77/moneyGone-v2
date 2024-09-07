@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { emitter } from '@/utils/emitter'
 import type { Transaction, NewTransaction } from '@/types'
+import { format } from 'date-fns'
 
-let transactionData = ref<Transaction | NewTransaction | null>(null)
+let transactionData = ref<Transaction | NewTransaction>()
 let isVisible = ref(false)
 
 function newTransaction(categoryId: number) {
@@ -10,7 +11,8 @@ function newTransaction(categoryId: number) {
     name: '',
     amount: null,
     note: '',
-    categoryId: categoryId
+    categoryId: categoryId,
+    createdAt: format(new Date(), 'yyyy-MM-dd')
   }
   transactionData.value = data
   isVisible.value = true
@@ -29,7 +31,6 @@ onBeforeUnmount(() => {
   emitter.off('newTransaction')
   emitter.off('editTransaction')
 })
-
 </script>
 
 <template>
@@ -37,10 +38,12 @@ onBeforeUnmount(() => {
     <RouterView />
     <Footer />
   </div>
-  <Transaction v-if="isVisible" v-model:isVisible="isVisible" :transactionData="transactionData" />
+  <Transaction
+    v-if="transactionData"
+    v-model:isVisible="isVisible"
+    :transactionData="transactionData"
+  />
 </template>
-
-
 
 <style lang="scss">
 .main {

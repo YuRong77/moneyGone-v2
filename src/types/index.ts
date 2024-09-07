@@ -40,6 +40,7 @@ export interface NewTransaction {
   amount: number | null
   note: string
   categoryId: number
+  createdAt: string
 }
 
 export interface Chart {

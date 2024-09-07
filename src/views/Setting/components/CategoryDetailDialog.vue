@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { categoryAPI, imageAPI } from '@/apis'
 import { useCategoriesStore } from '@/stores/categories'
-import type { Category, Image } from '@/types'
+import type { Category, Shortcut, Image } from '@/types'
 import type { PropType } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadProps } from 'element-plus'
@@ -81,6 +81,18 @@ function deleteImage(id: number) {
     })
 }
 
+function checkDeleteShortcut(item: Shortcut) {
+  ElMessageBox.confirm(`確認要刪除快捷 ${item.name} ?`, '注意', {
+    confirmButtonText: '刪除',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      deleteShortcut(item.id!)
+    })
+    .catch(() => {})
+}
+
 function deleteShortcut(id: number) {
   categoryAPI.shortcutDelete({ categoryId: categoryData.value.id, shortcutId: id }).then(() => {
     getCategories()
@@ -129,7 +141,7 @@ function getCategories() {
           :style="{ backgroundImage: `url(${image.url})` }"
           @click="categoryData.imageId = image.id"
         >
-          <el-button v-if="isImagesDelMode" @click="checkDelImage(image)" icon>-</el-button>
+          <el-button v-if="isImagesDelMode" @click="checkDelImage(image)">-</el-button>
         </div>
         <el-upload
           class="avatar-uploader"
@@ -151,7 +163,7 @@ function getCategories() {
           :key="shortcut.id"
         >
           <el-input v-model="shortcut.name"></el-input>
-          <el-button type="danger" v-if="shortcut.id" @click="deleteShortcut(shortcut.id)"
+          <el-button type="danger" v-if="shortcut.id" @click="checkDeleteShortcut(shortcut)"
             >delete</el-button
           >
           <el-button v-else @click="categoryData.shortcuts?.splice(index, 1)">delete</el-button>

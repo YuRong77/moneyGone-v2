@@ -5,7 +5,8 @@ import { transactionAPI } from '@/apis'
 import { emitter } from '@/utils/emitter'
 import type { PropType } from 'vue'
 import type { Transaction, NewTransaction } from '@/types'
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash'
+import { format, isToday, isSameDay } from 'date-fns'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -32,7 +33,7 @@ const isEdit = computed(() => {
 })
 
 function getCategoryName(categoryId: number) {
-  const Item = categories.value.find(item => item.id === categoryId)
+  const Item = categories.value.find((item) => item.id === categoryId)
   if (Item) return Item.name
   return ''
 }
@@ -43,26 +44,38 @@ function submitHandler() {
 }
 
 function editTransaction() {
-  const { id, name, amount, note } = formData.value as Transaction
-  transactionAPI.transactionUpdate(id, { name, amount, note }).then(() => {
-    emitter.emit('refresh')
-  })
-    .catch((err) => { })
+  const { id, name, amount, note, createdAt } = formData.value as Transaction
+  const date = createdAt
+  const data = isSameDay(createdAt, props.transactionData.createdAt)
+    ? { name, amount, note }
+    : { name, amount, note, date }
+  transactionAPI
+    .transactionUpdate(id, data)
+    .then(() => {
+      emitter.emit('refresh')
+    })
+    .catch((err) => {})
     .finally(() => {
       emit('update:isVisible', false)
     })
 }
 
 function addTransaction() {
+  const { createdAt } = formData.value as NewTransaction
   const data = {
     ...formData.value,
-    amount: formData.value.amount as number
+    amount: formData.value.amount as number,
+    date: isToday(createdAt)
+      ? format(createdAt, 'yyyy-MM-dd HH:mm:ss')
+      : format(createdAt, 'yyyy-MM-dd 00:00:00')
   }
-  transactionAPI.transactionCreate(data).then(res => {
-    console.log(res)
-    emitter.emit('refresh')
-  })
-    .catch((err) => { })
+  transactionAPI
+    .transactionCreate(data)
+    .then((res) => {
+      console.log(res)
+      emitter.emit('refresh')
+    })
+    .catch((err) => {})
     .finally(() => {
       emit('update:isVisible', false)
     })
@@ -75,6 +88,8 @@ function addTransaction() {
       <div>{{ getCategoryName(props.transactionData.categoryId) }}</div>
       <div>名稱</div>
       <el-input v-model="formData.name" placeholder="Please input" />
+      <div>日期</div>
+      <el-date-picker v-model="formData.createdAt" type="date" placeholder="Pick a day" />
       <div>金額</div>
       <el-input v-model.number="formData.amount" type="number" placeholder="Please input" />
       <div>備註</div>
@@ -88,7 +103,5 @@ function addTransaction() {
     </template>
   </el-dialog>
 </template>
-
-
 
 <style scoped></style>
