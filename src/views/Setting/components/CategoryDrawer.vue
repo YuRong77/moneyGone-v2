@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { imageAPI, categoryAPI } from '@/apis'
 import type { Category } from '@/types'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
 
@@ -16,6 +17,7 @@ let isShowDetailDialog = ref(false)
 const selectedItem = ref()
 const images = ref()
 let newCategory = ref('')
+let isAddLoading = ref(false)
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -28,14 +30,37 @@ function editDetail(item: Category) {
 }
 
 function addCategory() {
-  categoryAPI.categoryCreate({ name: newCategory.value }).then(() => {
-    getCategories()
-    newCategory.value = ''
+  isAddLoading.value = true
+  categoryAPI
+    .categoryCreate({ name: newCategory.value })
+    .then(() => {
+      getCategories()
+      newCategory.value = ''
+    })
+    .catch((err) => {})
+    .finally(() => {
+      isAddLoading.value = false
+    })
+}
+
+function checkDelete(item: Category) {
+  ElMessageBox.confirm(`確認要刪除分類 ${item.name} ?`, '注意', {
+    confirmButtonText: '刪除',
+    cancelButtonText: '取消',
+    type: 'warning'
   })
+    .then(() => {
+      deleteCategory(item.id)
+    })
+    .catch(() => {})
 }
 
 function deleteCategory(id: number) {
   categoryAPI.categoryDelete(id).then(() => {
+    ElMessage({
+      type: 'success',
+      message: '成功刪除'
+    })
     getCategories()
   })
 }
@@ -65,15 +90,17 @@ provide('images', images)
 
 <template>
   <el-drawer v-model="isVisibleModel" title="編輯分類" direction="btt" size="100%">
-    <el-input v-model="newCategory"></el-input>
-    <el-button @click="addCategory()">add category</el-button>
+    <div class="flex-c-c mb-3">
+      <el-input v-model="newCategory" :disabled="isAddLoading" class="mr-2"></el-input>
+      <el-button @click="addCategory()" :loading="isAddLoading">add</el-button>
+    </div>
     <div class="item" v-for="item in categories" :key="item.id" @click="editDetail(item)">
       <div>
         {{ item.name }}
         <span>{{ item.shortcuts?.length }} 個子項目</span>
       </div>
       <div>
-        <el-button type="danger" @click.stop="deleteCategory(item.id)">delete</el-button>
+        <el-button type="danger" @click.stop="checkDelete(item)">delete</el-button>
       </div>
     </div>
   </el-drawer>
@@ -81,6 +108,7 @@ provide('images', images)
     v-if="isShowDetailDialog"
     v-model:isVisible="isShowDetailDialog"
     :category="selectedItem"
+    @getImages="getImages"
   />
 </template>
 

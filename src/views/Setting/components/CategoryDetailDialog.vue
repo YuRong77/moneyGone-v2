@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { categoryAPI } from '@/apis'
+import { categoryAPI, imageAPI } from '@/apis'
 import { useCategoriesStore } from '@/stores/categories'
 import type { Category, Image } from '@/types'
 import type { PropType } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import type { UploadProps } from 'element-plus'
 import { cloneDeep } from 'lodash'
 
 const props = defineProps({
@@ -12,19 +14,72 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(['update:isVisible'])
+const emit = defineEmits(['update:isVisible', 'getImages'])
 
 const categoriesStore = useCategoriesStore()
 
 const images = inject('images') as Image[]
 const categoryData = ref(cloneDeep(props.category))
-
+const imageUploadAPI = `${import.meta.env.VITE_APP_API_ENDPOINT}/image/upload`
+const Authorization = `Bearer ${localStorage.getItem('token')}`
+let isImagesDelMode = ref(false)
 const predefineColors = ['#ff4500', '#ff8c00', '#ffd700']
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
   set: (val) => emit('update:isVisible', val)
 })
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+  emit('getImages')
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
+
+function checkDelImage(image: Image) {
+  ElMessageBox.confirm('', '注意', {
+    confirmButtonText: '刪除',
+    cancelButtonText: '取消',
+    type: 'warning',
+    message: h('p', null, [
+      h('span', null, '確認要刪除圖片? '),
+      h('img', {
+        src: image.url,
+        alt: '要刪除的圖片',
+        style: 'width: 40px; height: 40px;'
+      })
+    ])
+  })
+    .then(() => {
+      deleteImage(image.id)
+    })
+    .catch(() => {})
+}
+
+function deleteImage(id: number) {
+  imageAPI
+    .imageDelete(id)
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '成功刪除'
+      })
+      emit('getImages')
+    })
+    .catch((err) => {})
+    .finally(() => {
+      isImagesDelMode.value = false
+    })
+}
 
 function deleteShortcut(id: number) {
   categoryAPI.shortcutDelete({ categoryId: categoryData.value.id, shortcutId: id }).then(() => {
@@ -73,7 +128,21 @@ function getCategories() {
           :key="image.id"
           :style="{ backgroundImage: `url(${image.url})` }"
           @click="categoryData.imageId = image.id"
-        ></div>
+        >
+          <el-button v-if="isImagesDelMode" @click="checkDelImage(image)" icon>-</el-button>
+        </div>
+        <el-upload
+          class="avatar-uploader"
+          name="image"
+          :action="imageUploadAPI"
+          :headers="{ Authorization }"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <div>+</div>
+        </el-upload>
+        <el-button @click="isImagesDelMode = true" type="danger">del</el-button>
       </div>
       <div class="shortcutList">
         <div
