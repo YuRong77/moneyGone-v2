@@ -31,16 +31,22 @@ function updateUserName() {
 
 <template>
   <el-dialog v-model="isVisibleModel" title="修改暱稱" width="90%">
-    <div>
-      <el-input v-model="userName"></el-input>
+    <div class="content">
+      <el-input class="popupInput" v-model="userName"></el-input>
     </div>
     <template #footer>
       <div>
-        <el-button @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button @click="updateUserName()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button color="#208eef" class="mainBtn" @click="updateUserName()">submit</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.content {
+  padding: 20px 0;
+}
+</style>

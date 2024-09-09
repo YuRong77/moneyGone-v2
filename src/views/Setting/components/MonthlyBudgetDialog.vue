@@ -31,16 +31,22 @@ function updateMonthlyBudget() {
 
 <template>
   <el-dialog v-model="isVisibleModel" title="修改預算" width="90%">
-    <div>
-      <el-input v-model.number="monthlyBudget" type="number"></el-input>
+    <div class="content">
+      <el-input class="popupInput" v-model.number="monthlyBudget" type="number"></el-input>
     </div>
     <template #footer>
       <div>
-        <el-button @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button @click="updateMonthlyBudget()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button color="#208eef" class="mainBtn" @click="updateMonthlyBudget()">submit</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.content {
+  padding: 20px 0;
+}
+</style>

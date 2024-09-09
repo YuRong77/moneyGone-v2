@@ -6,6 +6,8 @@ import type { PropType } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { cloneDeep } from 'lodash'
+import remove from '@/assets/images/svg/delete.svg'
+import sort from '@/assets/images/svg/sort.svg'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -130,8 +132,16 @@ function getCategories() {
 <template>
   <el-dialog v-model="isVisibleModel" title="編輯分類" fullscreen>
     <div>
-      <el-input v-model="categoryData.name"></el-input>
-      <el-color-picker v-model="categoryData.color" show-alpha :predefine="predefineColors" />
+      <div class="label">名稱</div>
+      <el-input class="popupInput mb-3" v-model="categoryData.name"></el-input>
+      <div class="label">顏色</div>
+      <el-color-picker
+        class="mb-3"
+        v-model="categoryData.color"
+        show-alpha
+        :predefine="predefineColors"
+      />
+      <div class="label">選擇圖示</div>
       <div class="imageList">
         <div
           v-for="image in images"
@@ -141,10 +151,18 @@ function getCategories() {
           :style="{ backgroundImage: `url(${image.url})` }"
           @click="categoryData.imageId = image.id"
         >
-          <el-button v-if="isImagesDelMode" @click="checkDelImage(image)">-</el-button>
+          <div
+            class="imageDel"
+            v-if="isImagesDelMode && !image.isDefault"
+            @click="checkDelImage(image)"
+          >
+            <div>×</div>
+          </div>
         </div>
+      </div>
+      <div class="imageActions">
         <el-upload
-          class="avatar-uploader"
+          class="upload"
           name="image"
           :action="imageUploadAPI"
           :headers="{ Authorization }"
@@ -152,38 +170,82 @@ function getCategories() {
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <div>+</div>
+          <div>上傳圖片</div>
         </el-upload>
-        <el-button @click="isImagesDelMode = true" type="danger">del</el-button>
+        <span>|</span>
+        <el-button link v-if="isImagesDelMode" @click="isImagesDelMode = false" type="danger"
+          >取消</el-button
+        >
+        <el-button link v-else @click="isImagesDelMode = true" type="danger">刪除圖片</el-button>
       </div>
+
+      <div class="label">編輯子項目</div>
       <div class="shortcutList">
         <div
           class="shortcutItem"
           v-for="(shortcut, index) in categoryData.shortcuts"
           :key="shortcut.id"
         >
-          <el-input v-model="shortcut.name"></el-input>
-          <el-button type="danger" v-if="shortcut.id" @click="checkDeleteShortcut(shortcut)"
-            >delete</el-button
-          >
-          <el-button v-else @click="categoryData.shortcuts?.splice(index, 1)">delete</el-button>
+          <div><el-input class="shortcutInput" v-model="shortcut.name"></el-input></div>
+          <div class="shortcutActions">
+            <div class="mr-2">
+              <el-button
+                v-if="shortcut.id"
+                link
+                type="danger"
+                @click="checkDeleteShortcut(shortcut)"
+              >
+                <inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg
+              ></el-button>
+              <el-button v-else link @click="categoryData.shortcuts?.splice(index, 1)"
+                ><inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg
+              ></el-button>
+            </div>
+            <el-button link>
+              <inline-svg :src="sort" height="20" width="20"></inline-svg>
+            </el-button>
+          </div>
         </div>
-        <el-button @click="categoryData.shortcuts!.push({ name: '' })">add</el-button>
+        <el-button link type="primary" @click="categoryData.shortcuts!.push({ name: '' })"
+          >新增子項目</el-button
+        >
       </div>
     </div>
     <template #footer>
       <div>
-        <el-button @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button @click="updateData()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button color="#208eef" class="mainBtn" @click="updateData()">submit</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <style lang="scss" scoped>
+.label {
+  margin-bottom: 4px;
+}
 .imageList {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
+}
+.imageActions {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 20px;
+  span {
+    margin: 0 8px 2px;
+  }
+  .upload {
+    color: #208eef;
+  }
+  .el-button {
+    font-size: 12px;
+    padding: 0;
+  }
 }
 .imageBox {
   width: 40px;
@@ -191,14 +253,47 @@ function getCategories() {
   background-position: center;
   background-size: cover;
   margin-right: 8px;
-  // box-sizing: content-box;
+  border-radius: 8px;
+  border: 2px solid rgb(255, 255, 255);
+  position: relative;
   &.active {
-    border: 2px solid rgb(43, 170, 255);
+    border: 2px solid #208eef;
+  }
+  .imageDel {
+    width: 100%;
+    height: 100%;
+    background: #0003;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      color: white;
+      font-weight: 600;
+    }
   }
 }
 .shortcutList {
+  margin-top: 12px;
   .shortcutItem {
     display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    div:first-child {
+      flex: 1;
+    }
+  }
+  .shortcutActions {
+    display: flex;
+    align-items: center;
+    background: #fbfbfb;
+    box-shadow: 0px 0px 3px rgb(26 45 65 / 28%) !important;
+    height: 42px;
+    padding: 0 12px;
   }
 }
 </style>

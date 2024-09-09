@@ -44,8 +44,10 @@ function updateUserName() {
     </div>
     <template #footer>
       <div>
-        <el-button @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button @click="updateUserName()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button color="#208eef" class="mainBtn" @click="updateUserName()">submit</el-button>
       </div>
     </template>
   </el-dialog>
@@ -53,8 +55,17 @@ function updateUserName() {
 
 <style lang="scss">
 .langList {
+  padding: 20px 0 0;
+  div {
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid rgb(26 45 65 / 14%);
+    margin-bottom: 20px;
+  }
   .active {
-    background: wheat;
+    border-color: #208eef;
   }
 }
 </style>

@@ -4,6 +4,9 @@ import type { Category } from '@/types'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
+import edit from '@/assets/images/svg/edit.svg'
+import remove from '@/assets/images/svg/delete.svg'
+import sort from '@/assets/images/svg/sort.svg'
 
 const props = defineProps({
   isVisible: Boolean
@@ -90,19 +93,34 @@ provide('images', images)
 
 <template>
   <el-drawer v-model="isVisibleModel" title="編輯分類" direction="btt" size="90%">
-    <div class="flex-c-c mb-3">
-      <el-input v-model="newCategory" :disabled="isAddLoading" class="mr-2"></el-input>
-      <el-button @click="addCategory()" :loading="isAddLoading">add</el-button>
+    <div class="flex-c-c mb-4">
+      <el-input v-model="newCategory" :disabled="isAddLoading" class="popupInput mr-2"></el-input>
+      <el-button color="#208eef" class="mainBtn" @click="addCategory()" :loading="isAddLoading"
+        >add</el-button
+      >
     </div>
-    <div class="item" v-for="item in categories" :key="item.id" @click="editDetail(item)">
-      <div>
-        {{ item.name }}
+    <div class="item cardShadow" v-for="item in categories" :key="item.id">
+      <div class="name">
+        <div>{{ item.name }}</div>
         <span>{{ item.shortcuts?.length }} 個子項目</span>
       </div>
       <div>
-        <el-button type="danger" @click.stop="checkDelete(item)">delete</el-button>
+        <el-button link @click.stop="editDetail(item)">
+          <inline-svg :src="edit" height="20" width="20" color="#208eef"></inline-svg>
+        </el-button>
+        <el-button link @click.stop="checkDelete(item)">
+          <inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg>
+        </el-button>
+        <el-button link>
+          <inline-svg :src="sort" height="20" width="20"></inline-svg>
+        </el-button>
       </div>
     </div>
+    <template #footer>
+      <div class="footer">
+        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
+      </div>
+    </template>
   </el-drawer>
   <CategoryDetailDialog
     v-if="isShowDetailDialog"
@@ -117,13 +135,21 @@ provide('images', images)
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
-  padding: 10px 8px;
-  background: rgb(255, 235, 197);
-
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--card-color);
   cursor: pointer;
-  span {
-    color: rgb(129, 129, 129);
-    margin-left: 10px;
+  .name {
+    display: flex;
+    align-items: center;
+    span {
+      font-size: 14px;
+      color: rgb(129, 129, 129);
+      margin-left: 10px;
+    }
   }
+}
+.footer .mainBtn {
+  width: 100%;
 }
 </style>

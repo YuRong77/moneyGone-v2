@@ -3,8 +3,13 @@
 // }
 .el-dialog {
   max-width: 700px;
+  display: flex;
+  flex-direction: column;
   &:not(.is-fullscreen) {
     border-radius: 18px !important;
+  }
+  .el-dialog__body {
+    flex: 1;
   }
 }
 .is-fullscreen {
@@ -34,6 +39,12 @@
 .popupInput .el-input__wrapper {
   box-shadow: none !important;
   border-radius: 12px;
+  padding: 6px 10px;
+  box-shadow: 0px 0px 3px rgb(26 45 65 / 28%) !important;
+}
+.shortcutInput .el-input__wrapper {
+  box-shadow: none !important;
+  border-radius: 12px 0 0 12px;
   padding: 6px 10px;
   box-shadow: 0px 0px 3px rgb(26 45 65 / 28%) !important;
 }
