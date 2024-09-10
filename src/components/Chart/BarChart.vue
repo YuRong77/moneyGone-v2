@@ -15,7 +15,7 @@ const series = computed(() => {
     let totalList = item.data
     if (range === 'firstHalf') totalList = item.data.slice(0, 15)
     if (range === 'secondHalf') totalList = item.data.slice(15)
-    return { data: range ? totalList : item.data, name: item.name }
+    return { data: range ? totalList : item.data, name: item.name, color: item.color }
   })
 })
 

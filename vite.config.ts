@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   base: './',
@@ -21,6 +22,9 @@ export default defineConfig({
       dirs: ['src/components', 'src/views/**/components'],
       dts: 'components.d.ts',
       resolvers: [ElementPlusResolver()]
+    }),
+    VitePWA({
+      registerType: 'autoUpdate'
     })
   ],
   resolve: {

@@ -45,8 +45,8 @@ export interface NewTransaction {
 
 export interface Chart {
   timePeriodTotal: { date: string; totalAmount: number }[]
-  categoriesTotal: { id: number; name: string; totalAmount: number }[]
-  categoriesDetails: { id: number; name: string; data: number[] }[]
+  categoriesTotal: { id: number; name: string; color: string; totalAmount: number }[]
+  categoriesDetails: { id: number; name: string; color: string; data: number[] }[]
   topExpense: Transaction[]
 }
 

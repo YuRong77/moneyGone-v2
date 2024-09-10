@@ -22,7 +22,7 @@ const options = computed(() => {
       enabled: false
     },
     labels: props.data?.categoriesTotal.map((item) => item.name) || [],
-    // colors: props.data?.categoriesTotal.map(item => item.color) || [],
+    colors: props.data?.categoriesTotal.map((item) => item.color) || [],
     plotOptions: {
       pie: {
         expandOnClick: false,

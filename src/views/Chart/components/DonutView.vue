@@ -2,7 +2,7 @@
 import type { Chart } from '@/types'
 
 const chartData = inject('chartData') as Chart
-const setting = inject('setting')
+const setting = inject('setting') as { type: string; range: string | null }
 const chartType = inject('chartType')
 </script>
 

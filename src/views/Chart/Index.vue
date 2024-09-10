@@ -72,7 +72,7 @@ provide('chartType', chartType)
           inactive-value="month"
         />
         <el-switch
-          v-if="viewType === 'bar' && chartType === 'month'"
+          v-if="viewType === 'bar' && chartRange && chartType === 'month'"
           v-model="chartRange"
           active-text="下半月"
           inactive-text="上半月"

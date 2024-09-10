@@ -41,7 +41,7 @@ function selectedCategory(categoryId: number) {
   padding: 8px 12px;
   border-radius: 12px;
   background: var(--card-color);
-  flex: 1 1 calc(50% - 10px);
+  width: calc(50% - 10px);
   display: flex;
   align-items: center;
   cursor: pointer;

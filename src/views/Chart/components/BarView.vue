@@ -6,7 +6,7 @@ import svg2st from '@/assets/images/svg/2st.svg'
 import svg3st from '@/assets/images/svg/3st.svg'
 
 const chartData = inject('chartData') as Chart
-const setting = inject('setting')
+const setting = inject('setting') as { type: string; range: string | null }
 const chartType = inject('chartType')
 
 function getIcon(idx: number) {
