@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { Chart } from '@/types'
 
-const chartData = inject('chartData') as Chart
-const setting = inject('setting') as { type: string; range: string | null }
-const chartType = inject('chartType')
+const chartData = inject('chartData') as Ref<Chart>
+const setting = inject('setting') as Ref<{ type: string; range: string | null }>
 </script>
 
 <template>
@@ -36,7 +35,7 @@ const chartType = inject('chartType')
     background: var(--card-color);
     border-radius: 12px;
     padding: 10px;
-    flex: 1 1 calc(50% - 10px);
+    width: calc(50% - 5px);
   }
 }
 </style>

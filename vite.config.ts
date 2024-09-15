@@ -24,7 +24,25 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()]
     }),
     VitePWA({
-      registerType: 'autoUpdate'
+      registerType: 'autoUpdate',
+      manifest: {
+        name: '大花錢V2',
+        short_name: '大花錢',
+        description: '大花錢開發中',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'dog192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'dog512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
     })
   ],
   resolve: {

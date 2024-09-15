@@ -84,6 +84,7 @@ const options = computed(() => {
 .donutChart .vue-apexcharts {
   overflow: hidden;
   border-radius: 12px;
+  box-shadow: 5px 6px 20px #2c4f730a;
 
   :deep(.apexcharts-canvas) {
     background: var(--card-color);

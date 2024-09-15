@@ -134,6 +134,7 @@ const options = computed(() => {
   overflow: hidden;
   :deep(.apexcharts-canvas) {
     background: var(--card-color);
+    box-shadow: 5px 6px 20px #2c4f730a;
     border-radius: 12px;
     .apexcharts-svg {
       border-radius: 12px;

@@ -96,7 +96,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-bottom: 6px;
+  padding-bottom: 10px;
   cursor: pointer;
 
   svg {

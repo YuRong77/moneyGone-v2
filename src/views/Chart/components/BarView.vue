@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import type { Chart } from '@/types'
 import { format } from 'date-fns'
+import { priceFormat } from '@/utils/priceFormat'
 import svg1st from '@/assets/images/svg/1st.svg'
 import svg2st from '@/assets/images/svg/2st.svg'
 import svg3st from '@/assets/images/svg/3st.svg'
 
-const chartData = inject('chartData') as Chart
-const setting = inject('setting') as { type: string; range: string | null }
-const chartType = inject('chartType')
+const chartData = inject('chartData') as Ref<Chart>
+const setting = inject('setting') as Ref<{ type: string; range: string | null }>
+
+const getTitle = computed(() => {
+  if (setting.value.type === 'month') return '本月 Top 5 花費'
+  if (setting.value.type === 'year') return '年度 Top 5 花費'
+  return ''
+})
 
 function getIcon(idx: number) {
   if (idx === 0) return svg1st
@@ -21,9 +27,9 @@ function getIcon(idx: number) {
   <div class="barView">
     <BarChart :data="chartData" :setting="setting" height="250px" />
     <div class="topExpense">
-      <div class="title">本月 Top 5 花費</div>
+      <div class="title">{{ getTitle }}</div>
       <div class="itemList">
-        <div class="item" v-for="(item, index) in chartData?.topExpense" :key="item.id">
+        <div class="item cardShadow" v-for="(item, index) in chartData?.topExpense" :key="item.id">
           <div class="flexBox">
             <div class="iconBox">
               <inline-svg
@@ -39,9 +45,7 @@ function getIcon(idx: number) {
               <div class="date">{{ format(item.createdAt, 'yyyy-MM-dd') }}</div>
             </div>
           </div>
-          <div class="amount">
-            {{ item.amount }}
-          </div>
+          <div class="amount">$ {{ priceFormat(item.amount) }}</div>
         </div>
       </div>
     </div>
@@ -60,7 +64,7 @@ function getIcon(idx: number) {
       align-items: center;
       justify-content: space-between;
       margin-bottom: 8px;
-      padding: 8px 10px 8px 0;
+      padding: 8px 15px 8px 0;
       background: var(--card-color);
       border-radius: 12px;
       .flexBox {

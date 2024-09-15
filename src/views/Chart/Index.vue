@@ -2,12 +2,12 @@
 import { chartAPI } from '@/apis'
 import type { Chart } from '@/types'
 import { emitter } from '@/utils/emitter'
-import { format, getYear, getMonth } from 'date-fns'
+import { getYear, getMonth, getDate } from 'date-fns'
 
 let date = ref<Date>(new Date())
 let viewType = ref<'bar' | 'donut'>('bar')
-let chartType = ref<'year' | 'month'>('year')
-let chartRange = ref<string | null>(null)
+let chartType = ref<'year' | 'month'>('month')
+let chartRange = ref<string | null>(getDate(new Date()) < 16 ? 'firstHalf' : 'secondHalf')
 const chartData = ref<Chart | null>(null)
 
 const setting = computed(() => {
@@ -51,7 +51,6 @@ onBeforeUnmount(() => {
 
 provide('chartData', chartData)
 provide('setting', setting)
-provide('chartType', chartType)
 </script>
 
 <template>
@@ -92,13 +91,20 @@ provide('chartType', chartType)
     display: flex;
     justify-content: space-between;
   }
-  .el-segmented {
+  :deep(.el-segmented) {
     width: 100%;
+    padding: 4px;
     margin-bottom: 10px;
-    --el-segmented-bg-color: var(--card-color);
-    --el-segmented-item-selected-color: var(--el-text-color-primary);
-    --el-segmented-item-selected-bg-color: #ffd100;
-    --el-border-radius-base: 16px;
+    --el-segmented-bg-color: #e6e8ed;
+    --el-segmented-item-selected-color: var(--title-color);
+    --el-segmented-item-selected-bg-color: white;
+    --el-border-radius-base: 18px;
+    .el-segmented__item.is-selected {
+      box-shadow: 5px 6px 20px #2c4f730a;
+    }
+    .el-segmented__item {
+      padding: 8px;
+    }
   }
 }
 </style>

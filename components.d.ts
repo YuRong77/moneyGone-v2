@@ -31,7 +31,6 @@ declare module 'vue' {
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     LangDialog: typeof import('./src/views/Setting/components/LangDialog.vue')['default']
-    LineChart: typeof import('./src/components/Chart/LineChart.vue')['default']
     MonthlyBudgetDialog: typeof import('./src/views/Setting/components/MonthlyBudgetDialog.vue')['default']
     NameDialog: typeof import('./src/views/Setting/components/NameDialog.vue')['default']
     Overview: typeof import('./src/views/Lobby/components/Overview.vue')['default']
