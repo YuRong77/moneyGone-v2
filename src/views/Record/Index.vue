@@ -13,6 +13,15 @@ let rowDetails = ref<Transaction[] | null>(null)
 let isVisible = ref(false)
 let search = ref('')
 
+const recordsFilter = computed(() => {
+  if (!search.value) return records.value
+  return records.value.filter((item) =>
+    item.details.find(
+      (_item) => _item.categoryName.includes(search.value) || _item.name.includes(search.value)
+    )
+  )
+})
+
 watch(
   date,
   () => {
@@ -69,7 +78,7 @@ onBeforeUnmount(() => {
     </el-input>
     <div
       class="totalItem cardShadow"
-      v-for="item in records"
+      v-for="item in recordsFilter"
       :key="item.date"
       @click="showDetails(item.details)"
     >
