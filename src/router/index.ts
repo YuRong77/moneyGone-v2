@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import MainLayout from '@/layouts/MainLayout.vue'
-import Login from '@/views/Login/Index.vue'
+import Auth from '@/views/Auth/Index.vue'
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -26,9 +26,31 @@ export const router = createRouter({
       ]
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/auth',
+      name: 'Auth',
+      component: Auth,
+      children: [
+        {
+          path: 'login',
+          name: 'Login',
+          component: () => import('@/views/Auth/components/Login.vue')
+        },
+        {
+          path: 'register',
+          name: 'Register',
+          component: () => import('@/views/Auth/components/Register.vue')
+        },
+        {
+          path: 'forgot-password',
+          name: 'ForgotPassword',
+          component: () => import('@/views/Auth/components/ForgotPassword.vue')
+        },
+        {
+          path: 'reset-password',
+          name: 'ResetPassword',
+          component: () => import('@/views/Auth/components/ResetPassword.vue')
+        }
+      ]
     }
   ]
 })

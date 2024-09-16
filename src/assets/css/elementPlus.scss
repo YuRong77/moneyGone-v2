@@ -1,6 +1,9 @@
 // :root {
 //   --el-dialog-border-radius: 20px;
 // }
+.el-popup-parent--hidden {
+  width: unset !important;
+}
 .el-dialog {
   max-width: 700px;
   display: flex;
@@ -27,6 +30,10 @@
   }
 }
 
+.el-divider__text {
+  color: var(--desc-color) !important;
+}
+
 .mainBtn.el-button {
   border-radius: 8px;
   font-size: 18px;
@@ -34,6 +41,10 @@
   &:active {
     transform: scale(0.95);
   }
+}
+
+.el-button.is-round {
+  height: 42px;
 }
 
 .popupInput .el-input__wrapper {
