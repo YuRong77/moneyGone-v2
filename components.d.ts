@@ -12,6 +12,7 @@ declare module 'vue' {
     CategoryDetailDialog: typeof import('./src/views/Setting/components/CategoryDetailDialog.vue')['default']
     CategoryDrawer: typeof import('./src/views/Setting/components/CategoryDrawer.vue')['default']
     CategoryItems: typeof import('./src/components/Category/CategoryItems.vue')['default']
+    CategoryItemsDrawer: typeof import('./src/views/Chart/components/CategoryItemsDrawer.vue')['default']
     DatePicker: typeof import('./src/components/DatePicker.vue')['default']
     DonutChart: typeof import('./src/components/Chart/DonutChart.vue')['default']
     DonutView: typeof import('./src/views/Chart/components/DonutView.vue')['default']
@@ -45,5 +46,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Transaction: typeof import('./src/components/Transaction.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
   }
 }

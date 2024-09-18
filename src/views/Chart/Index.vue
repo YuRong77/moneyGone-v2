@@ -51,6 +51,7 @@ onBeforeUnmount(() => {
 
 provide('chartData', chartData)
 provide('setting', setting)
+provide('date', date)
 </script>
 
 <template>
