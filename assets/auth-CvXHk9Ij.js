@@ -1,1 +1,0 @@
-import{a8 as s}from"./index-DaPa3jmL.js";const e={async login(t){return(await s.post("/auth/login",t)).data},async register(t){return(await s.post("/auth/register",t)).data},async sendResetEmail(t){return(await s.post("/auth/forgot-password",t)).data},async resetPassword(t){return(await s.post("/auth/reset-password",t)).data}};export{e as a};
