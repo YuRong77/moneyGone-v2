@@ -17,7 +17,7 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(['update:isVisible', 'getImages'])
+const emit = defineEmits(['update:isVisible', 'getImages', 'getCategories'])
 
 const categoriesStore = useCategoriesStore()
 
@@ -98,7 +98,7 @@ function checkDeleteShortcut(item: Shortcut) {
 
 function deleteShortcut(id: number) {
   categoryAPI.shortcutDelete({ categoryId: categoryData.value.id, shortcutId: id }).then(() => {
-    getCategories()
+    emit('getCategories')
     const { shortcuts } = categoryData.value
     if (shortcuts) {
       const shortcutIdx = shortcuts.findIndex((item) => item.id === id)
@@ -118,15 +118,9 @@ async function updateData() {
   } catch (err) {
     console.log(err, 'err')
   } finally {
-    getCategories()
+    emit('getCategories')
     emit('update:isVisible', false)
   }
-}
-
-function getCategories() {
-  categoryAPI.categoryList().then((res) => {
-    categoriesStore.setCategories(res)
-  })
 }
 </script>
 

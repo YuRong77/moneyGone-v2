@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { categoryAPI } from '@/apis'
-import { useCategoriesStore } from '@/stores/categories'
 import { emitter } from '@/utils/emitter'
 import overview from '@/assets/images/svg/overview.svg'
 import list from '@/assets/images/svg/list.svg'
@@ -10,8 +8,6 @@ import plus from '@/assets/images/svg/plus.svg'
 
 const router = useRouter()
 const route = useRoute()
-
-const categoriesStore = useCategoriesStore()
 
 const menuItems = [
   { name: '首頁', route: 'Lobby', icon: overview },
@@ -35,14 +31,7 @@ function routeTo(routeName: string) {
   router.push({ name: routeName })
 }
 
-function getCategories() {
-  categoryAPI.categoryList().then((res) => {
-    categoriesStore.setCategories(res)
-  })
-}
-
 onMounted(() => {
-  getCategories()
   emitter.on('closeDialog', () => (categoryDialog.value = false))
 })
 onBeforeUnmount(() => {

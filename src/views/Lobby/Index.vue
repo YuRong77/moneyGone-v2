@@ -2,6 +2,7 @@
 import type { Overview } from '@/types'
 import { transactionAPI } from '@/apis'
 import { emitter } from '@/utils/emitter'
+import { loading } from '@/utils/loading'
 import cashRain from '@/assets/images/svg/cashRain.svg'
 import right from '@/assets/images/svg/right.svg'
 
@@ -10,9 +11,16 @@ const router = useRouter()
 const overview = ref<Overview>()
 
 function getOverview() {
-  transactionAPI.transactionOverview().then((res) => {
-    overview.value = res
-  })
+  loading.open()
+  transactionAPI
+    .transactionOverview()
+    .then((res) => {
+      overview.value = res
+    })
+    .catch(() => {})
+    .finally(() => {
+      loading.close()
+    })
 }
 
 onMounted(() => {

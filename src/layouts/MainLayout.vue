@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { categoryAPI } from '@/apis'
+import { useCategoriesStore } from '@/stores/categories'
 import { emitter } from '@/utils/emitter'
 import type { Transaction, NewTransaction } from '@/types'
 import { format } from 'date-fns'
+
+const categoriesStore = useCategoriesStore()
 
 let transactionData = ref<Transaction | NewTransaction>()
 let isVisible = ref(false)
@@ -23,7 +27,14 @@ function editTransaction(data: Transaction) {
   isVisible.value = true
 }
 
+function getCategories() {
+  categoryAPI.categoryList().then((res) => {
+    categoriesStore.setCategories(res)
+  })
+}
+
 onMounted(() => {
+  getCategories()
   emitter.on('newTransaction', newTransaction)
   emitter.on('editTransaction', editTransaction)
 })

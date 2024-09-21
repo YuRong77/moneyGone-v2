@@ -12,7 +12,7 @@ import noData from '@/assets/images/svg/noData.svg'
 const props = defineProps({
   isVisible: Boolean
 })
-const emit = defineEmits(['update:isVisible', 'getProfile'])
+const emit = defineEmits(['update:isVisible', 'getCategories'])
 
 const categoriesStore = useCategoriesStore()
 const { categories } = storeToRefs(categoriesStore)
@@ -38,7 +38,7 @@ function addCategory() {
   categoryAPI
     .categoryCreate({ name: newCategory.value })
     .then(() => {
-      getCategories()
+      emit('getCategories')
       newCategory.value = ''
     })
     .catch((err) => {})
@@ -65,13 +65,7 @@ function deleteCategory(id: number) {
       type: 'success',
       message: '成功刪除'
     })
-    getCategories()
-  })
-}
-
-function getCategories() {
-  categoryAPI.categoryList().then((res) => {
-    categoriesStore.setCategories(res)
+    emit('getCategories')
   })
 }
 
@@ -134,6 +128,7 @@ provide('images', images)
     v-model:isVisible="isShowDetailDialog"
     :category="selectedItem"
     @getImages="getImages"
+    @getCategories="emit('getCategories')"
   />
 </template>
 

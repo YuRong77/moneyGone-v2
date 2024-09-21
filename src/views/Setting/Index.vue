@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { userAPI } from '@/apis'
+import { userAPI, categoryAPI } from '@/apis'
 import type { User } from '@/types'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
+import { loading } from '@/utils/loading'
 import right from '@/assets/images/svg/right.svg'
 import account from '@/assets/images/svg/account.svg'
 import wallet from '@/assets/images/svg/wallet.svg'
@@ -22,9 +23,29 @@ const categoriesStore = useCategoriesStore()
 const { categories } = storeToRefs(categoriesStore)
 
 function getProfile() {
-  userAPI.getProfile().then((res) => {
-    userProfile.value = res
-  })
+  loading.open()
+  userAPI
+    .getProfile()
+    .then((res) => {
+      userProfile.value = res
+    })
+    .catch(() => {})
+    .finally(() => {
+      loading.close()
+    })
+}
+
+function getCategories() {
+  loading.open()
+  categoryAPI
+    .categoryList()
+    .then((res) => {
+      categoriesStore.setCategories(res)
+    })
+    .catch(() => {})
+    .finally(() => {
+      loading.close()
+    })
 }
 
 function updateUserTheme(val: string) {
@@ -135,7 +156,7 @@ onMounted(() => {
   <CategoryDrawer
     v-if="isShowCategoryDrawer"
     v-model:isVisible="isShowCategoryDrawer"
-    @getProfile="getProfile()"
+    @getCategories="getCategories()"
   />
 </template>
 

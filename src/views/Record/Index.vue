@@ -4,6 +4,7 @@ import { transactionAPI } from '@/apis'
 import { format, startOfMonth, endOfMonth } from 'date-fns'
 import { emitter } from '@/utils/emitter'
 import { priceFormat } from '@/utils/priceFormat'
+import { loading } from '@/utils/loading'
 import searchSvg from '@/assets/images/svg/search.svg'
 import house from '@/assets/images/svg/house.svg'
 import right from '@/assets/images/svg/right.svg'
@@ -47,6 +48,7 @@ function getMonthRecord() {
     startDate: format(startOfMonth(date.value), 'yyyy-MM-dd'),
     endDate: format(endOfMonth(date.value), 'yyyy-MM-dd')
   }
+  loading.open()
   transactionAPI
     .transactionTotalList(data)
     .then((res) => {
@@ -55,6 +57,7 @@ function getMonthRecord() {
     .catch((err) => {})
     .finally(() => {
       isVisible.value = false
+      loading.close()
     })
 }
 

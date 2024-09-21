@@ -3,6 +3,7 @@ import { chartAPI } from '@/apis'
 import type { Chart } from '@/types'
 import { emitter } from '@/utils/emitter'
 import { getYear, getMonth, getDate } from 'date-fns'
+import { loading } from '@/utils/loading'
 import house from '@/assets/images/svg/house.svg'
 
 let date = ref<Date>(new Date())
@@ -33,14 +34,21 @@ watch(
 )
 
 function getChart() {
+  loading.open()
   const data = {
     type: chartType.value,
     year: getYear(date.value),
     month: getMonth(date.value) + 1
   }
-  chartAPI.getChart(data).then((res) => {
-    chartData.value = res
-  })
+  chartAPI
+    .getChart(data)
+    .then((res) => {
+      chartData.value = res
+    })
+    .catch(() => {})
+    .finally(() => {
+      loading.close()
+    })
 }
 
 onMounted(() => {
