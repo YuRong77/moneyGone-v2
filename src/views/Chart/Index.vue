@@ -3,6 +3,7 @@ import { chartAPI } from '@/apis'
 import type { Chart } from '@/types'
 import { emitter } from '@/utils/emitter'
 import { getYear, getMonth, getDate } from 'date-fns'
+import house from '@/assets/images/svg/house.svg'
 
 let date = ref<Date>(new Date())
 let viewType = ref<'bar' | 'donut'>('bar')
@@ -81,8 +82,17 @@ provide('date', date)
         />
       </div>
     </div>
-    <BarView v-if="viewType === 'bar'" />
-    <DonutView v-else />
+    <div v-if="chartData?.topExpense.length !== 0">
+      <BarView v-if="viewType === 'bar'" />
+      <DonutView v-else />
+    </div>
+    <el-empty
+      v-else
+      :style="{ height: 'calc(100dvh - 270px)' }"
+      :image="house"
+      :image-size="200"
+      description="此區間沒有任何消費"
+    />
   </div>
 </template>
 

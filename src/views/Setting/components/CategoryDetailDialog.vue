@@ -8,6 +8,7 @@ import type { UploadProps } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import remove from '@/assets/images/svg/delete.svg'
 import sort from '@/assets/images/svg/sort.svg'
+import noData from '@/assets/images/svg/noData.svg'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -206,6 +207,12 @@ function getCategories() {
             </el-button>
           </div>
         </div>
+        <el-empty
+          v-if="categoryData.shortcuts?.length === 0"
+          :image="noData"
+          :image-size="100"
+          description="目前沒有任何子項目"
+        />
         <el-button link type="primary" @click="categoryData.shortcuts!.push({ name: '' })"
           >新增子項目</el-button
         >

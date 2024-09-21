@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { categoryAPI } from '@/apis'
 import { useCategoriesStore } from '@/stores/categories'
+import { emitter } from '@/utils/emitter'
 import overview from '@/assets/images/svg/overview.svg'
 import list from '@/assets/images/svg/list.svg'
 import chart from '@/assets/images/svg/chart.svg'
@@ -42,6 +43,10 @@ function getCategories() {
 
 onMounted(() => {
   getCategories()
+  emitter.on('closeDialog', () => (categoryDialog.value = false))
+})
+onBeforeUnmount(() => {
+  emitter.off('closeDialog')
 })
 </script>
 

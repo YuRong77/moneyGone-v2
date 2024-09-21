@@ -5,6 +5,7 @@ type Events = {
   newTransaction: number
   editTransaction: Transaction
   refresh: void
+  closeDialog: void
 }
 
 export const emitter = mitt<Events>()

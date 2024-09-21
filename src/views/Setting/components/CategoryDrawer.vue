@@ -7,6 +7,7 @@ import { storeToRefs } from 'pinia'
 import edit from '@/assets/images/svg/edit.svg'
 import remove from '@/assets/images/svg/delete.svg'
 import sort from '@/assets/images/svg/sort.svg'
+import noData from '@/assets/images/svg/noData.svg'
 
 const props = defineProps({
   isVisible: Boolean
@@ -116,6 +117,12 @@ provide('images', images)
         </el-button>
       </div>
     </div>
+    <el-empty
+      v-if="categories.length === 0"
+      :image="noData"
+      :image-size="100"
+      description="目前沒有任何分類"
+    />
     <template #footer>
       <div class="footer">
         <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>

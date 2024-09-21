@@ -5,6 +5,7 @@ import { format, startOfMonth, endOfMonth } from 'date-fns'
 import { emitter } from '@/utils/emitter'
 import { priceFormat } from '@/utils/priceFormat'
 import searchSvg from '@/assets/images/svg/search.svg'
+import house from '@/assets/images/svg/house.svg'
 import right from '@/assets/images/svg/right.svg'
 
 let date = ref<Date>(new Date())
@@ -96,6 +97,13 @@ onBeforeUnmount(() => {
       </div>
       <inline-svg :src="right" color="#ababab" height="18" width="18"></inline-svg>
     </div>
+    <el-empty
+      v-if="recordsFilter.length === 0"
+      :style="{ height: 'calc(100dvh - 235px)' }"
+      :image="house"
+      :image-size="200"
+      description="這個月還沒有消費"
+    />
   </div>
   <RecordDrawer v-if="rowDetails" v-model:isVisible="isVisible" :rowDetails="rowDetails" />
 </template>
