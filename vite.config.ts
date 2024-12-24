@@ -29,15 +29,15 @@ export default defineConfig({
         name: '大花錢V2',
         short_name: '大花錢',
         description: '大花錢開發中',
-        theme_color: '#ffffff',
+        theme_color: '#f3f4f8',
         icons: [
           {
-            src: 'dog192.png',
+            src: 'icon192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'dog512.png',
+            src: 'icon512.png',
             sizes: '512x512',
             type: 'image/png'
           }

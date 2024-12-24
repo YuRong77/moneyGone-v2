@@ -69,6 +69,7 @@
 
 .myLoading {
   backdrop-filter: blur(3px);
+  margin: 0 auto;
   .el-loading-spinner {
     svg {
       display: none;
