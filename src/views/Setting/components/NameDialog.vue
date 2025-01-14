@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { userAPI } from '@/apis'
 import { cloneDeep } from 'lodash'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -8,7 +9,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:isVisible', 'getProfile'])
 
-let userName = ref(cloneDeep(props.userName))
+let formData = ref({ userName: cloneDeep(props.userName) })
+let formRef = ref<FormInstance>()
+const formRules = ref<FormRules>({
+  userName: [{ required: true, message: 'Please input name', trigger: 'change' }]
+})
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -16,23 +21,32 @@ const isVisibleModel = computed({
 })
 
 function updateUserName() {
-  userAPI
-    .updateUser({ name: userName.value })
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {})
-    .finally(() => {
-      emit('update:isVisible', false)
-      emit('getProfile')
-    })
+  formRef.value!.validate((valid) => {
+    if (!valid) return
+    userAPI
+      .updateUser({ name: formData.value.userName })
+      .then((res) => {})
+      .catch((err) => {})
+      .finally(() => {
+        emit('update:isVisible', false)
+        emit('getProfile')
+      })
+  })
 }
 </script>
 
 <template>
   <el-dialog v-model="isVisibleModel" title="修改暱稱" width="90%">
     <div class="content">
-      <el-input class="popupInput" v-model="userName"></el-input>
+      <el-form ref="formRef" :model="formData" :rules="formRules">
+        <el-form-item prop="userName">
+          <el-input
+            class="popupInput"
+            v-model.trim="formData.userName"
+            placeholder="請輸入暱稱"
+          ></el-input>
+        </el-form-item>
+      </el-form>
     </div>
     <template #footer>
       <div>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { categoryAPI, imageAPI } from '@/apis'
-import { useCategoriesStore } from '@/stores/categories'
 import type { Category, Shortcut, Image } from '@/types'
 import type { PropType } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { cloneDeep } from 'lodash'
@@ -19,10 +19,13 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:isVisible', 'getImages', 'getCategories'])
 
-const categoriesStore = useCategoriesStore()
-
 const images = inject('images') as Image[]
 const categoryData = ref(cloneDeep(props.category))
+let formRef = ref<FormInstance>()
+const formRules = ref<FormRules>({
+  name: [{ required: true, message: 'Please input name', trigger: 'change' }]
+})
+
 const imageUploadAPI = `${import.meta.env.VITE_APP_API_ENDPOINT}/image/upload`
 const Authorization = `Bearer ${localStorage.getItem('token')}`
 let isImagesDelMode = ref(false)
@@ -107,20 +110,22 @@ function deleteShortcut(id: number) {
   })
 }
 
-async function updateData() {
-  const { id, name, color, imageId } = categoryData.value
-
-  try {
-    await Promise.all([
-      categoryAPI.categoryUpdate(id, { name, color, imageId }),
-      categoryAPI.shortcutUpdate(id, categoryData.value.shortcuts!)
-    ])
-  } catch (err) {
-    console.log(err, 'err')
-  } finally {
-    emit('getCategories')
-    emit('update:isVisible', false)
-  }
+function updateData() {
+  formRef.value!.validate(async (valid) => {
+    if (!valid) return
+    const { id, name, color, imageId } = categoryData.value
+    try {
+      await Promise.all([
+        categoryAPI.categoryUpdate(id, { name, color, imageId }),
+        categoryAPI.shortcutUpdate(id, categoryData.value.shortcuts!)
+      ])
+    } catch (err) {
+      console.log(err, 'err')
+    } finally {
+      emit('getCategories')
+      emit('update:isVisible', false)
+    }
+  })
 }
 </script>
 
@@ -128,7 +133,11 @@ async function updateData() {
   <el-dialog v-model="isVisibleModel" title="編輯分類" fullscreen>
     <div>
       <div class="label">名稱</div>
-      <el-input class="popupInput mb-3" v-model="categoryData.name"></el-input>
+      <el-form ref="formRef" :model="categoryData" :rules="formRules">
+        <el-form-item prop="name">
+          <el-input class="popupInput mb-3" v-model.trim="categoryData.name"></el-input>
+        </el-form-item>
+      </el-form>
       <div class="label">顏色</div>
       <el-color-picker
         class="mb-3"

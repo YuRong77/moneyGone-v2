@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { userAPI } from '@/apis'
 import { cloneDeep } from 'lodash'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -8,7 +9,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:isVisible', 'getProfile'])
 
-let monthlyBudget = ref(cloneDeep(props.monthlyBudget))
+let formData = ref({ monthlyBudget: cloneDeep(props.monthlyBudget) })
+let formRef = ref<FormInstance>()
+const formRules = ref<FormRules>({
+  monthlyBudget: [{ required: true, message: 'Please input monthlyBudget', trigger: 'change' }],
+})
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -16,29 +21,33 @@ const isVisibleModel = computed({
 })
 
 function updateMonthlyBudget() {
-  userAPI
-    .updateUser({ monthlyBudget: monthlyBudget.value })
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {})
-    .finally(() => {
-      emit('update:isVisible', false)
-      emit('getProfile')
-    })
+  formRef.value!.validate((valid) => {
+    if (!valid) return
+    userAPI
+      .updateUser({ monthlyBudget: formData.value.monthlyBudget })
+      .then((res) => { })
+      .catch((err) => { })
+      .finally(() => {
+        emit('update:isVisible', false)
+        emit('getProfile')
+      })
+  })
 }
 </script>
 
 <template>
   <el-dialog v-model="isVisibleModel" title="修改預算" width="90%">
     <div class="content">
-      <el-input class="popupInput" v-model.number="monthlyBudget" type="number"></el-input>
+      <el-form ref="formRef" :model="formData" :rules="formRules">
+        <el-form-item prop="monthlyBudget">
+          <el-input class="popupInput" v-model.number="formData.monthlyBudget" type="number"
+            placeholder="請輸入預算"></el-input>
+        </el-form-item>
+      </el-form>
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
-          >cancel</el-button
-        >
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
         <el-button color="#208eef" class="mainBtn" @click="updateMonthlyBudget()">submit</el-button>
       </div>
     </template>
