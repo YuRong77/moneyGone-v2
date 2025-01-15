@@ -121,3 +121,8 @@
     transform: scale3d(1, 1, 1);
   }
 }
+
+.el-message {
+  max-width: 80%;
+  width: max-content;
+}

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { router } from '@/router'
+import { showMessage } from '@/utils/message'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_API_ENDPOINT,
@@ -28,6 +29,8 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
+      showMessage(error.response.data.message, 'error')
+
       if (error.response.status === 401) {
         router.push({ name: 'Login' })
       }
