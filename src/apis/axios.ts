@@ -1,14 +1,35 @@
 import axios from 'axios'
 import { router } from '@/router'
 import { showMessage } from '@/utils/message'
+import { authAPI } from '.'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_API_ENDPOINT,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true
 })
+
+let isRefreshing = false
+let currentRefreshingCall: any = null
+async function refreshToken() {
+  if (isRefreshing) return currentRefreshingCall
+  isRefreshing = true
+  try {
+    currentRefreshingCall = authAPI.refreshToken()
+    const token = await currentRefreshingCall
+    localStorage.setItem('token', token)
+    apiClient.defaults.headers.Authorization = `Bearer ${token}`
+    return Promise.resolve()
+  } catch {
+    return Promise.reject()
+  } finally {
+    isRefreshing = false
+    currentRefreshingCall = null
+  }
+}
 
 apiClient.interceptors.request.use(
   (config) => {
@@ -27,21 +48,21 @@ apiClient.interceptors.response.use(
   (response) => {
     return response.data
   },
-  (error) => {
-    if (error.response) {
-      showMessage(error.response.data.message, 'error')
+  async (error) => {
+    console.log(error, 'error')
+    if (!error.response) return Promise.reject(error)
 
-      if (error.response.status === 401) {
-        router.push({ name: 'Login' })
-      }
-
-      console.error('Response error:', error.response.data)
-    } else if (error.request) {
-      console.error('Request error:', error.request)
-    } else {
-      console.error('Error:', error.message)
+    const originalRequest = error.config
+    const { status } = error.response
+    if (status === 401) {
+      await refreshToken()
+      return apiClient(originalRequest)
     }
-    return Promise.reject(error)
+    if (status === 403) {
+      showMessage(error.response.data.message, 'error')
+      router.push({ name: 'Login' })
+    }
+    return Promise.reject(error.response.data)
   }
 )
 

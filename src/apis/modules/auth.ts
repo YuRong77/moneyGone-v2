@@ -16,5 +16,9 @@ export default {
   async resetPassword(data: { password: string; token: string }) {
     const result = await apiClient.post('/auth/reset-password', data)
     return result.data
+  },
+  async refreshToken() {
+    const result = await apiClient.post('/auth/refreshToken')
+    return result.data
   }
 }
