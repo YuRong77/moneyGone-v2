@@ -3,6 +3,7 @@ import { transactionAPI } from '@/apis'
 import { ElMessageBox } from 'element-plus'
 import { emitter } from '@/utils/emitter'
 import { priceFormat } from '@/utils/priceFormat'
+import { format } from 'date-fns'
 import type { Transaction } from '@/types'
 import menuKebab from '@/assets/images/svg/menu-kebab.svg'
 
@@ -10,6 +11,10 @@ const props = defineProps({
   item: {
     type: Object as PropType<Transaction>,
     default: () => {}
+  },
+  showDate: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -47,23 +52,26 @@ function deleteTransaction(id: number) {
         <div class="amount">$ {{ priceFormat(props.item.amount) }}</div>
       </div>
     </div>
-    <el-popover
-      :width="65"
-      effect="light"
-      trigger="click"
-      :teleported="false"
-      transition="el-zoom-in-top"
-    >
-      <el-button class="mb-1" link @click="emitter.emit('editTransaction', props.item)"
-        >編輯</el-button
+    <div class="action">
+      <div class="date" v-if="props.showDate">{{ format(props.item.createdAt, 'yyyy-MM-dd') }}</div>
+      <el-popover
+        :width="65"
+        effect="light"
+        trigger="click"
+        :teleported="false"
+        transition="el-zoom-in-top"
       >
-      <el-button link @click="deleteCheck(props.item)">刪除</el-button>
-      <template #reference>
-        <el-button link>
-          <inline-svg :src="menuKebab" height="18" width="18"></inline-svg>
-        </el-button>
-      </template>
-    </el-popover>
+        <el-button class="mb-1" link @click="emitter.emit('editTransaction', props.item)"
+          >編輯</el-button
+        >
+        <el-button link @click="deleteCheck(props.item)">刪除</el-button>
+        <template #reference>
+          <el-button link>
+            <inline-svg :src="menuKebab" height="18" width="18"></inline-svg>
+          </el-button>
+        </template>
+      </el-popover>
+    </div>
   </div>
 </template>
 
@@ -97,6 +105,15 @@ function deleteTransaction(id: number) {
     }
     .amount {
       font-weight: 500;
+    }
+  }
+  .action {
+    display: flex;
+    align-items: center;
+    .date {
+      font-size: 14px;
+      color: #8d8d8d;
+      margin-right: 10px;
     }
   }
 }

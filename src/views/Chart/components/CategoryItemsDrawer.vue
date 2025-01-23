@@ -49,7 +49,7 @@ function getList() {
   transactionAPI
     .transactionList(data)
     .then((res) => {
-      listData.value = [...listData.value, ...res.result]
+      listData.value = [...listData.value, ...res.list]
       if (listData.value.length >= res.total) return (isBottomReached.value = true)
       page.value += 1
     })
@@ -69,7 +69,7 @@ function getList() {
     class="categoryItemsDrawer"
   >
     <div class="content" v-infinite-scroll="getList" :infinite-scroll-disabled="disableLoad">
-      <RecordItem v-for="item in listData" :key="item.id" :item="item" />
+      <RecordItem v-for="item in listData" :key="item.id" :item="item" showDate />
       <div style="height: 1px"></div>
     </div>
     <template #footer>
