@@ -1,0 +1,8 @@
+{
+  "hello": "你好",
+  "welcome": "歡迎來到我們的網站",
+  "button": {
+    "submit": "送出",
+    "cancel": "取消"
+  }
+}

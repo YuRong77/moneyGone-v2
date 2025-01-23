@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import { userAPI } from '@/apis'
 import { cloneDeep } from 'lodash'
+import { Storage } from '@/utils/localStorage'
 
 const props = defineProps({
   isVisible: Boolean,
   lang: String
 })
 const emit = defineEmits(['update:isVisible', 'getProfile'])
+const { t, locale } = useI18n()
 
 let lang = ref(cloneDeep(props.lang))
-const langList = ['zh-TW', 'zh-CN', 'en-US', 'ja-JP']
+const langList = [
+  { text: '繁體中文', value: 'zh-TW' },
+  { text: '简体中文', value: 'zh-CN' },
+  { text: 'English', value: 'en-US' },
+  { text: '日本語', value: 'ja-JP' }
+]
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -20,7 +27,8 @@ function updateUserName() {
   userAPI
     .updateUser({ lang: lang.value })
     .then((res) => {
-      console.log(res)
+      locale.value = lang.value as string
+      Storage.set('lang', lang.value)
     })
     .catch((err) => {})
     .finally(() => {
@@ -35,11 +43,11 @@ function updateUserName() {
     <div class="langList">
       <div
         v-for="item in langList"
-        :key="item"
-        :class="{ active: item === lang }"
-        @click="lang = item"
+        :key="item.value"
+        :class="{ active: item.value === lang }"
+        @click="lang = item.value"
       >
-        {{ item }}
+        {{ item.text }}
       </div>
     </div>
     <template #footer>

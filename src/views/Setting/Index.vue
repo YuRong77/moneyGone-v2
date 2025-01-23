@@ -9,10 +9,12 @@ import account from '@/assets/images/svg/account.svg'
 import wallet from '@/assets/images/svg/wallet.svg'
 import tags from '@/assets/images/svg/tags.svg'
 import lang from '@/assets/images/svg/lang.svg'
-import color from '@/assets/images/svg/color.svg'
+// import color from '@/assets/images/svg/color.svg'
 import signOut from '@/assets/images/svg/logout.svg'
 
+const { t } = useI18n()
 const router = useRouter()
+
 const userProfile = ref<Partial<User>>({ theme: 'light' })
 let isShowNameDialog = ref(false)
 let isShowMonthlyBudgetDialog = ref(false)
@@ -48,17 +50,17 @@ function getCategories() {
     })
 }
 
-function updateUserTheme(val: string) {
-  userAPI
-    .updateUser({ theme: val })
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {})
-    .finally(() => {
-      getProfile()
-    })
-}
+// function updateUserTheme(val: string) {
+//   userAPI
+//     .updateUser({ theme: val })
+//     .then((res) => {
+//       console.log(res)
+//     })
+//     .catch((err) => {})
+//     .finally(() => {
+//       getProfile()
+//     })
+// }
 
 function logout() {
   router.push({ name: 'Login' })
