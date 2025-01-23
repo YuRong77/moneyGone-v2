@@ -51,18 +51,18 @@ apiClient.interceptors.response.use(
   async (error) => {
     console.log(error, 'error')
     if (!error.response) return Promise.reject(error)
-
     const originalRequest = error.config
-    const { status } = error.response
-    if (status === 401) {
+    const { status, data } = error.response
+
+    if (status === 401 && data.errorCode === 'TOKEN_EXPIRED') {
       await refreshToken()
       return apiClient(originalRequest)
     }
     if (status === 403) {
-      showMessage(error.response.data.message, 'error')
       router.push({ name: 'Login' })
     }
-    return Promise.reject(error.response.data)
+    showMessage(data.message, 'error')
+    return Promise.reject(data)
   }
 )
 

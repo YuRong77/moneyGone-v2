@@ -15,18 +15,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   .card {
     width: 400px;
     background: white;
     border-radius: 12px;
     padding: 20px;
     margin: 0 auto;
+
     @media (max-width: 520px) {
       width: 100%;
       min-height: 100dvh;
       border-radius: 0;
       display: flex;
       align-items: center;
+    }
+
+    & > div {
+      width: 100%;
+
+      .el-form {
+        width: 100%;
+      }
     }
   }
 }
