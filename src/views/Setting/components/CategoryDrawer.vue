@@ -23,6 +23,7 @@ const selectedItem = ref()
 const images = ref()
 
 let isAddLoading = ref(false)
+let isDeleteLoading = ref(false)
 let formData = ref({ newCategory: '' })
 let formRef = ref<FormInstance>()
 const formRules = computed(() => {
@@ -79,13 +80,20 @@ function checkDelete(item: Category) {
 }
 
 function deleteCategory(id: number) {
-  categoryAPI.categoryDelete(id).then(() => {
-    ElMessage({
-      type: 'success',
-      message: '成功刪除'
+  isDeleteLoading.value = true
+  categoryAPI
+    .categoryDelete(id)
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '成功刪除'
+      })
+      emit('getCategories')
     })
-    emit('getCategories')
-  })
+    .catch((err) => {})
+    .finally(() => {
+      isDeleteLoading.value = false
+    })
 }
 
 function getImages() {
@@ -137,12 +145,12 @@ provide('images', images)
         <el-button link @click.stop="editDetail(item)">
           <inline-svg :src="edit" height="20" width="20" color="#208eef"></inline-svg>
         </el-button>
-        <el-button link @click.stop="checkDelete(item)">
+        <el-button link :disabled="isDeleteLoading" @click.stop="checkDelete(item)">
           <inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg>
         </el-button>
-        <el-button link>
+        <!-- <el-button link>
           <inline-svg :src="sort" height="20" width="20"></inline-svg>
-        </el-button>
+        </el-button> -->
       </div>
     </div>
     <el-empty

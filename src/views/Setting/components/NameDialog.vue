@@ -14,6 +14,7 @@ let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
   userName: [{ required: true, message: 'Please input name', trigger: 'change' }]
 })
+let isLoading = ref(false)
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -23,11 +24,13 @@ const isVisibleModel = computed({
 function updateUserName() {
   formRef.value!.validate((valid) => {
     if (!valid) return
+    isLoading.value = true
     userAPI
       .updateUser({ name: formData.value.userName })
       .then((res) => {})
       .catch((err) => {})
       .finally(() => {
+        isLoading.value = false
         emit('update:isVisible', false)
         emit('getProfile')
       })
@@ -53,7 +56,9 @@ function updateUserName() {
         <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
           >cancel</el-button
         >
-        <el-button color="#208eef" class="mainBtn" @click="updateUserName()">submit</el-button>
+        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateUserName()"
+          >submit</el-button
+        >
       </div>
     </template>
   </el-dialog>

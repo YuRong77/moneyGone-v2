@@ -112,7 +112,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item">
+      <!-- <div class="item">
         <div class="label">
           <inline-svg :src="color" height="20" width="20"></inline-svg>
           <div>主題</div>
@@ -125,7 +125,7 @@ onMounted(() => {
             @change="updateUserTheme($event as string)"
           ></el-switch>
         </div>
-      </div>
+      </div> -->
       <div class="item">
         <div class="label">
           <inline-svg :src="signOut" height="20" width="20"></inline-svg>

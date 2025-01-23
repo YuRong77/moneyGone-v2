@@ -25,6 +25,7 @@ let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
   name: [{ required: true, message: 'Please input name', trigger: 'change' }]
 })
+let isLoading = ref(false)
 
 const imageUploadAPI = `${import.meta.env.VITE_APP_API_ENDPOINT}/image/upload`
 const Authorization = `Bearer ${localStorage.getItem('token')}`
@@ -115,6 +116,7 @@ function updateData() {
     if (!valid) return
     const { id, name, color, imageId } = categoryData.value
     try {
+      isLoading.value = true
       await Promise.all([
         categoryAPI.categoryUpdate(id, { name, color, imageId }),
         categoryAPI.shortcutUpdate(id, categoryData.value.shortcuts!)
@@ -122,6 +124,7 @@ function updateData() {
     } catch (err) {
       console.log(err, 'err')
     } finally {
+      isLoading.value = false
       emit('getCategories')
       emit('update:isVisible', false)
     }
@@ -226,7 +229,9 @@ function updateData() {
         <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
           >cancel</el-button
         >
-        <el-button color="#208eef" class="mainBtn" @click="updateData()">submit</el-button>
+        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateData()"
+          >submit</el-button
+        >
       </div>
     </template>
   </el-dialog>

@@ -28,6 +28,7 @@ const formRules = ref<FormRules>({
   name: [{ required: true, message: 'Please input name', trigger: 'blur' }],
   amount: [{ required: true, message: 'Please input amount', trigger: 'blur' }]
 })
+let isLoading = ref(false)
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -69,13 +70,15 @@ function editTransaction() {
   const data = isSameDay(createdAt, props.transactionData.createdAt)
     ? { name, amount, note }
     : { name, amount, note, date }
+  isLoading.value = true
   transactionAPI
     .transactionUpdate(id, data)
     .then(() => {
       emitter.emit('refresh')
     })
-    .catch((err) => { })
+    .catch((err) => {})
     .finally(() => {
+      isLoading.value = false
       emit('update:isVisible', false)
     })
 }
@@ -89,38 +92,59 @@ function addTransaction() {
       ? format(createdAt, 'yyyy-MM-dd HH:mm:ss')
       : format(createdAt, 'yyyy-MM-dd 00:00:00')
   }
+  isLoading.value = true
   transactionAPI
     .transactionCreate(data)
     .then((res) => {
       console.log(res)
       emitter.emit('refresh')
     })
-    .catch((err) => { })
+    .catch((err) => {})
     .finally(() => {
+      isLoading.value = false
       emit('update:isVisible', false)
     })
 }
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" :title="`新增${getCategoryName(props.transactionData.categoryId)}`" width="90%">
+  <el-dialog
+    v-model="isVisibleModel"
+    :title="`新增${getCategoryName(props.transactionData.categoryId)}`"
+    width="90%"
+  >
     <div>
       <el-form ref="formRef" :model="formData" :rules="formRules">
         <div class="label">日期</div>
-        <el-date-picker v-model="formData.createdAt" :editable="false" :clearable="false" type="date"
-          placeholder="Pick a day" />
+        <el-date-picker
+          v-model="formData.createdAt"
+          :editable="false"
+          :clearable="false"
+          type="date"
+          placeholder="Pick a day"
+        />
         <div class="label">名稱</div>
         <el-form-item prop="name">
           <el-input v-model="formData.name" class="popupInput" placeholder="Please input" />
         </el-form-item>
         <div class="shortcutList">
-          <el-check-tag v-for="shortcut in currentShortcuts" :key="shortcut.id" @click="setName(shortcut.name)"
-            type="info">{{ shortcut.name }}</el-check-tag>
+          <el-check-tag
+            v-for="shortcut in currentShortcuts"
+            :key="shortcut.id"
+            @click="setName(shortcut.name)"
+            type="info"
+            >{{ shortcut.name }}</el-check-tag
+          >
         </div>
         <div class="label">金額</div>
         <el-form-item prop="amount">
-          <el-input v-model.number="formData.amount" ref="amountRef" class="popupInput" type="tel"
-            placeholder="Please input" />
+          <el-input
+            v-model.number="formData.amount"
+            ref="amountRef"
+            class="popupInput"
+            type="numeric"
+            placeholder="Please input"
+          />
         </el-form-item>
         <div class="label">備註</div>
         <el-input v-model="formData.note" class="popupInput" placeholder="Please input" />
@@ -128,8 +152,12 @@ function addTransaction() {
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button color="#208eef" class="mainBtn" @click="submitHandler()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="submitHandler()"
+          >submit</el-button
+        >
       </div>
     </template>
   </el-dialog>

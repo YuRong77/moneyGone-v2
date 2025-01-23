@@ -12,8 +12,9 @@ const emit = defineEmits(['update:isVisible', 'getProfile'])
 let formData = ref({ monthlyBudget: cloneDeep(props.monthlyBudget) })
 let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
-  monthlyBudget: [{ required: true, message: 'Please input monthlyBudget', trigger: 'change' }],
+  monthlyBudget: [{ required: true, message: 'Please input monthlyBudget', trigger: 'change' }]
 })
+let isLoading = ref(false)
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
@@ -23,11 +24,13 @@ const isVisibleModel = computed({
 function updateMonthlyBudget() {
   formRef.value!.validate((valid) => {
     if (!valid) return
+    isLoading.value = true
     userAPI
       .updateUser({ monthlyBudget: formData.value.monthlyBudget })
-      .then((res) => { })
-      .catch((err) => { })
+      .then((res) => {})
+      .catch((err) => {})
       .finally(() => {
+        isLoading.value = false
         emit('update:isVisible', false)
         emit('getProfile')
       })
@@ -40,15 +43,27 @@ function updateMonthlyBudget() {
     <div class="content">
       <el-form ref="formRef" :model="formData" :rules="formRules">
         <el-form-item prop="monthlyBudget">
-          <el-input class="popupInput" v-model.number="formData.monthlyBudget" type="number"
-            placeholder="請輸入預算"></el-input>
+          <el-input
+            class="popupInput"
+            v-model.number="formData.monthlyBudget"
+            type="numeric"
+            placeholder="請輸入預算"
+          ></el-input>
         </el-form-item>
       </el-form>
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
-        <el-button color="#208eef" class="mainBtn" @click="updateMonthlyBudget()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
+          >cancel</el-button
+        >
+        <el-button
+          color="#208eef"
+          class="mainBtn"
+          :loading="isLoading"
+          @click="updateMonthlyBudget()"
+          >submit</el-button
+        >
       </div>
     </template>
   </el-dialog>
