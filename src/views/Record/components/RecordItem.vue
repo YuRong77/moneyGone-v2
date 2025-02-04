@@ -6,6 +6,7 @@ import { priceFormat } from '@/utils/priceFormat'
 import { format } from 'date-fns'
 import type { Transaction } from '@/types'
 import menuKebab from '@/assets/images/svg/menu-kebab.svg'
+import info from '@/assets/images/svg/info.svg'
 
 const props = defineProps({
   item: {
@@ -49,7 +50,16 @@ function deleteTransaction(id: number) {
       </div>
       <div>
         <div class="name">{{ props.item.name }}</div>
-        <div class="amount">$ {{ priceFormat(props.item.amount) }}</div>
+        <div class="flex-c-c">
+          <div class="amount">$ {{ priceFormat(props.item.amount) }}</div>
+          <el-popover trigger="click" :content="props.item.note" v-if="props.item.note">
+            <template #reference>
+              <el-button class="infoIcon" link>
+                <inline-svg :src="info" height="18" width="18" color="#208eef"></inline-svg>
+              </el-button>
+            </template>
+          </el-popover>
+        </div>
       </div>
     </div>
     <div class="action">
@@ -105,6 +115,13 @@ function deleteTransaction(id: number) {
     }
     .amount {
       font-weight: 500;
+      margin-right: 6px;
+    }
+    .infoIcon {
+      padding: 0;
+      :deep(span) {
+        color: white;
+      }
     }
   }
   .action {
