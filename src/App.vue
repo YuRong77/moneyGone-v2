@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Storage } from '@/utils/localStorage'
 import elTW from 'element-plus/es/locale/lang/zh-tw'
 import elCn from 'element-plus/es/locale/lang/zh-cn'
 import elEn from 'element-plus/es/locale/lang/en'
@@ -21,6 +22,7 @@ watch(
   (val) => {
     var html = document.documentElement
     html.setAttribute('lang', val)
+    Storage.set('lang', val)
   },
   { immediate: true }
 )

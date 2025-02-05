@@ -4,6 +4,7 @@ import type { User } from '@/types'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
 import { loading } from '@/utils/loading'
+import { getLangText } from '@/types/constants'
 import right from '@/assets/images/svg/right.svg'
 import account from '@/assets/images/svg/account.svg'
 import wallet from '@/assets/images/svg/wallet.svg'
@@ -100,7 +101,7 @@ onMounted(() => {
           <div>語系</div>
         </div>
         <div class="value">
-          <div>{{ userProfile?.lang }}</div>
+          <div>{{ getLangText(userProfile?.lang) }}</div>
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>

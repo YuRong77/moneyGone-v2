@@ -4,6 +4,7 @@ import { Storage } from '@/utils/localStorage'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const router = useRouter()
+const { locale } = useI18n()
 
 let formRef = ref<FormInstance>()
 let formData = ref({ email: '', password: '' })
@@ -26,7 +27,8 @@ function login() {
     authAPI
       .login(data)
       .then((res) => {
-        localStorage.setItem('token', res.token)
+        Storage.set('token', res.token)
+        locale.value = res.lang
         router.push({ name: 'Lobby' })
       })
       .catch((err) => {})
