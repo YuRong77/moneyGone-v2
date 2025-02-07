@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { imageAPI, categoryAPI } from '@/apis'
-import type { Category } from '@/types'
+import type { Category, NewCategory } from '@/types'
 import type { FormInstance } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useCategoriesStore } from '@/stores/categories'
@@ -22,49 +22,26 @@ let isShowDetailDialog = ref(false)
 const selectedItem = ref()
 const images = ref()
 
-let isAddLoading = ref(false)
 let isDeleteLoading = ref(false)
-let formData = ref({ newCategory: '' })
-let formRef = ref<FormInstance>()
-const formRules = computed(() => {
-  return {
-    newCategory: {
-      required: isAddLoading.value,
-      message: 'Please input newCategory',
-      trigger: 'change'
-    }
-  }
-})
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
   set: (val) => emit('update:isVisible', val)
 })
 
-function editDetail(item: Category) {
+function editDetail(item: Category | NewCategory) {
   isShowDetailDialog.value = true
   selectedItem.value = item
 }
 
-async function addCategory() {
-  isAddLoading.value = true
-  await nextTick()
-  formRef.value!.validate((valid) => {
-    if (!valid) {
-      isAddLoading.value = false
-      return
-    }
-    categoryAPI
-      .categoryCreate({ name: formData.value.newCategory })
-      .then(() => {
-        emit('getCategories')
-      })
-      .catch((err) => {})
-      .finally(() => {
-        isAddLoading.value = false
-        formData.value.newCategory = ''
-      })
-  })
+function addCategory() {
+  const newCategory = {
+    name: '',
+    color: '#208eef',
+    imageId: null,
+    shortcuts: []
+  }
+  editDetail(newCategory)
 }
 
 function checkDelete(item: Category) {
@@ -115,26 +92,8 @@ provide('images', images)
 
 <template>
   <el-drawer v-model="isVisibleModel" title="編輯分類" direction="btt" size="90%">
-    <div class="flex-c-c mb-4">
-      <el-form
-        ref="formRef"
-        :model="formData"
-        :rules="formRules"
-        :validate-on-rule-change="false"
-        style="flex: 1"
-      >
-        <el-form-item prop="newCategory">
-          <el-input
-            class="popupInput mr-2"
-            v-model.trim="formData.newCategory"
-            :disabled="isAddLoading"
-            placeholder="請輸入分類"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <el-button color="#208eef" class="mainBtn" @click="addCategory()" :loading="isAddLoading"
-        >add</el-button
-      >
+    <div class="text-right mb-4">
+      <el-button color="#208eef" class="mainBtn" @click="addCategory()">add</el-button>
     </div>
     <div class="item cardShadow" v-for="item in categories" :key="item.id">
       <div class="name">

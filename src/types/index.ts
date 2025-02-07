@@ -2,10 +2,11 @@ export interface Category {
   id: number
   name: string
   color: string
-  imageUrl: string
-  imageId: number
+  imageUrl: string | null
+  imageId: number | null
   shortcuts?: Shortcut[]
 }
+export type NewCategory = Omit<Category, 'id' | 'imageUrl'>
 
 export interface Shortcut {
   id?: number

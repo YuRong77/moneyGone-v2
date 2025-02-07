@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { categoryAPI, imageAPI } from '@/apis'
-import type { Category, Shortcut, Image } from '@/types'
+import type { Category, NewCategory, Shortcut, Image } from '@/types'
 import type { PropType } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -13,7 +13,7 @@ import noData from '@/assets/images/svg/noData.svg'
 const props = defineProps({
   isVisible: Boolean,
   category: {
-    type: Object as PropType<Category>,
+    type: Object as PropType<Category | NewCategory>,
     required: true
   }
 })
@@ -36,6 +36,8 @@ const isVisibleModel = computed({
   get: () => props.isVisible,
   set: (val) => emit('update:isVisible', val)
 })
+
+const isEditMode = computed(() => 'id' in categoryData.value)
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
   emit('getImages')
@@ -81,6 +83,7 @@ function deleteImage(id: number) {
         message: '成功刪除'
       })
       emit('getImages')
+      if (id === categoryData.value.imageId) categoryData.value.imageId = null
     })
     .catch((err) => {})
     .finally(() => {
@@ -101,26 +104,27 @@ function checkDeleteShortcut(item: Shortcut) {
 }
 
 function deleteShortcut(id: number) {
-  categoryAPI.shortcutDelete({ categoryId: categoryData.value.id, shortcutId: id }).then(() => {
-    emit('getCategories')
-    const { shortcuts } = categoryData.value
-    if (shortcuts) {
-      const shortcutIdx = shortcuts.findIndex((item) => item.id === id)
-      if (shortcutIdx !== -1) shortcuts.splice(shortcutIdx, 1)
-    }
-  })
+  const { shortcuts } = categoryData.value
+  if (shortcuts) {
+    const shortcutIdx = shortcuts.findIndex((item) => item.id === id)
+    if (shortcutIdx !== -1) shortcuts.splice(shortcutIdx, 1)
+  }
+  if (isEditMode.value) {
+    categoryAPI
+      .shortcutDelete({ categoryId: (categoryData.value as Category).id, shortcutId: id })
+      .then(() => {
+        emit('getCategories')
+      })
+  }
 }
 
 function updateData() {
   formRef.value!.validate(async (valid) => {
     if (!valid) return
-    const { id, name, color, imageId } = categoryData.value
     try {
       isLoading.value = true
-      await Promise.all([
-        categoryAPI.categoryUpdate(id, { name, color, imageId }),
-        categoryAPI.shortcutUpdate(id, categoryData.value.shortcuts!)
-      ])
+      categoryData.value.shortcuts = categoryData.value.shortcuts?.filter((item) => item.name)
+      isEditMode.value ? await updateCategory() : await addCategory()
     } catch (err) {
       console.log(err, 'err')
     } finally {
@@ -130,10 +134,24 @@ function updateData() {
     }
   })
 }
+
+async function addCategory() {
+  const { name, color, imageId } = categoryData.value as NewCategory
+  const category = await categoryAPI.categoryCreate({ name, color, imageId })
+  await categoryAPI.shortcutUpdate(category.id, categoryData.value.shortcuts!)
+}
+
+async function updateCategory() {
+  const { id, name, color, imageId } = categoryData.value as Category
+  await Promise.all([
+    categoryAPI.categoryUpdate(id, { name, color, imageId }),
+    categoryAPI.shortcutUpdate(id, categoryData.value.shortcuts!)
+  ])
+}
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" title="編輯分類" fullscreen>
+  <el-dialog v-model="isVisibleModel" :title="isEditMode ? '編輯分類' : '新增分類'" fullscreen>
     <div>
       <div class="label">名稱</div>
       <el-form ref="formRef" :model="categoryData" :rules="formRules">
@@ -193,7 +211,7 @@ function updateData() {
           v-for="(shortcut, index) in categoryData.shortcuts"
           :key="shortcut.id"
         >
-          <div><el-input class="shortcutInput" v-model="shortcut.name"></el-input></div>
+          <div><el-input class="shortcutInput" v-model.trim="shortcut.name"></el-input></div>
           <div class="shortcutActions">
             <div class="mr-2">
               <el-button

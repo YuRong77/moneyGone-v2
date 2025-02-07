@@ -1,11 +1,14 @@
 import apiClient from '../axios'
 
 export default {
-  async categoryCreate(data: { name: string }) {
+  async categoryCreate(data: { name: string, color: string, imageId: number | null }) {
     const result = await apiClient.post('/categories', data)
     return result.data
   },
-  async categoryUpdate(categoryId: number, data: { name: string; color: string; imageId: number }) {
+  async categoryUpdate(
+    categoryId: number,
+    data: { name: string; color: string; imageId: number | null }
+  ) {
     const result = await apiClient.put(`/categories/${categoryId}`, data)
     return result.data
   },
