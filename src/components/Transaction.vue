@@ -53,6 +53,7 @@ function getCategoryName(categoryId: number) {
 
 function setName(name: string) {
   formData.value.name = name
+  formRef.value!.validateField('name')
   amountRef.value.focus()
 }
 

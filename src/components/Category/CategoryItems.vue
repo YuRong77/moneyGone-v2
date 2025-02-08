@@ -30,9 +30,13 @@ function toSetting() {
         :key="category.id"
         @click="selectedCategory(category.id)"
       >
-        <div class="iconBox" :style="{ background: `${category.color}` }">
-          <div class="icon" :style="{ backgroundImage: `url(${category.imageUrl})` }"></div>
-        </div>
+        <CategoryIcon
+          class="mr-2"
+          :color="category.color"
+          :url="category.imageUrl"
+          :categoryName="category.name"
+          :size="30"
+        />
         <div class="name">{{ category.name }}</div>
       </div>
     </div>
@@ -55,26 +59,13 @@ function toSetting() {
 }
 
 .categoryItem {
-  padding: 8px 12px;
+  padding: 8px;
   border-radius: 12px;
   background: var(--card-color);
   width: calc(50% - 10px);
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  .iconBox {
-    margin-right: 10px;
-    padding: 4px;
-    border-radius: 8px;
-
-    .icon {
-      width: 24px;
-      height: 24px;
-      background-position: center;
-      background-size: cover;
-    }
-  }
   .name {
     font-size: 14px;
     font-weight: 500;

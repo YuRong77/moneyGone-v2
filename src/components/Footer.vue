@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
     </button>
   </div>
   <!-- categoryDialog -->
-  <el-dialog v-model="categoryDialog" title="Tips" width="90%">
+  <el-dialog v-model="categoryDialog" title="Tips" width="90%" body-class="categoryDialog">
     <div>
       <CategoryItems @isSelected="categoryDialog = false" />
     </div>
@@ -142,5 +142,13 @@ onBeforeUnmount(() => {
     transform: translateY(-38px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
   }
+}
+</style>
+
+<style lang="scss">
+.categoryDialog {
+  padding: 20px;
+  background: #f3f4f8;
+  border-radius: 8px;
 }
 </style>

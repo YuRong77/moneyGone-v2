@@ -87,12 +87,12 @@ onBeforeUnmount(() => {
       @click="showDetails(item.details)"
     >
       <div class="info">
-        <div class="iconBox" :style="{ background: `${getTopExpenseItem(item).categoryColor}` }">
-          <div
-            class="icon"
-            :style="{ backgroundImage: `url(${getTopExpenseItem(item).imageUrl})` }"
-          ></div>
-        </div>
+        <CategoryIcon
+          class="mr-2"
+          :color="getTopExpenseItem(item).categoryColor"
+          :url="getTopExpenseItem(item).imageUrl"
+          :categoryName="getTopExpenseItem(item).categoryName"
+        />
         <div>
           <div class="date">{{ item.date }}</div>
           <div class="amount">$ {{ priceFormat(item.totalAmount) }}</div>
@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 8px 10px;
   margin-bottom: 16px;
   background: var(--card-color);
   border-radius: 12px;
@@ -137,20 +137,6 @@ onBeforeUnmount(() => {
   .info {
     display: flex;
     align-items: center;
-
-    .iconBox {
-      margin-right: 10px;
-      padding: 4px;
-      border-radius: 8px;
-      background: wheat;
-
-      .icon {
-        width: 32px;
-        height: 32px;
-        background-position: center;
-        background-size: cover;
-      }
-    }
     .date {
       font-size: 14px;
       color: #8d8d8d;

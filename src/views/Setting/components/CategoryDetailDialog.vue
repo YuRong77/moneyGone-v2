@@ -6,6 +6,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { cloneDeep } from 'lodash'
+import imageNull from '@/assets/images/png/imageNull.png'
 import remove from '@/assets/images/svg/delete.svg'
 import sort from '@/assets/images/svg/sort.svg'
 import noData from '@/assets/images/svg/noData.svg'
@@ -173,15 +174,15 @@ async function updateCategory() {
           class="imageBox"
           :class="{ active: image.id === categoryData.imageId }"
           :key="image.id"
-          :style="{ backgroundImage: `url(${image.url})` }"
           @click="categoryData.imageId = image.id"
         >
+          <img :src="image.url" @error="(e) => ((e.target as HTMLImageElement).src = imageNull)" />
           <div
             class="imageDel"
             v-if="isImagesDelMode && !image.isDefault"
             @click="checkDelImage(image)"
           >
-            <div>×</div>
+            <span>×</span>
           </div>
         </div>
       </div>
@@ -213,7 +214,7 @@ async function updateCategory() {
         >
           <div><el-input class="shortcutInput" v-model.trim="shortcut.name"></el-input></div>
           <div class="shortcutActions">
-            <div class="mr-2">
+            <div class="">
               <el-button
                 v-if="shortcut.id"
                 link
@@ -226,9 +227,9 @@ async function updateCategory() {
                 ><inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg
               ></el-button>
             </div>
-            <el-button link>
+            <!-- <el-button link>
               <inline-svg :src="sort" height="20" width="20"></inline-svg>
-            </el-button>
+            </el-button> -->
           </div>
         </div>
         <el-empty
@@ -299,8 +300,10 @@ async function updateCategory() {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 0;
     border-radius: 8px;
-    div {
+    span {
       display: flex;
       justify-content: center;
       align-items: center;

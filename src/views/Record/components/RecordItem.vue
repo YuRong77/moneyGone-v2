@@ -45,9 +45,12 @@ function deleteTransaction(id: number) {
 <template>
   <div class="recordItem cardShadow">
     <div class="info">
-      <div class="iconBox" :style="{ background: `${props.item.categoryColor}` }">
-        <div class="icon" :style="{ backgroundImage: `url(${props.item.imageUrl})` }"></div>
-      </div>
+      <CategoryIcon
+        class="mr-2"
+        :color="props.item.categoryColor"
+        :url="props.item.imageUrl"
+        :categoryName="props.item.categoryName"
+      />
       <div>
         <div class="name">{{ props.item.name }}</div>
         <div class="flex-c-c">
@@ -90,25 +93,13 @@ function deleteTransaction(id: number) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 8px 10px;
   background: var(--card-color);
   border-radius: 12px;
 
   .info {
     display: flex;
     align-items: center;
-
-    .iconBox {
-      margin-right: 10px;
-      padding: 4px;
-      border-radius: 8px;
-      .icon {
-        width: 32px;
-        height: 32px;
-        background-position: center;
-        background-size: cover;
-      }
-    }
     .name {
       color: #8d8d8d;
       font-size: 14px;

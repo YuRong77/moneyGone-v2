@@ -89,15 +89,17 @@ function register() {
       <el-form-item prop="password">
         <el-input
           v-model.trim="formData.password"
-          placeholder="請輸入密碼"
           class="popupInput mb-3"
+          placeholder="請輸入密碼"
+          type="password"
         ></el-input>
       </el-form-item>
       <el-form-item prop="checkPassword">
         <el-input
           v-model.trim="formData.checkPassword"
-          placeholder="密碼確認"
           class="popupInput mb-3"
+          placeholder="密碼確認"
+          type="password"
         ></el-input>
       </el-form-item>
 

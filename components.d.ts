@@ -11,6 +11,7 @@ declare module 'vue' {
     BarView: typeof import('./src/views/Chart/components/BarView.vue')['default']
     CategoryDetailDialog: typeof import('./src/views/Setting/components/CategoryDetailDialog.vue')['default']
     CategoryDrawer: typeof import('./src/views/Setting/components/CategoryDrawer.vue')['default']
+    CategoryIcon: typeof import('./src/components/Category/CategoryIcon.vue')['default']
     CategoryItems: typeof import('./src/components/Category/CategoryItems.vue')['default']
     CategoryItemsDrawer: typeof import('./src/views/Chart/components/CategoryItemsDrawer.vue')['default']
     DatePicker: typeof import('./src/components/DatePicker.vue')['default']

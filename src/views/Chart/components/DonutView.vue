@@ -23,9 +23,13 @@ function showCategoryDetails(id: number) {
       <div class="cardList">
         <div class="card cardShadow" v-for="item in chartData.categoriesTotal">
           <div class="info">
-            <div class="iconBox" :style="{ background: `${item.color}` }">
-              <div class="icon" :style="{ backgroundImage: `url(${item.imageUrl})` }"></div>
-            </div>
+            <CategoryIcon
+              class="mr-2"
+              :color="item.color"
+              :url="item.imageUrl"
+              :categoryName="item.name"
+              :size="36"
+            />
             <div>
               <div class="name">{{ item.name }}</div>
               <div class="amount">$ {{ priceFormat(item.totalAmount) }}</div>
@@ -68,19 +72,6 @@ function showCategoryDetails(id: number) {
       display: flex;
       align-items: center;
 
-      .iconBox {
-        margin-right: 10px;
-        padding: 4px;
-        border-radius: 8px;
-        background: wheat;
-
-        .icon {
-          width: 28px;
-          height: 28px;
-          background-position: center;
-          background-size: cover;
-        }
-      }
       .name {
         font-size: 14px;
         color: #8d8d8d;
