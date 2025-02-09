@@ -2,6 +2,7 @@
 import VueApexCharts from 'vue3-apexcharts'
 import type { Chart } from '@/types'
 
+const { t } = useI18n()
 const props = defineProps<{
   data: Chart | null
   setting: { type: string; range: string | null }
@@ -37,7 +38,7 @@ const options = computed(() => {
             },
             total: {
               show: true,
-              label: props.setting.type === 'month' ? '本月總和' : '年度總和',
+              label: props.setting.type === 'month' ? t('LC_MONTH_TOTAL') : t('LC_YEAR_TOTAL'),
               fontSize: '12px',
               fontFamily: 'Noto Sans TC, sans-serif',
               formatter: (opts: any) =>

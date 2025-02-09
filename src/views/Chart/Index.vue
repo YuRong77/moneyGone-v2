@@ -6,6 +6,8 @@ import { getYear, getMonth, getDate } from 'date-fns'
 import { loading } from '@/utils/loading'
 import house from '@/assets/images/svg/house.svg'
 
+const { t } = useI18n()
+
 let date = ref<Date>(new Date())
 let viewType = ref<'bar' | 'donut'>('bar')
 let chartType = ref<'year' | 'month'>('month')
@@ -64,27 +66,33 @@ provide('date', date)
 </script>
 
 <template>
-  <Header title="Chart">
+  <Header :title="t('LC_CHART')">
     <template #right>
       <DatePicker v-model:date="date" :type="chartType" />
     </template>
   </Header>
   <div class="content">
     <div class="chartType">
-      <el-segmented v-model="viewType" :options="['bar', 'donut']" />
+      <el-segmented
+        v-model="viewType"
+        :options="[
+          { label: t('LC_BAR_CHART'), value: 'bar' },
+          { label: t('LC_DONUT_CHART'), value: 'donut' }
+        ]"
+      />
       <div class="switchBar">
         <el-switch
           v-model="chartType"
-          active-text="年報表"
-          inactive-text="月報表"
+          :active-text="t('LC_YEAR_REPORT')"
+          :inactive-text="t('LC_MONTH_REPORT')"
           active-value="year"
           inactive-value="month"
         />
         <el-switch
           v-if="viewType === 'bar' && chartRange && chartType === 'month'"
           v-model="chartRange"
-          active-text="下半月"
-          inactive-text="上半月"
+          :active-text="t('LC_SECOND_HALF')"
+          :inactive-text="t('LC_FIRST_HALF')"
           active-value="secondHalf"
           inactive-value="firstHalf"
         />
@@ -99,7 +107,7 @@ provide('date', date)
       :style="{ height: 'calc(100dvh - 270px)' }"
       :image="house"
       :image-size="200"
-      description="此區間沒有任何消費"
+      :description="t('LC_CHART_EMPTY')"
     />
   </div>
 </template>

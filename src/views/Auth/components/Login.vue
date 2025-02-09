@@ -4,13 +4,13 @@ import { Storage } from '@/utils/localStorage'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const router = useRouter()
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 let formRef = ref<FormInstance>()
 let formData = ref({ email: '', password: '' })
 const formRules = ref<FormRules>({
-  email: [{ required: true, type: 'email', message: 'Please input email', trigger: 'blur' }],
-  password: [{ required: true, message: 'Please input password', trigger: 'blur' }]
+  email: [{ required: true, type: 'email', message: t('LC_TIPS_EMAIL'), trigger: 'blur' }],
+  password: [{ required: true, message: t('LC_TIPS_PASSWORD'), trigger: 'blur' }]
 })
 let rememberEmail = ref(false)
 let isLoading = ref(false)
@@ -73,14 +73,14 @@ onMounted(() => {
 <template>
   <div class="login">
     <div class="topBox">
-      <div>Login</div>
+      <div>{{ t('LC_LOGIN') }}</div>
     </div>
     <el-form ref="formRef" :model="formData" :rules="formRules">
       <el-form-item prop="email">
         <el-input
           v-model.trim="formData.email"
           type="email"
-          placeholder="請輸入信箱"
+          :placeholder="t('LC_TIPS_EMAIL')"
           class="popupInput mb-3"
         ></el-input>
       </el-form-item>
@@ -88,25 +88,29 @@ onMounted(() => {
         <el-input
           v-model.trim="formData.password"
           type="password"
-          placeholder="請輸入密碼"
+          :placeholder="t('LC_TIPS_PASSWORD')"
           class="popupInput"
         ></el-input>
       </el-form-item>
     </el-form>
     <div class="flex-sb-c mb-2">
-      <el-checkbox v-model="rememberEmail" label="記住信箱" size="large" />
+      <el-checkbox v-model="rememberEmail" :label="t('LC_EMAIL_REMEMBER')" size="large" />
       <el-button link type="info" @click="router.push({ name: 'ForgotPassword' })"
-        >忘記密碼?</el-button
+        >{{ t('LC_FORGOT_PASSWORD') }}?</el-button
       >
     </div>
-    <el-button class="w-100" type="primary" round :loading="isLoading" @click="login()"
-      >login</el-button
-    >
-    <el-divider>使用其他方式登入</el-divider>
-    <el-button class="w-100" round :loading="isLoading" @click="loginTest()">loginTest</el-button>
+    <el-button class="w-100" type="primary" round :loading="isLoading" @click="login()">{{
+      t('LC_LOGIN')
+    }}</el-button>
+    <el-divider>{{ t('LC_OTHER_LOGIN') }}</el-divider>
+    <el-button class="w-100" round :loading="isLoading" @click="loginTest()">{{
+      t('LC_USE_TEST_ACCOUNT')
+    }}</el-button>
     <div class="registerTips">
-      還沒有帳號碼?
-      <el-button link type="primary" @click="router.push({ name: 'Register' })">註冊帳號</el-button>
+      {{ t('LC_NO_ACCOUNT') }}
+      <el-button link type="primary" @click="router.push({ name: 'Register' })">{{
+        t('LC_REGISTER')
+      }}</el-button>
     </div>
   </div>
 </template>

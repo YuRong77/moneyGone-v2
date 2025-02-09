@@ -2,22 +2,22 @@
 import { authAPI } from '@/apis'
 import type { FormInstance, FormRules } from 'element-plus'
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 
 let formRef = ref<FormInstance>()
 let formData = ref({ password: '', checkPassword: '' })
 const formRules = ref<FormRules>({
-  password: [{ required: true, message: 'Please input password', trigger: 'blur' }],
+  password: [{ required: true, message: t('LC_TIPS_PASSWORD'), trigger: 'blur' }],
   checkPassword: [{ required: true, validator: validateCheckPassword, trigger: 'blur' }]
 })
 let isLoading = ref(false)
 let isReset = ref(false)
 
 function validateCheckPassword(rule: any, value: any, callback: any) {
-  if (value === '') return callback(new Error('Please input the checkPassword'))
-  if (value !== formData.value.password)
-    return callback(new Error("password and checkPassword don't match!"))
+  if (value === '') return callback(new Error(t('LC_TIPS_PASSWORD_CHECK')))
+  if (value !== formData.value.password) return callback(new Error(t('LC_MATCH_TIPS')))
   callback()
 }
 
@@ -44,13 +44,13 @@ function resetPassword() {
 
 <template>
   <div class="resetPassword">
-    <div>重設密碼</div>
+    <div>{{ t('LC_RESET_PASSWORD') }}</div>
     <el-form ref="formRef" :model="formData" :rules="formRules" v-if="!isReset">
       <el-form-item prop="password">
         <el-input
           v-model="formData.password"
           type="password"
-          placeholder="請輸入密碼"
+          :placeholder="t('LC_TIPS_PASSWORD')"
           class="popupInput mb-3"
         ></el-input>
       </el-form-item>
@@ -58,17 +58,19 @@ function resetPassword() {
         <el-input
           v-model="formData.checkPassword"
           type="password"
-          placeholder="密碼確認"
+          :placeholder="t('LC_TIPS_PASSWORD_CHECK')"
           class="popupInput mb-3"
         ></el-input>
       </el-form-item>
-      <el-button class="w-100" type="primary" round :loading="isLoading" @click="resetPassword()"
-        >重設密碼</el-button
-      >
+      <el-button class="w-100" type="primary" round :loading="isLoading" @click="resetPassword()">{{
+        t('LC_RESET_PASSWORD')
+      }}</el-button>
     </el-form>
-    <el-result icon="success" title="成功修改" sub-title="返回重新登入" v-else>
+    <el-result icon="success" :title="t('LC_EDIT_SUCCESS')" :sub-title="t('LC_RE_LOGIN')" v-else>
       <template #extra>
-        <el-button type="primary" @click="router.push({ name: 'Login' })">to login</el-button>
+        <el-button type="primary" @click="router.push({ name: 'Login' })">{{
+          t('LC_TO_LOGIN')
+        }}</el-button>
       </template>
     </el-result>
   </div>

@@ -72,13 +72,13 @@ onMounted(() => {
 })
 </script>
 <template>
-  <Header title="Setting" />
+  <Header :title="t('LC_SETTING')" />
   <div class="setting content">
     <div class="card">
       <div class="item" @click="isShowNameDialog = true">
         <div class="label">
           <inline-svg :src="account" height="20" width="20"></inline-svg>
-          <div>暱稱</div>
+          <div>{{ t('LC_ACCOUNT_NAME') }}</div>
         </div>
         <div class="value">
           <div>{{ userProfile?.userName }}</div>
@@ -88,7 +88,7 @@ onMounted(() => {
       <div class="item" @click="isShowMonthlyBudgetDialog = true">
         <div class="label">
           <inline-svg :src="wallet" height="20" width="20"></inline-svg>
-          <div>預算</div>
+          <div>{{ t('LC_BUDGET') }}</div>
         </div>
         <div class="value">
           <div>{{ userProfile?.monthlyBudget }}</div>
@@ -98,7 +98,7 @@ onMounted(() => {
       <div class="item" @click="isShowMonthlyLangDialog = true">
         <div class="label">
           <inline-svg :src="lang" height="20" width="20"></inline-svg>
-          <div>語系</div>
+          <div>{{ t('LC_LANG') }}</div>
         </div>
         <div class="value">
           <div>{{ getLangText(userProfile?.lang) }}</div>
@@ -108,10 +108,10 @@ onMounted(() => {
       <div class="item" @click="isShowCategoryDrawer = true">
         <div class="label">
           <inline-svg :src="tags" height="20" width="20"></inline-svg>
-          <div>分類</div>
+          <div>{{ t('LC_CATEGORY') }}</div>
         </div>
         <div class="value">
-          <div>{{ categories.length }} 個項目</div>
+          <div>{{ t('LC_ITEMS', { num: categories.length }) }}</div>
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
@@ -132,9 +132,9 @@ onMounted(() => {
       <div class="item">
         <div class="label">
           <inline-svg :src="signOut" height="20" width="20"></inline-svg>
-          <div>登出</div>
+          <div>{{ t('LC_LOGOUT') }}</div>
         </div>
-        <el-button @click="logout()">登出</el-button>
+        <el-button @click="logout()">{{ t('LC_LOGOUT') }}</el-button>
       </div>
     </div>
   </div>

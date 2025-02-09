@@ -2,6 +2,7 @@
 import type { PropType } from 'vue'
 import type { Transaction } from '@/types'
 
+const { t } = useI18n()
 const props = defineProps({
   isVisible: Boolean,
   rowDetails: {
@@ -18,11 +19,13 @@ const isVisibleModel = computed({
 </script>
 
 <template>
-  <el-drawer v-model="isVisibleModel" title="詳情" direction="btt" size="90%">
+  <el-drawer v-model="isVisibleModel" :title="t('LC_SPEND_DETAILS')" direction="btt" size="90%">
     <RecordItem v-for="item in rowDetails" :key="item.id" :item="item" />
     <template #footer>
       <div>
-        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
+        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">{{
+          t('LC_CLOSE')
+        }}</el-button>
       </div>
     </template>
   </el-drawer>

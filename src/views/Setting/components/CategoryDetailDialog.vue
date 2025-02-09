@@ -11,6 +11,7 @@ import remove from '@/assets/images/svg/delete.svg'
 import sort from '@/assets/images/svg/sort.svg'
 import noData from '@/assets/images/svg/noData.svg'
 
+const { t } = useI18n()
 const props = defineProps({
   isVisible: Boolean,
   category: {
@@ -24,7 +25,7 @@ const images = inject('images') as Image[]
 const categoryData = ref(cloneDeep(props.category))
 let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
-  name: [{ required: true, message: 'Please input name', trigger: 'change' }]
+  name: [{ required: true, message: t('LC_TIPS_NAME'), trigger: 'change' }]
 })
 let isLoading = ref(false)
 
@@ -46,25 +47,24 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => 
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
+    ElMessage.error(t('LC_IMG_UPLOAD_TIPS'))
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    ElMessage.error(t('LC_IMG_LIMIT_TIPS'))
     return false
   }
   return true
 }
 
 function checkDelImage(image: Image) {
-  ElMessageBox.confirm('', '注意', {
-    confirmButtonText: '刪除',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm('', t('LC_WARN'), {
+    confirmButtonText: t('LC_DELETE'),
+    cancelButtonText: t('LC_CANCEL'),
     type: 'warning',
     message: h('p', null, [
-      h('span', null, '確認要刪除圖片? '),
+      h('span', null, t('LC_IMG_DELETE')),
       h('img', {
         src: image.url,
-        alt: '要刪除的圖片',
         style: 'width: 40px; height: 40px;'
       })
     ])
@@ -81,7 +81,7 @@ function deleteImage(id: number) {
     .then(() => {
       ElMessage({
         type: 'success',
-        message: '成功刪除'
+        message: t('LC_DELETE_SUCCESS')
       })
       emit('getImages')
       if (id === categoryData.value.imageId) categoryData.value.imageId = null
@@ -93,9 +93,9 @@ function deleteImage(id: number) {
 }
 
 function checkDeleteShortcut(item: Shortcut) {
-  ElMessageBox.confirm(`確認要刪除快捷 ${item.name} ?`, '注意', {
-    confirmButtonText: '刪除',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(`${t('LC_SHORTCUT_DELETE', { name: item.name })}`, t('LC_WARN'), {
+    confirmButtonText: t('LC_DELETE'),
+    cancelButtonText: t('LC_CANCEL'),
     type: 'warning'
   })
     .then(() => {
@@ -152,22 +152,26 @@ async function updateCategory() {
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" :title="isEditMode ? '編輯分類' : '新增分類'" fullscreen>
+  <el-dialog
+    v-model="isVisibleModel"
+    :title="isEditMode ? t('LC_EDIT_CATEGORY') : t('LC_ADD_CATEGORY')"
+    fullscreen
+  >
     <div>
-      <div class="label">名稱</div>
+      <div class="label">{{ t('LC_NAME') }}</div>
       <el-form ref="formRef" :model="categoryData" :rules="formRules">
         <el-form-item prop="name">
           <el-input class="popupInput mb-3" v-model.trim="categoryData.name"></el-input>
         </el-form-item>
       </el-form>
-      <div class="label">顏色</div>
+      <div class="label">{{ t('LC_COLOR') }}</div>
       <el-color-picker
         class="mb-3"
         v-model="categoryData.color"
         show-alpha
         :predefine="predefineColors"
       />
-      <div class="label">選擇圖示</div>
+      <div class="label">{{ t('LC_SELECT_IMG') }}</div>
       <div class="imageList">
         <div
           v-for="image in images"
@@ -196,16 +200,18 @@ async function updateCategory() {
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <div>上傳圖片</div>
+          <div>{{ t('LC_IMG_UPLOAD') }}</div>
         </el-upload>
         <span>|</span>
-        <el-button link v-if="isImagesDelMode" @click="isImagesDelMode = false" type="danger"
-          >取消</el-button
-        >
-        <el-button link v-else @click="isImagesDelMode = true" type="danger">刪除圖片</el-button>
+        <el-button link v-if="isImagesDelMode" @click="isImagesDelMode = false" type="danger">{{
+          t('LC_CANCEL')
+        }}</el-button>
+        <el-button link v-else @click="isImagesDelMode = true" type="danger">{{
+          t('LC_DELETE_IMG')
+        }}</el-button>
       </div>
 
-      <div class="label">編輯子項目</div>
+      <div class="label">{{ t('LC_EDIT_SHORTCUTS') }}</div>
       <div class="shortcutList">
         <div
           class="shortcutItem"
@@ -236,21 +242,21 @@ async function updateCategory() {
           v-if="categoryData.shortcuts?.length === 0"
           :image="noData"
           :image-size="100"
-          description="目前沒有任何子項目"
+          :description="t('LC_SHORTCUTS_EMPTY')"
         />
-        <el-button link type="primary" @click="categoryData.shortcuts!.push({ name: '' })"
-          >新增子項目</el-button
-        >
+        <el-button link type="primary" @click="categoryData.shortcuts!.push({ name: '' })">{{
+          t('LC_ADD_SHORTCUTS')
+        }}</el-button>
       </div>
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
-          >cancel</el-button
-        >
-        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateData()"
-          >submit</el-button
-        >
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
+          t('LC_CANCEL')
+        }}</el-button>
+        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateData()">{{
+          t('LC_SUBMIT')
+        }}</el-button>
       </div>
     </template>
   </el-dialog>

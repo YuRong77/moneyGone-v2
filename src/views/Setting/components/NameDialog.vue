@@ -3,6 +3,7 @@ import { userAPI } from '@/apis'
 import { cloneDeep } from 'lodash'
 import type { FormInstance, FormRules } from 'element-plus'
 
+const { t } = useI18n()
 const props = defineProps({
   isVisible: Boolean,
   userName: String
@@ -12,7 +13,7 @@ const emit = defineEmits(['update:isVisible', 'getProfile'])
 let formData = ref({ userName: cloneDeep(props.userName) })
 let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
-  userName: [{ required: true, message: 'Please input name', trigger: 'change' }]
+  userName: [{ required: true, message: t('LC_TIPS_NAME'), trigger: 'change' }]
 })
 let isLoading = ref(false)
 
@@ -39,26 +40,26 @@ function updateUserName() {
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" title="修改暱稱" width="90%">
+  <el-dialog v-model="isVisibleModel" :title="t('LC_EDIT_ACCOUNT_NAME')" width="90%">
     <div class="content">
       <el-form ref="formRef" :model="formData" :rules="formRules">
         <el-form-item prop="userName">
           <el-input
             class="popupInput"
             v-model.trim="formData.userName"
-            placeholder="請輸入暱稱"
+            :placeholder="t('LC_TIPS_ACCOUNT_NAME')"
           ></el-input>
         </el-form-item>
       </el-form>
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
-          >cancel</el-button
-        >
-        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateUserName()"
-          >submit</el-button
-        >
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
+          t('LC_CANCEL')
+        }}</el-button>
+        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateUserName()">{{
+          t('LC_SUBMIT')
+        }}</el-button>
       </div>
     </template>
   </el-dialog>

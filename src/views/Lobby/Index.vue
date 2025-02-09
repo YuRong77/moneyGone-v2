@@ -6,6 +6,7 @@ import { loading } from '@/utils/loading'
 import cashRain from '@/assets/images/svg/cashRain.svg'
 import right from '@/assets/images/svg/right.svg'
 
+const { t } = useI18n()
 const router = useRouter()
 
 const overview = ref<Overview>()
@@ -33,28 +34,28 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Header title="Lobby" />
+  <Header :title="t('LC_LOBBY')" />
   <div class="content">
     <div class="titleBar">
-      <h4 class="title">概要</h4>
+      <h4 class="title">{{ t('LC_OVERVIEW') }}</h4>
       <div class="link" @click="router.push({ name: 'Chart' })">
-        <span>查看圖表</span>
+        <span>{{ t('LC_VIEW_CHART') }}</span>
         <inline-svg :src="right" color="#8d8d8d" height="20" width="24"></inline-svg>
       </div>
     </div>
     <Overview class="mb-10" :data="overview" />
     <div class="titleBar">
-      <h4 class="title">分類</h4>
+      <h4 class="title">{{ t('LC_CATEGORY') }}</h4>
       <div class="link" @click="router.push({ name: 'Setting' })">
-        <span>編輯分類</span>
+        <span>{{ t('LC_EDIT_CATEGORY') }}</span>
         <inline-svg :src="right" color="#8d8d8d" height="20" width="20"></inline-svg>
       </div>
     </div>
     <CategoryItems class="mb-10" />
     <div class="titleBar">
-      <h4 class="title">本日花費</h4>
+      <h4 class="title">{{ t('LC_SPEND_TODAY') }}</h4>
       <div class="link" @click="router.push({ name: 'Record' })">
-        <span>查看紀錄</span>
+        <span>{{ t('LC_VIEW_RECORD') }}</span>
         <inline-svg :src="right" color="#8d8d8d" height="20" width="24"></inline-svg>
       </div>
     </div>
@@ -65,7 +66,7 @@ onBeforeUnmount(() => {
         class="cardShadow"
         :image="cashRain"
         :image-size="250"
-        description="今天還沒有錢錢犧牲"
+        :description="t('LC_NO_SPEND')"
       />
     </div>
   </div>
@@ -83,7 +84,6 @@ onBeforeUnmount(() => {
     span {
       font-size: 14px;
       color: #8d8d8d;
-      // color: #208eef;
     }
   }
 }

@@ -6,14 +6,15 @@ import chart from '@/assets/images/svg/chart.svg'
 import setting from '@/assets/images/svg/setting.svg'
 import plus from '@/assets/images/svg/plus.svg'
 
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
 const menuItems = [
-  { name: '首頁', route: 'Lobby', icon: overview },
-  { name: '紀錄', route: 'Record', icon: list },
-  { name: '圖表', route: 'Chart', icon: chart },
-  { name: '設置', route: 'Setting', icon: setting }
+  { name: t('LC_HOME'), route: 'Lobby', icon: overview },
+  { name: t('LC_RECORD'), route: 'Record', icon: list },
+  { name: t('LC_CHART'), route: 'Chart', icon: chart },
+  { name: t('LC_SETTING'), route: 'Setting', icon: setting }
 ]
 
 let activeRoute = ref('')
@@ -56,13 +57,18 @@ onBeforeUnmount(() => {
     </button>
   </div>
   <!-- categoryDialog -->
-  <el-dialog v-model="categoryDialog" title="Tips" width="90%" body-class="categoryDialog">
+  <el-dialog
+    v-model="categoryDialog"
+    :title="t('LC_SELECT_CATEGORY')"
+    width="90%"
+    body-class="categoryDialog"
+  >
     <div>
       <CategoryItems @isSelected="categoryDialog = false" />
     </div>
     <template #footer>
       <div>
-        <el-button @click="categoryDialog = false">cancel</el-button>
+        <el-button @click="categoryDialog = false">{{ t('LC_CANCEL') }}</el-button>
       </div>
     </template>
   </el-dialog>

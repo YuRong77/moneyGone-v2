@@ -3,6 +3,7 @@ import { transactionAPI } from '@/apis'
 import { format, startOfMonth, endOfMonth, startOfYear, endOfYear } from 'date-fns'
 import type { Transaction } from '@/types'
 
+const { t } = useI18n()
 const props = defineProps({
   isVisible: Boolean,
   categoryId: Number
@@ -63,7 +64,7 @@ function getList() {
 <template>
   <el-drawer
     v-model="isVisibleModel"
-    title="詳情"
+    :title="t('LC_SPEND_DETAILS')"
     direction="btt"
     size="90%"
     class="categoryItemsDrawer"
@@ -74,9 +75,9 @@ function getList() {
     </div>
     <template #footer>
       <div>
-        <el-button plain class="mainBtn w-100" @click="emit('update:isVisible', false)"
-          >cancel</el-button
-        >
+        <el-button plain class="mainBtn w-100" @click="emit('update:isVisible', false)">{{
+          t('LC_CLOSE')
+        }}</el-button>
       </div>
     </template>
   </el-drawer>

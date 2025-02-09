@@ -6,12 +6,14 @@ import svg1st from '@/assets/images/svg/1st.svg'
 import svg2st from '@/assets/images/svg/2st.svg'
 import svg3st from '@/assets/images/svg/3st.svg'
 
+const { t } = useI18n()
+
 const chartData = inject('chartData') as Ref<Chart>
 const setting = inject('setting') as Ref<{ type: string; range: string | null }>
 
 const getTitle = computed(() => {
-  if (setting.value.type === 'month') return '本月 Top 5 花費'
-  if (setting.value.type === 'year') return '年度 Top 5 花費'
+  if (setting.value.type === 'month') return t('LC_MONTH_TOP')
+  if (setting.value.type === 'year') return t('LC_YEAR_TOP')
   return ''
 })
 

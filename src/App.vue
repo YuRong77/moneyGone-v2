@@ -8,6 +8,7 @@ import elJa from 'element-plus/es/locale/lang/ja'
 
 const { locale } = useI18n()
 
+let isAlive = ref(true)
 const currentLang = computed(() => {
   if (locale.value === 'zh-TW') return elTW
   if (locale.value === 'zh-CN') return elCn
@@ -23,6 +24,10 @@ watch(
     var html = document.documentElement
     html.setAttribute('lang', val)
     Storage.set('lang', val)
+    isAlive.value = false
+    nextTick(() => {
+      isAlive.value = true
+    })
   },
   { immediate: true }
 )
@@ -30,7 +35,7 @@ watch(
 
 <template>
   <el-config-provider :locale="currentLang">
-    <RouterView />
+    <RouterView v-if="isAlive" />
   </el-config-provider>
 </template>
 

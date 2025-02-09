@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { emitter } from '@/utils/emitter'
 import noData from '@/assets/images/svg/noData.svg'
 
+const { t } = useI18n()
 const router = useRouter()
 const emit = defineEmits(['isSelected'])
 
@@ -44,9 +45,9 @@ function toSetting() {
       v-if="categories.length === 0"
       :image="noData"
       :image-size="100"
-      description="目前沒有任何分類"
+      :description="t('LC_CATEGORY_EMPTY')"
     >
-      <el-button type="primary" @click="toSetting()">前往新增</el-button>
+      <el-button type="primary" @click="toSetting()">{{ t('LC_TO_ADD') }}</el-button>
     </el-empty>
   </div>
 </template>

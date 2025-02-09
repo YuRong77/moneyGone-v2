@@ -9,6 +9,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { format, isToday, isSameDay } from 'date-fns'
 
+const { t } = useI18n()
 const props = defineProps({
   isVisible: Boolean,
   transactionData: {
@@ -25,8 +26,8 @@ const formData = ref(cloneDeep(props.transactionData))
 let amountRef = ref()
 let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
-  name: [{ required: true, message: 'Please input name', trigger: 'blur' }],
-  amount: [{ required: true, message: 'Please input amount', trigger: 'blur' }]
+  name: [{ required: true, message: t('LC_TIPS_NAME'), trigger: 'blur' }],
+  amount: [{ required: true, message: t('LC_TIPS_AMOUNT'), trigger: 'blur' }]
 })
 let isLoading = ref(false)
 
@@ -111,22 +112,21 @@ function addTransaction() {
 <template>
   <el-dialog
     v-model="isVisibleModel"
-    :title="`新增${getCategoryName(props.transactionData.categoryId)}`"
+    :title="`${t('LC_ADD')}${getCategoryName(props.transactionData.categoryId)}`"
     width="90%"
   >
     <div>
       <el-form ref="formRef" :model="formData" :rules="formRules">
-        <div class="label">日期</div>
+        <div class="label">{{ t('LC_DATE') }}</div>
         <el-date-picker
           v-model="formData.createdAt"
           :editable="false"
           :clearable="false"
           type="date"
-          placeholder="Pick a day"
         />
-        <div class="label">名稱</div>
+        <div class="label">{{ t('LC_NAME') }}</div>
         <el-form-item prop="name">
-          <el-input v-model="formData.name" class="popupInput" placeholder="Please input" />
+          <el-input v-model="formData.name" class="popupInput" :placeholder="t('LC_TIPS_NAME')" />
         </el-form-item>
         <div class="shortcutList">
           <el-check-tag
@@ -137,28 +137,28 @@ function addTransaction() {
             >{{ shortcut.name }}</el-check-tag
           >
         </div>
-        <div class="label">金額</div>
+        <div class="label">{{ t('LC_AMOUNT') }}</div>
         <el-form-item prop="amount">
           <el-input
             v-model.number="formData.amount"
             ref="amountRef"
             class="popupInput"
             type="numeric"
-            placeholder="Please input"
+            :placeholder="t('LC_TIPS_AMOUNT')"
           />
         </el-form-item>
-        <div class="label">備註</div>
-        <el-input v-model="formData.note" class="popupInput" placeholder="Please input" />
+        <div class="label">{{ t('LC_NOTE') }}</div>
+        <el-input v-model="formData.note" class="popupInput" :placeholder="t('LC_TIPS_NOTE')" />
       </el-form>
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
-          >cancel</el-button
-        >
-        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="submitHandler()"
-          >submit</el-button
-        >
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
+          t('LC_CANCEL')
+        }}</el-button>
+        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="submitHandler()">{{
+          t('LC_SUBMIT')
+        }}</el-button>
       </div>
     </template>
   </el-dialog>

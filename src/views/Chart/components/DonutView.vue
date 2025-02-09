@@ -3,6 +3,8 @@ import type { Chart } from '@/types'
 import { priceFormat } from '@/utils/priceFormat'
 import searchSvg from '@/assets/images/svg/search.svg'
 
+const { t } = useI18n()
+
 const chartData = inject('chartData') as Ref<Chart>
 const setting = inject('setting') as Ref<{ type: string; range: string | null }>
 
@@ -19,7 +21,7 @@ function showCategoryDetails(id: number) {
   <div class="donutView">
     <DonutChart :data="chartData" :setting="setting" height="280px" />
     <div class="categories">
-      <div class="subTitle">類別明細</div>
+      <div class="subTitle">{{ t('LC_CATEGORY_DETAILS') }}</div>
       <div class="cardList">
         <div class="card cardShadow" v-for="item in chartData.categoriesTotal">
           <div class="info">

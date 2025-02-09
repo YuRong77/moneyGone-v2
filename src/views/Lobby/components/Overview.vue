@@ -2,6 +2,7 @@
 import type { Overview } from '@/types'
 import { priceFormat } from '@/utils/priceFormat'
 
+const { t } = useI18n()
 const props = defineProps<{ data: Overview | undefined }>()
 
 const colors = [
@@ -29,11 +30,11 @@ const displayInfo = computed(() => {
   <div class="overview cardShadow">
     <div>
       <div class="mb-3">
-        <div class="label">今日花費</div>
+        <div class="label">{{ t('LC_SPEND_TODAY') }}</div>
         <div class="amount">$ {{ priceFormat(props.data?.dailyTotal) }}</div>
       </div>
       <div>
-        <div class="label">本月花費</div>
+        <div class="label">{{ t('LC_SPEND_MONTH') }}</div>
         <div class="amount">$ {{ priceFormat(props.data?.monthlyTotal) }}</div>
       </div>
     </div>
@@ -45,7 +46,7 @@ const displayInfo = computed(() => {
     >
       <template #default="{ percentage }">
         <div class="percent">{{ displayInfo.percentStr }}</div>
-        <div class="over">剩餘 ${{ priceFormat(displayInfo.remainingBudget!) }}</div>
+        <div class="over">{{ t('LC_OVER') }} ${{ priceFormat(displayInfo.remainingBudget!) }}</div>
       </template>
     </el-progress>
   </div>

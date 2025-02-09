@@ -2,6 +2,7 @@
 import { authAPI } from '@/apis'
 import type { FormInstance, FormRules } from 'element-plus'
 
+const { t } = useI18n()
 const router = useRouter()
 
 let isRegistered = ref(false)
@@ -14,8 +15,8 @@ const formData = ref({
   checkPassword: ''
 })
 const formRules = ref<FormRules>({
-  name: [{ required: true, message: 'Please input name', trigger: 'blur' }],
-  email: [{ required: true, type: 'email', message: 'Please input email', trigger: 'blur' }],
+  name: [{ required: true, message: t('LC_TIPS_ACCOUNT_NAME'), trigger: 'blur' }],
+  email: [{ required: true, type: 'email', message: t('LC_TIPS_EMAIL'), trigger: 'blur' }],
   password: [
     {
       required: true,
@@ -36,13 +37,12 @@ function validatePassword(rule: any, value: any, callback: any) {
   //大小寫字母 數字 底線 -!@#$%^&*() 至少6字
   let regex = /^[-\w!@#$%^&*()]{6,}$/
   if (regex.test(value)) return callback()
-  callback(new Error('Please input the password 至少6'))
+  callback(new Error(t('LC_PASSWORD_TIPS')))
 }
 
 function validateCheckPassword(rule: any, value: any, callback: any) {
-  if (value === '') return callback(new Error('Please input the checkPassword'))
-  if (value !== formData.value.password)
-    return callback(new Error("password and checkPassword don't match!"))
+  if (value === '') return callback(new Error(t('LC_TIPS_PASSWORD_CHECK')))
+  if (value !== formData.value.password) return callback(new Error(t('LC_MATCH_TIPS')))
   callback()
 }
 
@@ -70,19 +70,19 @@ function register() {
 
 <template>
   <div class="register">
-    <div>註冊</div>
+    <div>{{ t('LC_REGISTER') }}</div>
     <el-form ref="formRef" :model="formData" :rules="formRules" v-if="!isRegistered">
       <el-form-item prop="name">
         <el-input
           v-model.trim="formData.name"
-          placeholder="請輸入名稱"
+          :placeholder="t('LC_TIPS_NAME')"
           class="popupInput mb-3"
         ></el-input>
       </el-form-item>
       <el-form-item prop="email">
         <el-input
           v-model.trim="formData.email"
-          placeholder="請輸入信箱"
+          :placeholder="t('LC_TIPS_EMAIL')"
           class="popupInput mb-3"
         ></el-input>
       </el-form-item>
@@ -90,7 +90,7 @@ function register() {
         <el-input
           v-model.trim="formData.password"
           class="popupInput mb-3"
-          placeholder="請輸入密碼"
+          :placeholder="t('LC_TIPS_PASSWORD')"
           type="password"
         ></el-input>
       </el-form-item>
@@ -98,18 +98,25 @@ function register() {
         <el-input
           v-model.trim="formData.checkPassword"
           class="popupInput mb-3"
-          placeholder="密碼確認"
+          :placeholder="t('LC_TIPS_PASSWORD_CHECK')"
           type="password"
         ></el-input>
       </el-form-item>
 
-      <el-button class="w-100" type="primary" round :loading="isLoading" @click="register()"
-        >註冊</el-button
-      >
+      <el-button class="w-100" type="primary" round :loading="isLoading" @click="register()">{{
+        t('LC_SUBMIT')
+      }}</el-button>
     </el-form>
-    <el-result icon="success" title="註冊成功" sub-title="請返回登入頁登入" v-else>
+    <el-result
+      icon="success"
+      :title="t('LC_REGISTER_SUCCESS')"
+      :sub-title="t('LC_TO_LOGIN_TIPS')"
+      v-else
+    >
       <template #extra>
-        <el-button type="primary" @click="router.push({ name: 'Login' })">to login</el-button>
+        <el-button type="primary" @click="router.push({ name: 'Login' })">{{
+          t('LC_TO_LOGIN')
+        }}</el-button>
       </template>
     </el-result>
   </div>

@@ -34,7 +34,7 @@ function updateUserName() {
 </script>
 
 <template>
-  <el-dialog v-model="isVisibleModel" title="修改語系" width="90%">
+  <el-dialog v-model="isVisibleModel" :title="t('LC_EDIT_LANG')" width="90%">
     <div class="langList">
       <div
         v-for="item in langList"
@@ -47,10 +47,12 @@ function updateUserName() {
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)"
-          >cancel</el-button
-        >
-        <el-button color="#208eef" class="mainBtn" @click="updateUserName()">submit</el-button>
+        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
+          t('LC_CANCEL')
+        }}</el-button>
+        <el-button color="#208eef" class="mainBtn" @click="updateUserName()">{{
+          t('LC_SUBMIT')
+        }}</el-button>
       </div>
     </template>
   </el-dialog>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { imageAPI, categoryAPI } from '@/apis'
 import type { Category, NewCategory } from '@/types'
-import type { FormInstance } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
@@ -10,6 +9,7 @@ import remove from '@/assets/images/svg/delete.svg'
 import sort from '@/assets/images/svg/sort.svg'
 import noData from '@/assets/images/svg/noData.svg'
 
+const { t } = useI18n()
 const props = defineProps({
   isVisible: Boolean
 })
@@ -45,9 +45,9 @@ function addCategory() {
 }
 
 function checkDelete(item: Category) {
-  ElMessageBox.confirm(`確認要刪除分類 ${item.name} ?`, '注意', {
-    confirmButtonText: '刪除',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(`${t('LC_CATEGORY_DELETE', { name: item.name })}`, t('LC_WARN'), {
+    confirmButtonText: t('LC_DELETE'),
+    cancelButtonText: t('LC_CANCEL'),
     type: 'warning'
   })
     .then(() => {
@@ -63,7 +63,7 @@ function deleteCategory(id: number) {
     .then(() => {
       ElMessage({
         type: 'success',
-        message: '成功刪除'
+        message: t('LC_DELETE_SUCCESS')
       })
       emit('getCategories')
     })
@@ -91,14 +91,16 @@ provide('images', images)
 </script>
 
 <template>
-  <el-drawer v-model="isVisibleModel" title="編輯分類" direction="btt" size="90%">
+  <el-drawer v-model="isVisibleModel" :title="t('LC_EDIT_CATEGORY')" direction="btt" size="90%">
     <div class="text-right mb-4">
-      <el-button color="#208eef" class="mainBtn" @click="addCategory()">add</el-button>
+      <el-button color="#208eef" class="mainBtn" @click="addCategory()">{{
+        t('LC_ADD_CATEGORY')
+      }}</el-button>
     </div>
     <div class="item cardShadow" v-for="item in categories" :key="item.id">
       <div class="name">
         <div>{{ item.name }}</div>
-        <span>{{ item.shortcuts?.length }} 個子項目</span>
+        <span> {{ t('LC_ITEMS', { num: item.shortcuts?.length }) }}</span>
       </div>
       <div>
         <el-button link @click.stop="editDetail(item)">
@@ -116,11 +118,13 @@ provide('images', images)
       v-if="categories.length === 0"
       :image="noData"
       :image-size="100"
-      description="目前沒有任何分類"
+      :description="t('LC_CATEGORY_EMPTY')"
     />
     <template #footer>
       <div class="footer">
-        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">cancel</el-button>
+        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">{{
+          t('LC_CANCEL')
+        }}</el-button>
       </div>
     </template>
   </el-drawer>

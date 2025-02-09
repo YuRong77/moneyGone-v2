@@ -8,6 +8,7 @@ import type { Transaction } from '@/types'
 import menuKebab from '@/assets/images/svg/menu-kebab.svg'
 import info from '@/assets/images/svg/info.svg'
 
+const { t } = useI18n()
 const props = defineProps({
   item: {
     type: Object as PropType<Transaction>,
@@ -20,9 +21,9 @@ const props = defineProps({
 })
 
 function deleteCheck(item: Transaction) {
-  ElMessageBox.confirm(`確認刪除 ${item.name} ?`, '刪除確認', {
-    confirmButtonText: '刪除',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(`${t('LC_DELETE_TIPS', { name: item.name })}`, t('LC_WARN'), {
+    confirmButtonText: t('LC_DELETE'),
+    cancelButtonText: t('LC_CANCEL'),
     type: 'warning'
   })
     .then(() => {
@@ -74,10 +75,10 @@ function deleteTransaction(id: number) {
         :teleported="false"
         transition="el-zoom-in-top"
       >
-        <el-button class="mb-1" link @click="emitter.emit('editTransaction', props.item)"
-          >編輯</el-button
-        >
-        <el-button link @click="deleteCheck(props.item)">刪除</el-button>
+        <el-button class="mb-1" link @click="emitter.emit('editTransaction', props.item)">{{
+          t('LC_EDIT')
+        }}</el-button>
+        <el-button link @click="deleteCheck(props.item)">{{ t('LC_DELETE') }}</el-button>
         <template #reference>
           <el-button link>
             <inline-svg :src="menuKebab" height="18" width="18"></inline-svg>

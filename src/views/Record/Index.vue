@@ -9,6 +9,8 @@ import searchSvg from '@/assets/images/svg/search.svg'
 import house from '@/assets/images/svg/house.svg'
 import right from '@/assets/images/svg/right.svg'
 
+const { t } = useI18n()
+
 let date = ref<Date>(new Date())
 const records = ref<TransactionTotal[]>([])
 let rowDetails = ref<Transaction[] | null>(null)
@@ -69,13 +71,13 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
-  <Header title="Record">
+  <Header :title="t('LC_RECORD')">
     <template #right>
       <DatePicker v-model:date="date" type="month" />
     </template>
   </Header>
   <div class="content">
-    <el-input class="search cardShadow mb-5" v-model="search" placeholder="Please Input">
+    <el-input class="search cardShadow mb-5" v-model="search" :placeholder="t('LC_TIPS_RECORD')">
       <template #prefix>
         <inline-svg :src="searchSvg" height="18" width="18"></inline-svg>
       </template>
@@ -105,7 +107,7 @@ onBeforeUnmount(() => {
       :style="{ height: 'calc(100dvh - 235px)' }"
       :image="house"
       :image-size="200"
-      description="這個月還沒有消費"
+      :description="t('LC_RECORD_EMPTY')"
     />
   </div>
   <RecordDrawer v-if="rowDetails" v-model:isVisible="isVisible" :rowDetails="rowDetails" />
