@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { authAPI } from './apis'
 import { Storage } from '@/utils/localStorage'
 import elTW from 'element-plus/es/locale/lang/zh-tw'
 import elCn from 'element-plus/es/locale/lang/zh-cn'
@@ -7,6 +8,7 @@ import elJa from 'element-plus/es/locale/lang/ja'
 // import elKo from 'element-plus/es/locale/lang/ko'
 
 const { locale } = useI18n()
+const router = useRouter()
 
 let isAlive = ref(true)
 const currentLang = computed(() => {
@@ -31,6 +33,19 @@ watch(
   },
   { immediate: true }
 )
+
+function pingServer() {
+  authAPI
+    .pingServer()
+    .then((res) => {})
+    .catch((err) => {
+      router.push({ name: 'ServerStart' })
+    })
+}
+
+onMounted(() => {
+  pingServer()
+})
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import MainLayout from '@/layouts/MainLayout.vue'
 import Auth from '@/views/Auth/Index.vue'
+import ServerStart from '@/views/ServerStart.vue'
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -51,6 +52,11 @@ export const router = createRouter({
           component: () => import('@/views/Auth/components/ResetPassword.vue')
         }
       ]
+    },
+    {
+      path: '/server-start',
+      name: 'ServerStart',
+      component: ServerStart
     }
   ]
 })

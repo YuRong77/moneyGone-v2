@@ -20,5 +20,9 @@ export default {
   async refreshToken() {
     const result = await apiClient.post('/auth/refreshToken')
     return result.data
+  },
+  async pingServer() {
+    const result = await apiClient.get('/ping')
+    return result.data
   }
 }
