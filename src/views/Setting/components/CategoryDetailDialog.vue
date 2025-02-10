@@ -5,6 +5,7 @@ import type { PropType } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadProps } from 'element-plus'
+import imageCompression from 'browser-image-compression'
 import { cloneDeep } from 'lodash'
 import imageNull from '@/assets/images/png/imageNull.png'
 import remove from '@/assets/images/svg/delete.svg'
@@ -45,15 +46,35 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => 
   emit('getImages')
 }
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
+const beforeAvatarUpload: UploadProps['beforeUpload'] = async (rawFile) => {
+  if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
     ElMessage.error(t('LC_IMG_UPLOAD_TIPS'))
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error(t('LC_IMG_LIMIT_TIPS'))
     return false
   }
-  return true
+
+  try {
+    const options = {
+      maxSizeMB: 1, // 壓縮後的最大體積（MB）
+      maxWidthOrHeight: 800, // 圖片的最大寬度或高度
+      useWebWorker: true // 啟用 Web Worker，提高效能
+    }
+
+    const compressedFile = await imageCompression(rawFile, options)
+    // console.log('壓縮前大小:', (rawFile.size / 1024).toFixed(2), 'KB')
+    // console.log('壓縮後大小:', (compressedFile.size / 1024).toFixed(2), 'KB')
+
+    const finalFile = new File([compressedFile], rawFile.name, {
+      type: rawFile.type,
+      lastModified: Date.now()
+    })
+    return finalFile
+  } catch (error) {
+    ElMessage.error(t('LC_IMG_UPLOAD_ERROR'))
+    return false
+  }
 }
 
 function checkDelImage(image: Image) {

@@ -19,6 +19,7 @@
   "dependencies": {
     "apexcharts": "^3.52.0",
     "axios": "^1.7.4",
+    "browser-image-compression": "^2.0.2",
     "date-fns": "^3.6.0",
     "element-plus": "^2.9.3",
     "lodash": "^4.17.21",
