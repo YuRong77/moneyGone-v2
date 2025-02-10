@@ -39,15 +39,12 @@ function login() {
 }
 
 function loginTest() {
-  const data = {
-    email: 'test@gmail.com',
-    password: 'test1234'
-  }
   isLoading.value = true
   authAPI
-    .login(data)
+    .testLogin()
     .then((res) => {
-      localStorage.setItem('token', res.token)
+      Storage.set('token', res.token)
+      locale.value = res.lang
       router.push({ name: 'Lobby' })
     })
     .catch((err) => {})

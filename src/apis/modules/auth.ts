@@ -5,6 +5,10 @@ export default {
     const result = await apiClient.post('/auth/login', data)
     return result.data
   },
+  async testLogin() {
+    const result = await apiClient.post('/auth/test-login')
+    return result.data
+  },
   async register(data: { userName: string; email: string; password: string }) {
     const result = await apiClient.post('/auth/register', data)
     return result.data
