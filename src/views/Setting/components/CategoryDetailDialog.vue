@@ -26,7 +26,7 @@ const images = inject('images') as Image[]
 const categoryData = ref(cloneDeep(props.category))
 let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
-  name: [{ required: true, message: t('LC_TIPS_NAME'), trigger: 'change' }]
+  name: [{ required: true, message: t('LC_TIPS_NAME'), trigger: 'blur' }]
 })
 let isLoading = ref(false)
 
@@ -182,7 +182,11 @@ async function updateCategory() {
       <div class="label">{{ t('LC_NAME') }}</div>
       <el-form ref="formRef" :model="categoryData" :rules="formRules">
         <el-form-item prop="name">
-          <el-input class="popupInput mb-3" v-model.trim="categoryData.name"></el-input>
+          <el-input
+            class="popupInput"
+            v-model.trim="categoryData.name"
+            :placeholder="t('LC_TIPS_NAME')"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div class="label">{{ t('LC_COLOR') }}</div>

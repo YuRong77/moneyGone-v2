@@ -32,14 +32,14 @@ function sendResetEmail() {
 
 <template>
   <div class="">
-    <div>{{ t('LC_FORGOT_PASSWORD') }}</div>
+    <div class="title">{{ t('LC_FORGOT_PASSWORD') }}</div>
     <el-form ref="formRef" :model="formData" :rules="formRules" v-if="!isSendEmail">
-      <el-form-item prop="email">
+      <el-form-item prop="email" class="mb-3">
         <el-input
           v-model="formData.email"
           type="email"
           :placeholder="t('LC_TIPS_EMAIL')"
-          class="popupInput mb-3"
+          class="popupInput"
         ></el-input>
       </el-form-item>
       <el-button
@@ -70,4 +70,11 @@ function sendResetEmail() {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+</style>

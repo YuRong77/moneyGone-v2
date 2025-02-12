@@ -117,13 +117,9 @@ onMounted(() => {
   color: var(--text-color);
 }
 
-// .login {
-//   width: 100%;
-//   .el-form {
-//     width: 100%;
-//   }
-// }
 .topBox {
+  font-size: 24px;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 20px;
 }

@@ -89,7 +89,7 @@ const options = computed(() => {
     plotOptions: {
       bar: {
         horizontal: false, //垂直 or 水平
-        borderRadius: 6,
+        borderRadius: 0,
         borderRadiusApplication: 'end', // 'around', 'end'
         borderRadiusWhenStacked: 'last', // 'all', 'last'
         dataLabels: {

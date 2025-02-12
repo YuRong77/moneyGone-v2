@@ -70,34 +70,36 @@ function register() {
 
 <template>
   <div class="register">
-    <div>{{ t('LC_REGISTER') }}</div>
+    <div class="title">{{ t('LC_REGISTER') }}</div>
+    <div class="tips">{{ t('LC_REGISTER_TIPS') }}</div>
     <el-form ref="formRef" :model="formData" :rules="formRules" v-if="!isRegistered">
       <el-form-item prop="name">
         <el-input
           v-model.trim="formData.name"
-          :placeholder="t('LC_TIPS_NAME')"
-          class="popupInput mb-3"
+          :placeholder="t('LC_TIPS_ACCOUNT_NAME')"
+          class="popupInput"
         ></el-input>
       </el-form-item>
       <el-form-item prop="email">
         <el-input
           v-model.trim="formData.email"
           :placeholder="t('LC_TIPS_EMAIL')"
-          class="popupInput mb-3"
+          class="popupInput"
         ></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input
           v-model.trim="formData.password"
-          class="popupInput mb-3"
+          class="popupInput"
           :placeholder="t('LC_TIPS_PASSWORD')"
           type="password"
+          autocomplete="new-password"
         ></el-input>
       </el-form-item>
       <el-form-item prop="checkPassword">
         <el-input
           v-model.trim="formData.checkPassword"
-          class="popupInput mb-3"
+          class="popupInput"
           :placeholder="t('LC_TIPS_PASSWORD_CHECK')"
           type="password"
         ></el-input>
@@ -105,6 +107,10 @@ function register() {
 
       <el-button class="w-100" type="primary" round :loading="isLoading" @click="register()">{{
         t('LC_SUBMIT')
+      }}</el-button>
+      <div class="mb-2"></div>
+      <el-button class="w-100" round @click="router.push({ name: 'Login' })">{{
+        t('LC_CANCEL')
       }}</el-button>
     </el-form>
     <el-result
@@ -122,4 +128,16 @@ function register() {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.tips {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+</style>

@@ -98,7 +98,6 @@ function addTransaction() {
   transactionAPI
     .transactionCreate(data)
     .then((res) => {
-      console.log(res)
       emitter.emit('refresh')
     })
     .catch((err) => {})
@@ -143,7 +142,8 @@ function addTransaction() {
             v-model.number="formData.amount"
             ref="amountRef"
             class="popupInput"
-            type="numeric"
+            type="text"
+            inputmode="numeric"
             :placeholder="t('LC_TIPS_AMOUNT')"
           />
         </el-form-item>
@@ -169,9 +169,9 @@ function addTransaction() {
   margin-bottom: 4px;
 }
 
-.el-input {
-  margin-bottom: 10px;
-}
+// .el-input {
+//   margin-bottom: 10px;
+// }
 
 .shortcutList {
   .el-check-tag {

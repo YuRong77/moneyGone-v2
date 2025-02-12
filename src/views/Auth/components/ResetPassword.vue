@@ -44,22 +44,24 @@ function resetPassword() {
 
 <template>
   <div class="resetPassword">
-    <div>{{ t('LC_RESET_PASSWORD') }}</div>
+    <div class="title">{{ t('LC_RESET_PASSWORD') }}</div>
     <el-form ref="formRef" :model="formData" :rules="formRules" v-if="!isReset">
       <el-form-item prop="password">
         <el-input
+          class="popupInput"
           v-model="formData.password"
-          type="password"
           :placeholder="t('LC_TIPS_PASSWORD')"
-          class="popupInput mb-3"
+          type="password"
+          autocomplete="new-password"
         ></el-input>
       </el-form-item>
       <el-form-item prop="checkPassword">
         <el-input
+          class="popupInput"
           v-model="formData.checkPassword"
-          type="password"
           :placeholder="t('LC_TIPS_PASSWORD_CHECK')"
-          class="popupInput mb-3"
+          type="password"
+          autocomplete="new-password"
         ></el-input>
       </el-form-item>
       <el-button class="w-100" type="primary" round :loading="isLoading" @click="resetPassword()">{{
@@ -76,4 +78,11 @@ function resetPassword() {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+</style>
