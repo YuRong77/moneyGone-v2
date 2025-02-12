@@ -2,7 +2,7 @@
 import { authAPI } from '@/apis'
 
 const router = useRouter()
-let pollingInterval: number
+let pollingInterval: NodeJS.Timer
 
 const checkServerStatus = async () => {
   try {
