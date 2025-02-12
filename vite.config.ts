@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { VitePWA } from 'vite-plugin-pwa'
+import { version } from './package.json'
 
 export default defineConfig({
   base: './',
@@ -63,5 +64,8 @@ export default defineConfig({
         }
       }
     }
+  },
+  define: {
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(version)
   }
 })

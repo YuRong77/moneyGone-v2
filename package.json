@@ -1,6 +1,6 @@
 {
   "name": "moneygone-v2",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -17,6 +17,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@sentry/vue": "^9.0.1",
     "apexcharts": "^3.52.0",
     "axios": "^1.7.4",
     "browser-image-compression": "^2.0.2",
