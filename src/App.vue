@@ -42,10 +42,7 @@ function pingServer() {
       router.push({ name: 'ServerStart' })
     })
 }
-
-onMounted(() => {
-  pingServer()
-})
+pingServer()
 </script>
 
 <template>

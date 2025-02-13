@@ -9,7 +9,7 @@ const checkServerStatus = async () => {
     const response = await authAPI.pingServer()
     if (response === 'success') {
       clearInterval(pollingInterval)
-      router.push({ name: 'Lobby' })
+      router.push({ name: 'Lobby' }).then(() => window.location.reload())
     }
   } catch (error) {
     console.log('Server not ready yet')

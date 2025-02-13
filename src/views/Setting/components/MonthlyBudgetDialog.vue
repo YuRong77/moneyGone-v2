@@ -47,7 +47,8 @@ function updateMonthlyBudget() {
           <el-input
             class="popupInput"
             v-model.number="formData.monthlyBudget"
-            type="numeric"
+            type="text"
+            inputmode="numeric"
             :placeholder="t('LC_BUDGET_TIPS')"
           ></el-input>
         </el-form-item>

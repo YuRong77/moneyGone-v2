@@ -23,8 +23,8 @@ async function refreshToken() {
     localStorage.setItem('token', token)
     apiClient.defaults.headers.Authorization = `Bearer ${token}`
     return Promise.resolve()
-  } catch {
-    return Promise.reject()
+  } catch (err) {
+    return Promise.reject(err)
   } finally {
     isRefreshing = false
     currentRefreshingCall = null
@@ -49,7 +49,6 @@ apiClient.interceptors.response.use(
     return response.data
   },
   async (error) => {
-    console.log(error, 'error')
     if (!error.response) return Promise.reject(error)
     const originalRequest = error.config
     const { status, data } = error.response
