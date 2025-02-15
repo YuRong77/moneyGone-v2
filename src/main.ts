@@ -23,7 +23,8 @@ if (env.MODE === 'production' && env.VITE_SENTRY_DSN) {
     dsn: env.VITE_SENTRY_DSN,
     integrations: [Sentry.browserTracingIntegration({ router })],
     release: env.VITE_APP_VERSION,
-    environment: env.MODE
+    environment: env.MODE,
+    ignoreErrors: ['Object captured as promise rejection with keys', 'Network Error']
   })
 }
 

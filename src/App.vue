@@ -11,6 +11,8 @@ const { locale } = useI18n()
 const router = useRouter()
 
 let isAlive = ref(true)
+let isServerStart = ref(false)
+
 const currentLang = computed(() => {
   if (locale.value === 'zh-TW') return elTW
   if (locale.value === 'zh-CN') return elCn
@@ -34,15 +36,21 @@ watch(
   { immediate: true }
 )
 
-function pingServer() {
-  authAPI
-    .pingServer()
-    .then((res) => {})
-    .catch((err) => {
-      router.push({ name: 'ServerStart' })
-    })
+async function pingServer() {
+  try {
+    setTimeout(() => {
+      if (!isServerStart.value) router.push({ name: 'ServerStart' })
+    }, 1000)
+    await authAPI.pingServer()
+    isServerStart.value = true
+  } catch (err) {
+    router.push({ name: 'ServerStart' })
+  }
 }
-pingServer()
+
+onMounted(() => {
+  pingServer()
+})
 </script>
 
 <template>
