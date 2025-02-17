@@ -42,7 +42,7 @@ function getIcon(idx: number) {
               ></inline-svg>
               <div v-else>{{ index + 1 }}</div>
             </div>
-            <div>
+            <div style="max-width: 85%">
               <div class="name">{{ item.name }}</div>
               <div class="date">{{ format(item.createdAt, 'yyyy-MM-dd') }}</div>
             </div>
@@ -72,6 +72,7 @@ function getIcon(idx: number) {
       .flexBox {
         display: flex;
         align-items: center;
+        max-width: 80%;
       }
       .iconBox {
         min-width: 50px;
@@ -79,6 +80,9 @@ function getIcon(idx: number) {
       }
       .name {
         font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .date {
         font-size: 12px;

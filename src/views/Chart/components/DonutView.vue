@@ -32,7 +32,7 @@ function showCategoryDetails(id: number) {
               :categoryName="item.name"
               :size="36"
             />
-            <div>
+            <div style="flex: 1; width: 70%">
               <div class="name">{{ item.name }}</div>
               <div class="amount">$ {{ priceFormat(item.totalAmount) }}</div>
             </div>
@@ -73,10 +73,15 @@ function showCategoryDetails(id: number) {
     .info {
       display: flex;
       align-items: center;
+      max-width: 82%;
+      flex: 1;
 
       .name {
         font-size: 14px;
         color: #8d8d8d;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .amount {
         font-weight: 500;

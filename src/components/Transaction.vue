@@ -111,7 +111,7 @@ function addTransaction() {
 <template>
   <el-dialog
     v-model="isVisibleModel"
-    :title="`${t('LC_ADD')}${getCategoryName(props.transactionData.categoryId)}`"
+    :title="`${isEdit ? t('LC_EDIT') : t('LC_ADD')}${getCategoryName(props.transactionData.categoryId)}`"
     width="90%"
   >
     <div>

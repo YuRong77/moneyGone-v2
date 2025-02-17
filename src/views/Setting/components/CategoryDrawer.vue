@@ -149,6 +149,14 @@ provide('images', images)
   .name {
     display: flex;
     align-items: center;
+    max-width: 75%;
+    flex: 1;
+    div {
+      max-width: 72%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     span {
       font-size: 14px;
       color: rgb(129, 129, 129);

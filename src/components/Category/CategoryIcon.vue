@@ -27,7 +27,8 @@ const props = defineProps({
       :src="props.url"
       :style="{
         width: `${props.size - 8}px`,
-        height: `${props.size - 8}px`
+        height: `${props.size - 8}px`,
+        minWidth: `${props.size - 8}px`
       }"
       @error="(e) => ((e.target as HTMLImageElement).src = imageNull)"
     />

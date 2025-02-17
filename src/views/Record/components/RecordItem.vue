@@ -52,7 +52,7 @@ function deleteTransaction(id: number) {
         :url="props.item.imageUrl"
         :categoryName="props.item.categoryName"
       />
-      <div>
+      <div style="width: 80%">
         <div class="name">{{ props.item.name }}</div>
         <div class="flexBox">
           <div class="amount">$ {{ priceFormat(props.item.amount) }}</div>
@@ -103,9 +103,14 @@ function deleteTransaction(id: number) {
   .info {
     display: flex;
     align-items: center;
+    flex: 1;
+    max-width: 90%;
     .name {
       color: #8d8d8d;
       font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .flexBox {
       display: flex;
