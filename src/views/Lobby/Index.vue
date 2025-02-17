@@ -81,6 +81,7 @@ onBeforeUnmount(() => {
   .link {
     display: flex;
     align-items: center;
+    cursor: pointer;
     span {
       font-size: 14px;
       color: #8d8d8d;

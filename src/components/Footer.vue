@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
     </div>
     <template #footer>
       <div>
-        <el-button @click="categoryDialog = false">{{ t('LC_CANCEL') }}</el-button>
+        <el-button class="mainBtn" @click="categoryDialog = false">{{ t('LC_CANCEL') }}</el-button>
       </div>
     </template>
   </el-dialog>

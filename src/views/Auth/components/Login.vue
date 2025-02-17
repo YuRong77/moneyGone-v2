@@ -99,7 +99,7 @@ onMounted(() => {
     <el-button class="w-100" type="primary" round :loading="isLoading" @click="login()">{{
       t('LC_LOGIN')
     }}</el-button>
-    <el-divider>{{ t('LC_OTHER_LOGIN') }}</el-divider>
+    <el-divider class="text-center">{{ t('LC_OTHER_LOGIN') }}</el-divider>
     <el-button class="w-100" round :loading="isLoading" @click="loginTest()">{{
       t('LC_USE_TEST_ACCOUNT')
     }}</el-button>

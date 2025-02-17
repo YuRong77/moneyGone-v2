@@ -54,7 +54,7 @@ function deleteTransaction(id: number) {
       />
       <div>
         <div class="name">{{ props.item.name }}</div>
-        <div class="flex-c-c">
+        <div class="flexBox">
           <div class="amount">$ {{ priceFormat(props.item.amount) }}</div>
           <el-popover trigger="click" :content="props.item.note" v-if="props.item.note">
             <template #reference>
@@ -78,7 +78,9 @@ function deleteTransaction(id: number) {
         <el-button class="mb-1" link @click="emitter.emit('editTransaction', props.item)">{{
           t('LC_EDIT')
         }}</el-button>
-        <el-button link @click="deleteCheck(props.item)">{{ t('LC_DELETE') }}</el-button>
+        <el-button link type="danger" @click="deleteCheck(props.item)">{{
+          t('LC_DELETE')
+        }}</el-button>
         <template #reference>
           <el-button link>
             <inline-svg :src="menuKebab" height="18" width="18"></inline-svg>
@@ -105,9 +107,13 @@ function deleteTransaction(id: number) {
       color: #8d8d8d;
       font-size: 14px;
     }
-    .amount {
-      font-weight: 500;
-      margin-right: 6px;
+    .flexBox {
+      display: flex;
+      align-items: center;
+      .amount {
+        font-weight: 500;
+        margin-right: 6px;
+      }
     }
     .infoIcon {
       padding: 0;
