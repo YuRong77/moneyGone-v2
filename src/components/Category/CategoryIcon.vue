@@ -30,7 +30,7 @@ const props = defineProps({
         height: `${props.size - 8}px`,
         minWidth: `${props.size - 8}px`
       }"
-      @error="(e) => ((e.target as HTMLImageElement).src = imageNull)"
+      @error="(e: Event) => ((e.target as HTMLImageElement).src = imageNull)"
     />
     <div
       v-else

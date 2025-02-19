@@ -38,13 +38,13 @@ function next() {
 
 <template>
   <div class="datePicker">
-    <el-button class="cardShadow" link @click="prev()">
+    <el-button class="cardShadow" data-test="prev" link @click="prev()">
       <inline-svg :src="left" height="24" width="24" color="#ababab"></inline-svg>
     </el-button>
     <div class="date">
       <el-button link class="btn" @click="isCalendarVisible = !isCalendarVisible">
         <inline-svg :src="calendar" height="16" width="16"></inline-svg>
-        <span>{{ displayDate }}</span>
+        <span data-test="displayDate">{{ displayDate }}</span>
       </el-button>
       <el-date-picker
         ref="datePicker"
@@ -56,7 +56,7 @@ function next() {
         @visible-change="(val: boolean) => (isCalendarVisible = val)"
       />
     </div>
-    <el-button class="cardShadow" link @click="next()">
+    <el-button class="cardShadow" data-test="next" link @click="next()">
       <inline-svg :src="right" height="24" width="24" color="#ababab"></inline-svg>
     </el-button>
   </div>
