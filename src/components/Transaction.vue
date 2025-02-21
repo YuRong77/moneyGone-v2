@@ -133,6 +133,7 @@ function addTransaction() {
             :key="shortcut.id"
             @click="setName(shortcut.name)"
             type="info"
+            data-test="shortcut"
             >{{ shortcut.name }}</el-check-tag
           >
         </div>
@@ -153,12 +154,21 @@ function addTransaction() {
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
-          t('LC_CANCEL')
-        }}</el-button>
-        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="submitHandler()">{{
-          t('LC_SUBMIT')
-        }}</el-button>
+        <el-button
+          color="#f1f1f1"
+          class="mainBtn"
+          data-test="cancel"
+          @click="emit('update:isVisible', false)"
+          >{{ t('LC_CANCEL') }}</el-button
+        >
+        <el-button
+          color="#208eef"
+          class="mainBtn"
+          data-test="submit"
+          :loading="isLoading"
+          @click="submitHandler()"
+          >{{ t('LC_SUBMIT') }}</el-button
+        >
       </div>
     </template>
   </el-dialog>

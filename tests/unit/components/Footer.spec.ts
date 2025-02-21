@@ -1,28 +1,12 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount, VueWrapper } from '@vue/test-utils'
-import { createRouter, createMemoryHistory } from 'vue-router'
-import i18n from '@/locales/i18n'
 import Footer from '@/components/Footer.vue'
 // import { emitter } from '@/utils/emitter'
-
-const router = createRouter({
-  history: createMemoryHistory(),
-  routes: [
-    { path: '/', name: 'Lobby', component: { template: '<div>Lobby</div>' } },
-    { path: '/record', name: 'Record', component: { template: '<div>Record</div>' } },
-    { path: '/chart', name: 'Chart', component: { template: '<div>Chart</div>' } },
-    { path: '/setting', name: 'Setting', component: { template: '<div>Setting</div>' } }
-  ]
-})
 
 let wrapper: VueWrapper<any>
 describe('Footer Component', () => {
   beforeEach(async () => {
-    wrapper = mount(Footer, {
-      global: {
-        plugins: [router, i18n]
-      }
-    })
+    wrapper = mount(Footer)
   })
 
   it('顯示 menuItems 正確項目數量', () => {
@@ -31,7 +15,7 @@ describe('Footer Component', () => {
   })
 
   it('點擊後 router push', async () => {
-    const spyPush = vi.spyOn(router, 'push')
+    const spyPush = vi.spyOn(wrapper.vm.router, 'push')
     // const recordItem = wrapper.findAll('.footerItem')[1]
     // await recordItem.trigger('click')
     const routeName = 'Record'
@@ -43,10 +27,10 @@ describe('Footer Component', () => {
 
   it('當前 route 需有 active class', async () => {
     const menuItems = wrapper.vm.menuItems
-    await router.push({ name: menuItems[1].route })
+    await wrapper.vm.router.push({ name: menuItems[1].route })
     const Item1 = wrapper.findAll('.footerItem')[1]
     expect(Item1.classes()).toContain('active')
-    await router.push({ name: menuItems[2].route })
+    await wrapper.vm.router.push({ name: menuItems[2].route })
     const Item2 = wrapper.findAll('.footerItem')[2]
     expect(Item2.classes()).toContain('active')
   })
