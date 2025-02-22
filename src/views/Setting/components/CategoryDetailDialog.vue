@@ -22,7 +22,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:isVisible', 'getImages', 'getCategories'])
 
-const images = inject('images') as Image[]
+const images = inject('images') as Ref<{ defaultImages: Image[]; userImages: Image[] }>
 const categoryData = ref(cloneDeep(props.category))
 let formRef = ref<FormInstance>()
 const formRules = ref<FormRules>({
@@ -33,8 +33,18 @@ let isLoading = ref(false)
 const imageUploadAPI = `${import.meta.env.VITE_APP_API_ENDPOINT}/image/upload`
 const Authorization = `Bearer ${localStorage.getItem('token')}`
 let isImagesDelMode = ref(false)
-const predefineColors = ['#ff4500', '#ff8c00', '#ffd700']
-
+const defaultColors = [
+  '#ff450099',
+  '#ff8c0099',
+  '#ffd70099',
+  '#1e90ff99',
+  '#32cd3299',
+  '#ff69b499',
+  '#8a2be299',
+  '#00ced199',
+  '#ff634799',
+  '#4682b499'
+]
 const isVisibleModel = computed({
   get: () => props.isVisible,
   set: (val) => emit('update:isVisible', val)
@@ -75,6 +85,13 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = async (rawFile) => {
     ElMessage.error(t('LC_IMG_UPLOAD_ERROR'))
     return false
   }
+}
+
+function getImgUrl() {
+  const { imageId } = categoryData.value
+  const { defaultImages, userImages } = images.value
+  const image = [...defaultImages, ...userImages].find((item) => item.id === imageId)
+  return image ? image.url : null
 }
 
 function checkDelImage(image: Image) {
@@ -177,29 +194,71 @@ async function updateCategory() {
     v-model="isVisibleModel"
     :title="isEditMode ? t('LC_EDIT_CATEGORY') : t('LC_ADD_CATEGORY')"
     fullscreen
+    :modal="false"
   >
     <div>
-      <div class="label">{{ t('LC_NAME') }}</div>
-      <el-form ref="formRef" :model="categoryData" :rules="formRules">
-        <el-form-item prop="name">
-          <el-input
-            class="popupInput"
-            v-model.trim="categoryData.name"
-            :placeholder="t('LC_TIPS_NAME')"
-          ></el-input>
-        </el-form-item>
-      </el-form>
+      <div class="flexBox">
+        <el-form ref="formRef" :model="categoryData" :rules="formRules">
+          <div class="label">{{ t('LC_NAME') }}</div>
+          <el-form-item prop="name">
+            <el-input
+              class="popupInput"
+              v-model.trim="categoryData.name"
+              :placeholder="t('LC_TIPS_NAME')"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <div>
+          <div class="label">{{ t('LC_PREVIEW') }}</div>
+          <div class="flex-c-c">
+            <categoryIcon
+              :categoryName="categoryData.name"
+              :color="categoryData.color"
+              :url="getImgUrl()"
+              :size="65"
+            />
+          </div>
+        </div>
+      </div>
       <div class="label">{{ t('LC_COLOR') }}</div>
-      <el-color-picker
-        class="mb-3"
-        v-model="categoryData.color"
-        show-alpha
-        :predefine="predefineColors"
-      />
+      <div class="colorPickers">
+        <el-color-picker v-model="categoryData.color" color-format="hex" show-alpha />
+        <div
+          class="defaultColor"
+          v-for="color in defaultColors"
+          :key="color"
+          :style="{ background: color }"
+          @click="categoryData.color = color"
+        ></div>
+      </div>
       <div class="label">{{ t('LC_SELECT_IMG') }}</div>
       <div class="imageList">
         <div
-          v-for="image in images"
+          class="imageBox noneImg"
+          :class="{ active: categoryData.imageId === null }"
+          @click="categoryData.imageId = null"
+        >
+          <span>None</span>
+        </div>
+        <div
+          v-for="image in images.defaultImages"
+          class="imageBox"
+          :class="{ active: image.id === categoryData.imageId }"
+          :key="image.id"
+          @click="categoryData.imageId = image.id"
+        >
+          <img :src="image.url" @error="(e) => ((e.target as HTMLImageElement).src = imageNull)" />
+          <div
+            class="imageDel"
+            v-if="isImagesDelMode && !image.isDefault"
+            @click="checkDelImage(image)"
+          >
+            <span>×</span>
+          </div>
+        </div>
+        <el-divider v-if="images.userImages.length > 0" />
+        <div
+          v-for="image in images.userImages"
           class="imageBox"
           :class="{ active: image.id === categoryData.imageId }"
           :key="image.id"
@@ -227,7 +286,7 @@ async function updateCategory() {
         >
           <div>{{ t('LC_IMG_UPLOAD') }}</div>
         </el-upload>
-        <span>|</span>
+        <el-divider direction="vertical" />
         <el-button link v-if="isImagesDelMode" @click="isImagesDelMode = false" type="danger">{{
           t('LC_CANCEL')
         }}</el-button>
@@ -275,7 +334,7 @@ async function updateCategory() {
       </div>
     </div>
     <template #footer>
-      <div>
+      <div class="mb-1">
         <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
           t('LC_CANCEL')
         }}</el-button>
@@ -291,19 +350,47 @@ async function updateCategory() {
 .label {
   margin-bottom: 4px;
 }
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  form {
+    flex: 1.5;
+    margin-right: 1rem;
+  }
+  & > div {
+    flex: 1;
+  }
+}
+:deep(.colorPickers) {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  .defaultColor {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  & > div {
+    margin-right: 6px !important;
+  }
+}
 .imageList {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  padding: 8px;
   margin-bottom: 10px;
+  border-radius: 8px;
+  background: var(--background-color);
+  gap: 1px;
 }
 .imageActions {
   display: flex;
   align-items: center;
   font-size: 12px;
   margin-bottom: 20px;
-  span {
-    margin: 0 8px 2px;
-  }
   .upload {
     color: #208eef;
   }
@@ -313,16 +400,25 @@ async function updateCategory() {
   }
 }
 .imageBox {
-  width: 40px;
-  height: 40px;
+  max-width: 3rem;
+  max-height: 3rem;
   background-position: center;
   background-size: cover;
-  margin-right: 8px;
   border-radius: 8px;
-  border: 2px solid rgb(255, 255, 255);
+  border: 2px solid var(--background-color);
   position: relative;
+  cursor: pointer;
   &.active {
     border: 2px solid #208eef;
+  }
+  img {
+    padding: 4px;
+    border-radius: 8px;
+    min-width: 32px;
+    min-height: 32px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center center;
   }
   .imageDel {
     width: 100%;
@@ -344,6 +440,19 @@ async function updateCategory() {
     }
   }
 }
+.noneImg {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  span {
+    font-size: 12px;
+    color: var(--desc-color);
+    user-select: none;
+  }
+}
 .shortcutList {
   margin-top: 12px;
   .shortcutItem {
@@ -361,6 +470,10 @@ async function updateCategory() {
     box-shadow: 0px 0px 3px rgb(26 45 65 / 28%) !important;
     height: 42px;
     padding: 0 12px;
+    border-radius: 0 12px 12px 0;
   }
+}
+.el-divider--horizontal {
+  margin: 6px 0;
 }
 </style>

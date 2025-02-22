@@ -40,7 +40,7 @@ async function pingServer() {
   try {
     setTimeout(() => {
       if (!isServerStart.value) router.push({ name: 'ServerStart' })
-    }, 1000)
+    }, 1500)
     await authAPI.pingServer()
     isServerStart.value = true
   } catch (err) {

@@ -21,7 +21,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="iconBox" :style="{ background: `${props.color}` }">
+  <div
+    class="iconBox"
+    :style="{
+      background: `${props.color}`,
+      width: `${props.size}px`,
+      height: `${props.size}px`
+    }"
+  >
     <img
       v-if="props.url"
       :src="props.url"
@@ -40,7 +47,9 @@ const props = defineProps({
         height: `${props.size - 8}px`
       }"
     >
-      <span v-if="!props.url">{{ props.categoryName.charAt(0).toUpperCase() }}</span>
+      <span v-if="!props.url" :style="{ 'font-size': `${props.size / 2}px` }">{{
+        props.categoryName.charAt(0).toUpperCase()
+      }}</span>
     </div>
   </div>
 </template>
