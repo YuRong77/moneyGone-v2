@@ -52,12 +52,16 @@ export default defineConfig({
     }
   },
   build: {
+    cssCodeSplit: false, // CSS 合併，減少額外請求
     rollupOptions: {
       output: {
         manualChunks(id) {
           // if (id.includes('node_modules')) {
           //   return 'vendor'
           // }
+          if (id.includes('/src/views/')) {
+            return 'views'
+          }
           if (id.includes('src/apis/')) {
             return 'api-chunk'
           }
