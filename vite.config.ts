@@ -59,9 +59,9 @@ export default defineConfig({
           // if (id.includes('node_modules')) {
           //   return 'vendor'
           // }
-          if (id.includes('/src/views/')) {
-            return 'views'
-          }
+          // if (id.includes('/src/views/')) {
+          //   return 'views'
+          // }
           if (id.includes('src/apis/')) {
             return 'api-chunk'
           }
