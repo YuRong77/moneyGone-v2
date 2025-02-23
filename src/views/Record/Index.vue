@@ -107,7 +107,7 @@ onBeforeUnmount(() => {
       :style="{ height: 'calc(100dvh - 235px)' }"
       :image="house"
       :image-size="200"
-      :description="t('LC_RECORD_EMPTY')"
+      :description="search ? `${t('LC_SEARCH_EMPTY')} '${search}'` : t('LC_RECORD_EMPTY')"
     />
   </div>
   <RecordDrawer v-if="rowDetails" v-model:isVisible="isVisible" :rowDetails="rowDetails" />

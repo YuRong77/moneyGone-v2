@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { imageAPI, categoryAPI } from '@/apis'
 import type { Category, NewCategory } from '@/types'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { useCategoriesStore } from '@/stores/categories'
 import { storeToRefs } from 'pinia'
+import { showMessage } from '@/utils/message'
 import edit from '@/assets/images/svg/edit.svg'
 import remove from '@/assets/images/svg/delete.svg'
 import sort from '@/assets/images/svg/sort.svg'
@@ -61,10 +62,7 @@ function deleteCategory(id: number) {
   categoryAPI
     .categoryDelete(id)
     .then(() => {
-      ElMessage({
-        type: 'success',
-        message: t('LC_DELETE_SUCCESS')
-      })
+      showMessage(t('LC_DELETE_SUCCESS'))
       emit('getCategories')
     })
     .catch((err) => {})

@@ -8,7 +8,8 @@ export const showMessage = (message: string, type: MessageType = 'success') => {
     type,
     plain: true,
     duration: 2500,
-    grouping: true
+    grouping: true,
+    offset: 20
   })
 
   //router push duration 失效

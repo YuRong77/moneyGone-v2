@@ -8,6 +8,7 @@ import type { Transaction, NewTransaction } from '@/types'
 import type { FormInstance, FormRules } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { format, isToday, isSameDay } from 'date-fns'
+import { showMessage } from '@/utils/message'
 
 const { t } = useI18n()
 const props = defineProps({
@@ -76,6 +77,7 @@ function editTransaction() {
   transactionAPI
     .transactionUpdate(id, data)
     .then(() => {
+      showMessage(t('LC_EDIT_SUCCESS'))
       emitter.emit('refresh')
     })
     .catch((err) => {})
@@ -98,6 +100,7 @@ function addTransaction() {
   transactionAPI
     .transactionCreate(data)
     .then((res) => {
+      showMessage(t('LC_ADD_SUCCESS'))
       emitter.emit('refresh')
     })
     .catch((err) => {})

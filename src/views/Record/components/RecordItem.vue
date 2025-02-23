@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import type { Transaction } from '@/types'
 import menuKebab from '@/assets/images/svg/menu-kebab.svg'
 import info from '@/assets/images/svg/info.svg'
+import { showMessage } from '@/utils/message'
 
 const { t } = useI18n()
 const props = defineProps({
@@ -36,6 +37,7 @@ function deleteTransaction(id: number) {
   transactionAPI
     .transactionDelete(id)
     .then(() => {
+      showMessage(t('LC_DELETE_SUCCESS'))
       emitter.emit('refresh')
     })
     .catch((err) => {})

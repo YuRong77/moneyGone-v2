@@ -3,6 +3,7 @@ import { userAPI } from '@/apis'
 import { cloneDeep } from 'lodash'
 import { Storage } from '@/utils/localStorage'
 import { langList } from '@/types/constants'
+import { showMessage } from '@/utils/message'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -24,6 +25,7 @@ function updateUserName() {
     .then((res) => {
       locale.value = lang.value as string
       Storage.set('lang', lang.value)
+      showMessage(t('LC_EDIT_SUCCESS'))
     })
     .catch((err) => {})
     .finally(() => {

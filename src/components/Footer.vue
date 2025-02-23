@@ -153,7 +153,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .categoryDialog {
-  padding: 20px;
+  padding: 12px;
   background: #f3f4f8;
   border-radius: 8px;
 }

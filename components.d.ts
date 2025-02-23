@@ -32,7 +32,6 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElProgress: typeof import('element-plus/es')['ElProgress']
-    ElResult: typeof import('element-plus/es')['ElResult']
     ElSegmented: typeof import('element-plus/es')['ElSegmented']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElUpload: typeof import('element-plus/es')['ElUpload']

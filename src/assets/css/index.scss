@@ -50,14 +50,6 @@ canvas {
   background-size: cover;
 }
 
-img {
-  pointer-events: auto;
-  user-drag: none;
-  -webkit-user-drag: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
 .appWidth {
   max-width: 768px;
   margin: 0 auto;

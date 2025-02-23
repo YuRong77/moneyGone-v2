@@ -4,6 +4,7 @@ import type { Category, NewCategory, Shortcut, Image } from '@/types'
 import type { PropType } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { showMessage } from '@/utils/message'
 import type { UploadProps } from 'element-plus'
 import imageCompression from 'browser-image-compression'
 import { cloneDeep } from 'lodash'
@@ -53,6 +54,7 @@ const isVisibleModel = computed({
 const isEditMode = computed(() => 'id' in categoryData.value)
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+  showMessage(t('LC_ADD_SUCCESS'))
   emit('getImages')
 }
 
@@ -117,10 +119,7 @@ function deleteImage(id: number) {
   imageAPI
     .imageDelete(id)
     .then(() => {
-      ElMessage({
-        type: 'success',
-        message: t('LC_DELETE_SUCCESS')
-      })
+      showMessage(t('LC_DELETE_SUCCESS'))
       emit('getImages')
       if (id === categoryData.value.imageId) categoryData.value.imageId = null
     })
@@ -170,6 +169,7 @@ function updateData() {
       isLoading.value = false
       emit('getCategories')
       emit('update:isVisible', false)
+      isEditMode.value ? showMessage(t('LC_EDIT_SUCCESS')) : showMessage(t('LC_ADD_SUCCESS'))
     }
   })
 }
@@ -419,6 +419,7 @@ async function updateCategory() {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     object-position: center center;
+    pointer-events: none;
   }
   .imageDel {
     width: 100%;

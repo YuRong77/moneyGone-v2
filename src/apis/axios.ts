@@ -60,6 +60,10 @@ apiClient.interceptors.response.use(
     if (status === 403) {
       router.push({ name: 'Login' })
     }
+    if (status === 429) {
+      router.push({ name: 'Login' })
+      return showMessage(data, 'error')
+    }
     showMessage(data.message, 'error')
     return Promise.reject(data)
   }

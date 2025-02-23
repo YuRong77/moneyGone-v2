@@ -2,6 +2,7 @@
 import { userAPI } from '@/apis'
 import { cloneDeep } from 'lodash'
 import type { FormInstance, FormRules } from 'element-plus'
+import { showMessage } from '@/utils/message'
 
 const { t } = useI18n()
 const props = defineProps({
@@ -28,7 +29,9 @@ function updateUserName() {
     isLoading.value = true
     userAPI
       .updateUser({ name: formData.value.userName })
-      .then((res) => {})
+      .then((res) => {
+        showMessage(t('LC_EDIT_SUCCESS'))
+      })
       .catch((err) => {})
       .finally(() => {
         isLoading.value = false
