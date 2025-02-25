@@ -128,7 +128,12 @@ function addTransaction() {
         />
         <div class="label">{{ t('LC_NAME') }}</div>
         <el-form-item prop="name">
-          <el-input v-model="formData.name" class="popupInput" :placeholder="t('LC_TIPS_NAME')" />
+          <el-input
+            v-model="formData.name"
+            class="popupInput"
+            :placeholder="t('LC_TIPS_NAME')"
+            data-test="inputName"
+          />
         </el-form-item>
         <div class="shortcutList">
           <el-check-tag
@@ -149,6 +154,7 @@ function addTransaction() {
             type="text"
             inputmode="numeric"
             :placeholder="t('LC_TIPS_AMOUNT')"
+            data-test="inputAmount"
           />
         </el-form-item>
         <div class="label">{{ t('LC_NOTE') }}</div>
