@@ -58,12 +58,42 @@ describe('Lobby Component', () => {
     expect(spyPush).toHaveBeenCalledWith({ name: 'Record' })
   })
 
-  it('test', () => {
-    const test = vi.spyOn(wrapper.vm, 'getOverview')
-    test.mockReturnValue({
+  it('沒有今日記錄顯示 empty', async () => {
+    // vi.spyOn(transactionAPI, 'transactionOverview').mockResolvedValueOnce(data)
+    transactionAPI.transactionOverview = vi.fn().mockResolvedValue({
+      dailyTotal: 0,
+      monthlyBudget: 10000,
+      monthlyTotal: 0,
       todayRecords: []
     })
-    console.log(wrapper.vm.overview, 'over')
-    expect(wrapper.find('.el-empty').exists()).toBe(true)
+    await wrapper.vm.getOverview()
+    await nextTick()
+    expect(wrapper.find('.record .el-empty').exists()).toBe(true)
+    expect(wrapper.find('.record .recordItem').exists()).toBe(false)
+  })
+
+  it('有今日記錄顯示 recordItem', async () => {
+    transactionAPI.transactionOverview = vi.fn().mockResolvedValue({
+      dailyTotal: 0,
+      monthlyBudget: 10000,
+      monthlyTotal: 0,
+      todayRecords: [
+        {
+          amount: 100,
+          categoryColor: '#ff8f8f',
+          categoryId: 1,
+          categoryName: '生活',
+          createdAt: '2025-02-27T00:00:00.000Z',
+          id: 1,
+          imageUrl: null,
+          name: '午餐',
+          note: ''
+        }
+      ]
+    })
+    await wrapper.vm.getOverview()
+    await nextTick()
+    expect(wrapper.find('.record .el-empty').exists()).toBe(false)
+    expect(wrapper.find('.record .recordItem').exists()).toBe(true)
   })
 })
