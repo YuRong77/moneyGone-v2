@@ -77,10 +77,14 @@ function deleteTransaction(id: number) {
         :teleported="false"
         transition="el-zoom-in-top"
       >
-        <el-button class="mb-1" link @click="emitter.emit('editTransaction', props.item)">{{
-          t('LC_EDIT')
-        }}</el-button>
-        <el-button link type="danger" @click="deleteCheck(props.item)">{{
+        <el-button
+          class="mb-1"
+          link
+          data-test="recordEdit"
+          @click="emitter.emit('editTransaction', props.item)"
+          >{{ t('LC_EDIT') }}</el-button
+        >
+        <el-button link type="danger" data-test="recordDelete" @click="deleteCheck(props.item)">{{
           t('LC_DELETE')
         }}</el-button>
         <template #reference>

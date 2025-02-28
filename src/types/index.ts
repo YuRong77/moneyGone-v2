@@ -32,7 +32,7 @@ export interface Transaction {
   categoryId: number
   categoryName: string
   categoryColor: string
-  imageUrl: string
+  imageUrl: string | null
   createdAt: string
 }
 
@@ -50,7 +50,7 @@ export interface Chart {
     id: number
     name: string
     color: string
-    imageUrl: string
+    imageUrl: string | null
     totalAmount: number
   }[]
   categoriesDetails: { id: number; name: string; color: string; data: number[] }[]

@@ -77,7 +77,12 @@ onBeforeUnmount(() => {
     </template>
   </Header>
   <div class="content">
-    <el-input class="search cardShadow mb-5" v-model="search" :placeholder="t('LC_TIPS_RECORD')">
+    <el-input
+      class="search cardShadow mb-5"
+      v-model="search"
+      :placeholder="t('LC_TIPS_RECORD')"
+      data-test="recordSearch"
+    >
       <template #prefix>
         <inline-svg :src="searchSvg" height="18" width="18"></inline-svg>
       </template>
@@ -87,6 +92,7 @@ onBeforeUnmount(() => {
       v-for="item in recordsFilter"
       :key="item.date"
       @click="showDetails(item.details)"
+      data-test="totalItem"
     >
       <div class="info">
         <CategoryIcon
@@ -104,6 +110,7 @@ onBeforeUnmount(() => {
     </div>
     <el-empty
       v-if="recordsFilter.length === 0"
+      data-test="emptyRecord"
       :style="{ height: 'calc(100dvh - 235px)' }"
       :image="house"
       :image-size="200"
