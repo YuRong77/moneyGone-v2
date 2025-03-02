@@ -19,7 +19,7 @@ const router = useRouter()
 const userProfile = ref<Partial<User>>({ theme: 'light' })
 let isShowNameDialog = ref(false)
 let isShowMonthlyBudgetDialog = ref(false)
-let isShowMonthlyLangDialog = ref(false)
+let isShowLangDialog = ref(false)
 let isShowCategoryDrawer = ref(false)
 
 const categoriesStore = useCategoriesStore()
@@ -75,7 +75,7 @@ onMounted(() => {
   <Header :title="t('LC_SETTING')" />
   <div class="setting content">
     <div class="card">
-      <div class="item" @click="isShowNameDialog = true">
+      <div class="item" data-test="editName" @click="isShowNameDialog = true">
         <div class="label">
           <inline-svg :src="account" height="20" width="20"></inline-svg>
           <div>{{ t('LC_ACCOUNT_NAME') }}</div>
@@ -85,7 +85,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item" @click="isShowMonthlyBudgetDialog = true">
+      <div class="item" data-test="editBudget" @click="isShowMonthlyBudgetDialog = true">
         <div class="label">
           <inline-svg :src="wallet" height="20" width="20"></inline-svg>
           <div>{{ t('LC_BUDGET') }}</div>
@@ -95,7 +95,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item" @click="isShowMonthlyLangDialog = true">
+      <div class="item" data-test="editLang" @click="isShowLangDialog = true">
         <div class="label">
           <inline-svg :src="lang" height="20" width="20"></inline-svg>
           <div>{{ t('LC_LANG') }}</div>
@@ -105,7 +105,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item" @click="isShowCategoryDrawer = true">
+      <div class="item" data-test="editCategory" @click="isShowCategoryDrawer = true">
         <div class="label">
           <inline-svg :src="tags" height="20" width="20"></inline-svg>
           <div>{{ t('LC_CATEGORY') }}</div>
@@ -151,8 +151,8 @@ onMounted(() => {
     @getProfile="getProfile()"
   />
   <LangDialog
-    v-if="isShowMonthlyLangDialog"
-    v-model:isVisible="isShowMonthlyLangDialog"
+    v-if="isShowLangDialog"
+    v-model:isVisible="isShowLangDialog"
     :lang="userProfile?.lang"
     @getProfile="getProfile()"
   />
