@@ -57,12 +57,21 @@ function updateUserName() {
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
-          t('LC_CANCEL')
-        }}</el-button>
-        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateUserName()">{{
-          t('LC_SUBMIT')
-        }}</el-button>
+        <el-button
+          data-test="cancelEditName"
+          color="#f1f1f1"
+          class="mainBtn"
+          @click="emit('update:isVisible', false)"
+          >{{ t('LC_CANCEL') }}</el-button
+        >
+        <el-button
+          data-test="saveName"
+          color="#208eef"
+          class="mainBtn"
+          :loading="isLoading"
+          @click="updateUserName()"
+          >{{ t('LC_SUBMIT') }}</el-button
+        >
       </div>
     </template>
   </el-dialog>

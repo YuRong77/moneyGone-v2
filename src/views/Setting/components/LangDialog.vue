@@ -13,13 +13,15 @@ const emit = defineEmits(['update:isVisible', 'getProfile'])
 const { t, locale } = useI18n()
 
 let lang = ref(cloneDeep(props.lang))
+let isLoading = ref(false)
 
 const isVisibleModel = computed({
   get: () => props.isVisible,
   set: (val) => emit('update:isVisible', val)
 })
 
-function updateUserName() {
+function updateLang() {
+  isLoading.value = true
   userAPI
     .updateUser({ lang: lang.value })
     .then((res) => {
@@ -29,6 +31,7 @@ function updateUserName() {
     })
     .catch((err) => {})
     .finally(() => {
+      isLoading.value = false
       emit('update:isVisible', false)
       emit('getProfile')
     })
@@ -49,12 +52,21 @@ function updateUserName() {
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
-          t('LC_CANCEL')
-        }}</el-button>
-        <el-button color="#208eef" class="mainBtn" @click="updateUserName()">{{
-          t('LC_SUBMIT')
-        }}</el-button>
+        <el-button
+          data-test="cancelEditLang"
+          color="#f1f1f1"
+          class="mainBtn"
+          @click="emit('update:isVisible', false)"
+          >{{ t('LC_CANCEL') }}</el-button
+        >
+        <el-button
+          data-test="saveLang"
+          color="#208eef"
+          class="mainBtn"
+          :loading="isLoading"
+          @click="updateLang()"
+          >{{ t('LC_SUBMIT') }}</el-button
+        >
       </div>
     </template>
   </el-dialog>

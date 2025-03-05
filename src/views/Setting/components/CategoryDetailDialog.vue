@@ -248,13 +248,6 @@ async function updateCategory() {
           @click="categoryData.imageId = image.id"
         >
           <img :src="image.url" @error="(e) => ((e.target as HTMLImageElement).src = imageNull)" />
-          <div
-            class="imageDel"
-            v-if="isImagesDelMode && !image.isDefault"
-            @click="checkDelImage(image)"
-          >
-            <span>×</span>
-          </div>
         </div>
         <el-divider v-if="images.userImages.length > 0" />
         <div
@@ -266,6 +259,7 @@ async function updateCategory() {
         >
           <img :src="image.url" @error="(e) => ((e.target as HTMLImageElement).src = imageNull)" />
           <div
+            data-test="category_deleteImg_btn"
             class="imageDel"
             v-if="isImagesDelMode && !image.isDefault"
             @click="checkDelImage(image)"
@@ -290,9 +284,14 @@ async function updateCategory() {
         <el-button link v-if="isImagesDelMode" @click="isImagesDelMode = false" type="danger">{{
           t('LC_CANCEL')
         }}</el-button>
-        <el-button link v-else @click="isImagesDelMode = true" type="danger">{{
-          t('LC_DELETE_IMG')
-        }}</el-button>
+        <el-button
+          link
+          v-else
+          @click="isImagesDelMode = true"
+          type="danger"
+          data-test="category_imgDeleteMode_btn"
+          >{{ t('LC_DELETE_IMG') }}</el-button
+        >
       </div>
 
       <div class="label">{{ t('LC_EDIT_SHORTCUTS') }}</div>
@@ -309,6 +308,7 @@ async function updateCategory() {
                 v-if="shortcut.id"
                 link
                 type="danger"
+                data-test="category_deleteShortcut_btn"
                 @click="checkDeleteShortcut(shortcut)"
               >
                 <inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg
@@ -328,19 +328,32 @@ async function updateCategory() {
           :image-size="100"
           :description="t('LC_SHORTCUTS_EMPTY')"
         />
-        <el-button link type="primary" @click="categoryData.shortcuts!.push({ name: '' })">{{
-          t('LC_ADD_SHORTCUTS')
-        }}</el-button>
+        <el-button
+          data-test="category_addShortcut_btn"
+          link
+          type="primary"
+          @click="categoryData.shortcuts!.push({ name: '' })"
+          >{{ t('LC_ADD_SHORTCUTS') }}</el-button
+        >
       </div>
     </div>
     <template #footer>
       <div class="mb-1">
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
-          t('LC_CANCEL')
-        }}</el-button>
-        <el-button color="#208eef" class="mainBtn" :loading="isLoading" @click="updateData()">{{
-          t('LC_SUBMIT')
-        }}</el-button>
+        <el-button
+          data-test="category_cancel_btn"
+          color="#f1f1f1"
+          class="mainBtn"
+          @click="emit('update:isVisible', false)"
+          >{{ t('LC_CANCEL') }}</el-button
+        >
+        <el-button
+          data-test="category_submit_btn"
+          color="#208eef"
+          class="mainBtn"
+          :loading="isLoading"
+          @click="updateData()"
+          >{{ t('LC_SUBMIT') }}</el-button
+        >
       </div>
     </template>
   </el-dialog>

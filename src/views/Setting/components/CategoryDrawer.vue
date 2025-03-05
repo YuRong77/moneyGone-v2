@@ -91,9 +91,13 @@ provide('images', images)
 <template>
   <el-drawer v-model="isVisibleModel" :title="t('LC_EDIT_CATEGORY')" direction="btt" size="90%">
     <div class="text-right mb-4">
-      <el-button color="#208eef" class="mainBtn" @click="addCategory()">{{
-        t('LC_ADD_CATEGORY')
-      }}</el-button>
+      <el-button
+        data-test="category_add_btn"
+        color="#208eef"
+        class="mainBtn"
+        @click="addCategory()"
+        >{{ t('LC_ADD_CATEGORY') }}</el-button
+      >
     </div>
     <div class="item cardShadow" v-for="item in categories" :key="item.id">
       <div class="name">
@@ -101,10 +105,15 @@ provide('images', images)
         <span> {{ t('LC_ITEMS', { num: item.shortcuts?.length }) }}</span>
       </div>
       <div>
-        <el-button link @click.stop="editDetail(item)">
+        <el-button link data-test="category_edit_icon" @click.stop="editDetail(item)">
           <inline-svg :src="edit" height="20" width="20" color="#208eef"></inline-svg>
         </el-button>
-        <el-button link :disabled="isDeleteLoading" @click.stop="checkDelete(item)">
+        <el-button
+          link
+          data-test="category_delete_icon"
+          :disabled="isDeleteLoading"
+          @click.stop="checkDelete(item)"
+        >
           <inline-svg :src="remove" height="20" width="20" color="#ff5b5b"></inline-svg>
         </el-button>
         <!-- <el-button link>
@@ -120,9 +129,13 @@ provide('images', images)
     />
     <template #footer>
       <div class="footer">
-        <el-button plain class="mainBtn" @click="emit('update:isVisible', false)">{{
-          t('LC_CANCEL')
-        }}</el-button>
+        <el-button
+          data-test="category_close_btn"
+          plain
+          class="mainBtn"
+          @click="emit('update:isVisible', false)"
+          >{{ t('LC_CANCEL') }}</el-button
+        >
       </div>
     </template>
   </el-drawer>

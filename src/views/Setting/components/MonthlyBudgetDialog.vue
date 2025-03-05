@@ -59,10 +59,15 @@ function updateMonthlyBudget() {
     </div>
     <template #footer>
       <div>
-        <el-button color="#f1f1f1" class="mainBtn" @click="emit('update:isVisible', false)">{{
-          t('LC_CANCEL')
-        }}</el-button>
         <el-button
+          data-test="cancelEditBudget"
+          color="#f1f1f1"
+          class="mainBtn"
+          @click="emit('update:isVisible', false)"
+          >{{ t('LC_CANCEL') }}</el-button
+        >
+        <el-button
+          data-test="saveBudget"
           color="#208eef"
           class="mainBtn"
           :loading="isLoading"
