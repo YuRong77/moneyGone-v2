@@ -63,7 +63,7 @@ describe('Transaction Component', () => {
   })
 
   it('點擊關閉能正確 emit update isVisible', async () => {
-    await wrapper.find('[data-test="cancel"]').trigger('click')
+    await wrapper.find('[data-test="transaction_cancel_btn"]').trigger('click')
     expect(wrapper.emitted('update:isVisible')[0]).toEqual([false])
     await wrapper.find('.el-dialog__headerbtn').trigger('click')
     expect(wrapper.emitted('update:isVisible')[0]).toEqual([false])
@@ -72,7 +72,7 @@ describe('Transaction Component', () => {
   })
 
   it('點擊 shortcut 項目應該自動填入名稱到 name 欄位', async () => {
-    const shortcut = wrapper.find('[data-test="shortcut"]')
+    const shortcut = wrapper.find('[data-test="transaction_shortcut_btn"]')
     await shortcut.trigger('click')
     expect(wrapper.vm.formData.name).toBe('Lunch')
   })
@@ -85,8 +85,8 @@ describe('Transaction Component', () => {
   })
 
   it('新增時呼叫 create api', async () => {
-    const nameInput = wrapper.get('[data-test="inputName"]')
-    const amountInput = wrapper.get('[data-test="inputAmount"]')
+    const nameInput = wrapper.get('[data-test="transaction_name_input"]')
+    const amountInput = wrapper.get('[data-test="transaction_amount_input"]')
     await nameInput.setValue('test')
     await amountInput.setValue('100')
 
@@ -95,7 +95,7 @@ describe('Transaction Component', () => {
     // await form.vm.validate()
     // expect(form.vm.validate).not.toThrow()
 
-    const submit = wrapper.find('[data-test="submit"]')
+    const submit = wrapper.find('[data-test="transaction_submit_btn"]')
     await submit.trigger('click')
     await flushPromises()
 
@@ -107,13 +107,13 @@ describe('Transaction Component', () => {
   it('編輯時呼叫 update api', async () => {
     await wrapper.setProps({ transactionData: editData })
 
-    const nameInput = wrapper.get('[data-test="inputName"]')
-    const amountInput = wrapper.get('[data-test="inputAmount"]')
+    const nameInput = wrapper.get('[data-test="transaction_name_input"]')
+    const amountInput = wrapper.get('[data-test="transaction_amount_input"]')
     await nameInput.setValue('test')
     await amountInput.setValue('100')
 
     const submitHandler = vi.spyOn(wrapper.vm, 'submitHandler')
-    const submit = wrapper.find('[data-test="submit"]')
+    const submit = wrapper.find('[data-test="transaction_submit_btn"]')
     await submit.trigger('click')
     await flushPromises()
 

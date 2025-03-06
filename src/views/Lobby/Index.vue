@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
   <div class="content">
     <div class="titleBar">
       <h4 class="title">{{ t('LC_OVERVIEW') }}</h4>
-      <div class="link" data-test="toChart" @click="router.push({ name: 'Chart' })">
+      <div class="link" data-test="lobby_toChart_btn" @click="router.push({ name: 'Chart' })">
         <span>{{ t('LC_VIEW_CHART') }}</span>
         <inline-svg :src="right" color="#8d8d8d" height="20" width="24"></inline-svg>
       </div>
@@ -46,7 +46,7 @@ onBeforeUnmount(() => {
     <Overview class="mb-10" :data="overview" />
     <div class="titleBar">
       <h4 class="title">{{ t('LC_CATEGORY') }}</h4>
-      <div class="link" data-test="toSetting" @click="router.push({ name: 'Setting' })">
+      <div class="link" data-test="lobby_toSetting_btn" @click="router.push({ name: 'Setting' })">
         <span>{{ t('LC_EDIT_CATEGORY') }}</span>
         <inline-svg :src="right" color="#8d8d8d" height="20" width="20"></inline-svg>
       </div>
@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
     <CategoryItems class="mb-10" />
     <div class="titleBar">
       <h4 class="title">{{ t('LC_SPEND_TODAY') }}</h4>
-      <div class="link" data-test="toRecord" @click="router.push({ name: 'Record' })">
+      <div class="link" data-test="lobby_toRecord_btn" @click="router.push({ name: 'Record' })">
         <span>{{ t('LC_VIEW_RECORD') }}</span>
         <inline-svg :src="right" color="#8d8d8d" height="20" width="24"></inline-svg>
       </div>

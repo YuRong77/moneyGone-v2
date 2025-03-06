@@ -58,14 +58,14 @@ function updateUserName() {
     <template #footer>
       <div>
         <el-button
-          data-test="cancelEditName"
+          data-test="name_cancel_btn"
           color="#f1f1f1"
           class="mainBtn"
           @click="emit('update:isVisible', false)"
           >{{ t('LC_CANCEL') }}</el-button
         >
         <el-button
-          data-test="saveName"
+          data-test="name_submit_btn"
           color="#208eef"
           class="mainBtn"
           :loading="isLoading"

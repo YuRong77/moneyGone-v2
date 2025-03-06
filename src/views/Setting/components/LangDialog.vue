@@ -53,14 +53,14 @@ function updateLang() {
     <template #footer>
       <div>
         <el-button
-          data-test="cancelEditLang"
+          data-test="lang_cancel_btn"
           color="#f1f1f1"
           class="mainBtn"
           @click="emit('update:isVisible', false)"
           >{{ t('LC_CANCEL') }}</el-button
         >
         <el-button
-          data-test="saveLang"
+          data-test="lang_submit_btn"
           color="#208eef"
           class="mainBtn"
           :loading="isLoading"

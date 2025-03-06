@@ -75,7 +75,7 @@ onMounted(() => {
   <Header :title="t('LC_SETTING')" />
   <div class="setting content">
     <div class="card">
-      <div class="item" data-test="editName" @click="isShowNameDialog = true">
+      <div class="item" data-test="setting_name" @click="isShowNameDialog = true">
         <div class="label">
           <inline-svg :src="account" height="20" width="20"></inline-svg>
           <div>{{ t('LC_ACCOUNT_NAME') }}</div>
@@ -85,7 +85,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item" data-test="editBudget" @click="isShowMonthlyBudgetDialog = true">
+      <div class="item" data-test="setting_budget" @click="isShowMonthlyBudgetDialog = true">
         <div class="label">
           <inline-svg :src="wallet" height="20" width="20"></inline-svg>
           <div>{{ t('LC_BUDGET') }}</div>
@@ -95,7 +95,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item" data-test="editLang" @click="isShowLangDialog = true">
+      <div class="item" data-test="setting_lang" @click="isShowLangDialog = true">
         <div class="label">
           <inline-svg :src="lang" height="20" width="20"></inline-svg>
           <div>{{ t('LC_LANG') }}</div>
@@ -105,7 +105,7 @@ onMounted(() => {
           <inline-svg :src="right" height="20" width="20"></inline-svg>
         </div>
       </div>
-      <div class="item" data-test="editCategory" @click="isShowCategoryDrawer = true">
+      <div class="item" data-test="setting_category" @click="isShowCategoryDrawer = true">
         <div class="label">
           <inline-svg :src="tags" height="20" width="20"></inline-svg>
           <div>{{ t('LC_CATEGORY') }}</div>

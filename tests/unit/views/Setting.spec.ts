@@ -59,21 +59,21 @@ describe('Setting Component', () => {
   })
 
   it('編輯名稱 popup', async () => {
-    const editName = wrapper.find('[data-test="editName"]')
+    const editName = wrapper.find('[data-test="setting_name"]')
     await editName.trigger('click')
     expect(wrapper.vm.isShowNameDialog).toBe(true)
     expect(wrapper.findComponent({ name: 'NameDialog' }).exists()).toBe(true)
   })
 
   it('編輯預算 popup', async () => {
-    const editBudget = wrapper.find('[data-test="editBudget"]')
+    const editBudget = wrapper.find('[data-test="setting_budget"]')
     await editBudget.trigger('click')
     expect(wrapper.vm.isShowMonthlyBudgetDialog).toBe(true)
     expect(wrapper.findComponent({ name: 'MonthlyBudgetDialog' }).exists()).toBe(true)
   })
 
   it('編輯語系 popup', async () => {
-    const editLang = wrapper.find('[data-test="editLang"]')
+    const editLang = wrapper.find('[data-test="setting_lang"]')
     await editLang.trigger('click')
     expect(wrapper.vm.isShowLangDialog).toBe(true)
     expect(wrapper.findComponent({ name: 'LangDialog' }).exists()).toBe(true)
@@ -81,7 +81,7 @@ describe('Setting Component', () => {
 
   it('編輯分類 popup', async () => {
     categoriesStore.categories = []
-    const editCategory = wrapper.find('[data-test="editCategory"]')
+    const editCategory = wrapper.find('[data-test="setting_category"]')
     await editCategory.trigger('click')
     expect(wrapper.vm.isShowCategoryDrawer).toBe(true)
     expect(wrapper.findComponent({ name: 'CategoryDrawer' }).exists()).toBe(true)
@@ -108,7 +108,7 @@ describe('NameDialog Component', () => {
   })
 
   it('點擊儲存呼叫 updateUserName', async () => {
-    const saveBtn = nameWrapper.find('[data-test="saveName"]')
+    const saveBtn = nameWrapper.find('[data-test="name_submit_btn"]')
     const updateUserName = vi.spyOn(nameWrapper.vm, 'updateUserName')
     await saveBtn.trigger('click')
     await flushPromises()
@@ -126,7 +126,7 @@ describe('NameDialog Component', () => {
   })
 
   it('點擊關閉發送 isVisible false', async () => {
-    const cancelBtn = nameWrapper.find('[data-test="cancelEditName"]')
+    const cancelBtn = nameWrapper.find('[data-test="name_cancel_btn"]')
     await cancelBtn.trigger('click')
     expect(nameWrapper.emitted('update:isVisible')![0]).toEqual([false])
   })
@@ -145,7 +145,7 @@ describe('MonthlyBudgetDialog Component', () => {
   })
 
   it('點擊儲存呼叫 updateMonthlyBudget', async () => {
-    const saveBtn = budgetWrapper.find('[data-test="saveBudget"]')
+    const saveBtn = budgetWrapper.find('[data-test="budget_submit_btn"]')
     const updateMonthlyBudget = vi.spyOn(budgetWrapper.vm, 'updateMonthlyBudget')
     await saveBtn.trigger('click')
     await flushPromises()
@@ -163,7 +163,7 @@ describe('MonthlyBudgetDialog Component', () => {
   })
 
   it('點擊關閉發送 isVisible false', async () => {
-    const cancelBtn = budgetWrapper.find('[data-test="cancelEditBudget"]')
+    const cancelBtn = budgetWrapper.find('[data-test="budget_cancel_btn"]')
     await cancelBtn.trigger('click')
     expect(budgetWrapper.emitted('update:isVisible')![0]).toEqual([false])
   })
@@ -182,7 +182,7 @@ describe('LangDialog Component', () => {
   })
 
   it('點擊儲存呼叫 updateLang', async () => {
-    const saveBtn = langWrapper.find('[data-test="saveLang"]')
+    const saveBtn = langWrapper.find('[data-test="lang_submit_btn"]')
     const updateLang = vi.spyOn(langWrapper.vm, 'updateLang')
     await saveBtn.trigger('click')
     await flushPromises()
@@ -200,7 +200,7 @@ describe('LangDialog Component', () => {
   })
 
   it('點擊關閉發送 isVisible false', async () => {
-    const cancelBtn = langWrapper.find('[data-test="cancelEditLang"]')
+    const cancelBtn = langWrapper.find('[data-test="lang_cancel_btn"]')
     await cancelBtn.trigger('click')
     expect(langWrapper.emitted('update:isVisible')![0]).toEqual([false])
   })

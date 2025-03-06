@@ -80,13 +80,17 @@ function deleteTransaction(id: number) {
         <el-button
           class="mb-1"
           link
-          data-test="recordEdit"
+          data-test="recordItem_edit_btn"
           @click="emitter.emit('editTransaction', props.item)"
           >{{ t('LC_EDIT') }}</el-button
         >
-        <el-button link type="danger" data-test="recordDelete" @click="deleteCheck(props.item)">{{
-          t('LC_DELETE')
-        }}</el-button>
+        <el-button
+          link
+          type="danger"
+          data-test="recordItem_delete_btn"
+          @click="deleteCheck(props.item)"
+          >{{ t('LC_DELETE') }}</el-button
+        >
         <template #reference>
           <el-button link>
             <inline-svg :src="menuKebab" height="18" width="18"></inline-svg>

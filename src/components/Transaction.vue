@@ -132,7 +132,7 @@ function addTransaction() {
             v-model="formData.name"
             class="popupInput"
             :placeholder="t('LC_TIPS_NAME')"
-            data-test="inputName"
+            data-test="transaction_name_input"
           />
         </el-form-item>
         <div class="shortcutList">
@@ -141,7 +141,7 @@ function addTransaction() {
             :key="shortcut.id"
             @click="setName(shortcut.name)"
             type="info"
-            data-test="shortcut"
+            data-test="transaction_shortcut_btn"
             >{{ shortcut.name }}</el-check-tag
           >
         </div>
@@ -154,7 +154,7 @@ function addTransaction() {
             type="text"
             inputmode="numeric"
             :placeholder="t('LC_TIPS_AMOUNT')"
-            data-test="inputAmount"
+            data-test="transaction_amount_input"
           />
         </el-form-item>
         <div class="label">{{ t('LC_NOTE') }}</div>
@@ -166,14 +166,14 @@ function addTransaction() {
         <el-button
           color="#f1f1f1"
           class="mainBtn"
-          data-test="cancel"
+          data-test="transaction_cancel_btn"
           @click="emit('update:isVisible', false)"
           >{{ t('LC_CANCEL') }}</el-button
         >
         <el-button
           color="#208eef"
           class="mainBtn"
-          data-test="submit"
+          data-test="transaction_submit_btn"
           :loading="isLoading"
           @click="submitHandler()"
           >{{ t('LC_SUBMIT') }}</el-button

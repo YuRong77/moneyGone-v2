@@ -35,7 +35,7 @@ describe('Lobby Component', () => {
   })
 
   it('點擊快捷前往圖表', async () => {
-    const toChart = wrapper.find('[data-test="toChart"]')
+    const toChart = wrapper.find('[data-test="lobby_toChart_btn"]')
     const spyPush = vi.spyOn(wrapper.vm.router, 'push')
     await toChart.trigger('click')
     expect(spyPush).toHaveBeenCalledOnce()
@@ -43,7 +43,7 @@ describe('Lobby Component', () => {
   })
 
   it('點擊快捷前往設定', async () => {
-    const toChart = wrapper.find('[data-test="toSetting"]')
+    const toChart = wrapper.find('[data-test="lobby_toSetting_btn"]')
     const spyPush = vi.spyOn(wrapper.vm.router, 'push')
     await toChart.trigger('click')
     expect(spyPush).toHaveBeenCalledOnce()
@@ -51,7 +51,7 @@ describe('Lobby Component', () => {
   })
 
   it('點擊快捷前往記錄', async () => {
-    const toChart = wrapper.find('[data-test="toRecord"]')
+    const toChart = wrapper.find('[data-test="lobby_toRecord_btn"]')
     const spyPush = vi.spyOn(wrapper.vm.router, 'push')
     await toChart.trigger('click')
     expect(spyPush).toHaveBeenCalledOnce()

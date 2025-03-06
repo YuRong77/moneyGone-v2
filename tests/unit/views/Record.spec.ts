@@ -85,31 +85,31 @@ describe('Record Component', () => {
   })
 
   it('沒有今日記錄顯示 empty', async () => {
-    expect(wrapper.find('[data-test="emptyRecord"]').exists()).toBe(true)
-    expect(wrapper.find('[data-test="totalItem"]').exists()).toBe(false)
+    expect(wrapper.find('[data-test="record_empty"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test="record_totalItem"]').exists()).toBe(false)
   })
 
   it('有今日記錄顯示 totalItem', async () => {
     transactionAPI.transactionTotalList = vi.fn().mockResolvedValue(records)
     await wrapper.vm.getMonthRecord()
     await nextTick()
-    expect(wrapper.find('[data-test="emptyRecord"]').exists()).toBe(false)
-    expect(wrapper.find('[data-test="totalItem"]').exists()).toBe(true)
+    expect(wrapper.find('[data-test="record_empty"]').exists()).toBe(false)
+    expect(wrapper.find('[data-test="record_totalItem"]').exists()).toBe(true)
   })
 
   it('使用 search 應出現對應項目', async () => {
     transactionAPI.transactionTotalList = vi.fn().mockResolvedValue(records)
     await wrapper.vm.getMonthRecord()
     await nextTick()
-    wrapper.find('[data-test="recordSearch"]').setValue('午餐')
+    wrapper.find('[data-test="record_search_input"]').setValue('午餐')
     await nextTick()
-    expect(wrapper.findAll('[data-test="totalItem"]').length).toBe(1)
-    wrapper.find('[data-test="recordSearch"]').setValue('沒這個')
+    expect(wrapper.findAll('[data-test="record_totalItem"]').length).toBe(1)
+    wrapper.find('[data-test="record_search_input"]').setValue('沒這個')
     await nextTick()
-    expect(wrapper.findAll('[data-test="totalItem"]').length).toBe(0)
-    wrapper.find('[data-test="recordSearch"]').setValue('娛樂')
+    expect(wrapper.findAll('[data-test="record_totalItem"]').length).toBe(0)
+    wrapper.find('[data-test="record_search_input"]').setValue('娛樂')
     await nextTick()
-    expect(wrapper.findAll('[data-test="totalItem"]').length).toBe(1)
+    expect(wrapper.findAll('[data-test="record_totalItem"]').length).toBe(1)
   })
 
   it('getTopExpenseItem 取得該項最高消費', async () => {
@@ -137,7 +137,7 @@ describe('Record Component', () => {
     // wrapper.vm.showDetails(records[0].details)
     // await nextTick()
     const showDetails = vi.spyOn(wrapper.vm, 'showDetails')
-    wrapper.find('[data-test="totalItem"]').trigger('click')
+    wrapper.find('[data-test="record_totalItem"]').trigger('click')
     await nextTick()
     expect(showDetails).toHaveBeenCalledOnce()
     expect(wrapper.find('.recordItem').exists()).toBe(true)
@@ -157,7 +157,7 @@ describe('RecordItem Component', () => {
     const actionBtn = itemWrapper.find('.action .el-tooltip__trigger')
     await actionBtn.trigger('click')
     await nextTick()
-    const editBtn = itemWrapper.find('[data-test="recordEdit"]')
+    const editBtn = itemWrapper.find('[data-test="recordItem_edit_btn"]')
     await editBtn.trigger('click')
     await nextTick()
     expect(emitter.emit).toHaveBeenCalledWith('editTransaction', records[0].details[0])
@@ -170,7 +170,7 @@ describe('RecordItem Component', () => {
     const actionBtn = itemWrapper.find('.action .el-tooltip__trigger')
     await actionBtn.trigger('click')
     await nextTick()
-    const deleteBtn = itemWrapper.find('[data-test="recordDelete"]')
+    const deleteBtn = itemWrapper.find('[data-test="recordItem_delete_btn"]')
     await deleteBtn.trigger('click')
     await nextTick()
 

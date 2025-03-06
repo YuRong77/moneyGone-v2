@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
       class="search cardShadow mb-5"
       v-model="search"
       :placeholder="t('LC_TIPS_RECORD')"
-      data-test="recordSearch"
+      data-test="record_search_input"
     >
       <template #prefix>
         <inline-svg :src="searchSvg" height="18" width="18"></inline-svg>
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
       v-for="item in recordsFilter"
       :key="item.date"
       @click="showDetails(item.details)"
-      data-test="totalItem"
+      data-test="record_totalItem"
     >
       <div class="info">
         <CategoryIcon
@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
     </div>
     <el-empty
       v-if="recordsFilter.length === 0"
-      data-test="emptyRecord"
+      data-test="record_empty"
       :style="{ height: 'calc(100dvh - 235px)' }"
       :image="house"
       :image-size="200"
