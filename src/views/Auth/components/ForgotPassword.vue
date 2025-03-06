@@ -40,9 +40,11 @@ function sendResetEmail() {
           type="email"
           :placeholder="t('LC_TIPS_EMAIL')"
           class="popupInput"
+          data-test="forgotPassword_email_input"
         ></el-input>
       </el-form-item>
       <el-button
+        data-test="forgotPassword_sendEmail_btn"
         class="w-100"
         type="primary"
         round
@@ -51,9 +53,13 @@ function sendResetEmail() {
         >{{ t('LC_SEND_RESET_EMAIL') }}</el-button
       >
       <div class="mb-2"></div>
-      <el-button class="w-100" round @click="router.push({ name: 'Login' })">{{
-        t('LC_CANCEL')
-      }}</el-button>
+      <el-button
+        data-test="forgotPassword_cancel_btn"
+        class="w-100"
+        round
+        @click="router.push({ name: 'Login' })"
+        >{{ t('LC_CANCEL') }}</el-button
+      >
     </el-form>
     <el-result
       icon="success"
@@ -62,9 +68,12 @@ function sendResetEmail() {
       v-else
     >
       <template #extra>
-        <el-button type="primary" @click="router.push({ name: 'Login' })">{{
-          t('LC_CLOSE')
-        }}</el-button>
+        <el-button
+          data-test="forgotPassword_toLogin_btn"
+          type="primary"
+          @click="router.push({ name: 'Login' })"
+          >{{ t('LC_CLOSE') }}</el-button
+        >
       </template>
     </el-result>
   </div>

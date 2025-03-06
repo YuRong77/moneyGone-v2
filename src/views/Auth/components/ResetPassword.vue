@@ -53,6 +53,7 @@ function resetPassword() {
           :placeholder="t('LC_TIPS_PASSWORD')"
           type="password"
           autocomplete="new-password"
+          data-test="resetPassword_password_input"
         ></el-input>
       </el-form-item>
       <el-form-item prop="checkPassword">
@@ -62,17 +63,27 @@ function resetPassword() {
           :placeholder="t('LC_TIPS_PASSWORD_CHECK')"
           type="password"
           autocomplete="new-password"
+          data-test="resetPassword_checkPassword_input"
         ></el-input>
       </el-form-item>
-      <el-button class="w-100" type="primary" round :loading="isLoading" @click="resetPassword()">{{
-        t('LC_RESET_PASSWORD')
-      }}</el-button>
+      <el-button
+        data-test="resetPassword_submit_btn"
+        class="w-100"
+        type="primary"
+        round
+        :loading="isLoading"
+        @click="resetPassword()"
+        >{{ t('LC_RESET_PASSWORD') }}</el-button
+      >
     </el-form>
     <el-result icon="success" :title="t('LC_EDIT_SUCCESS')" :sub-title="t('LC_RE_LOGIN')" v-else>
       <template #extra>
-        <el-button type="primary" @click="router.push({ name: 'Login' })">{{
-          t('LC_TO_LOGIN')
-        }}</el-button>
+        <el-button
+          data-test="resetPassword_toLogin_btn"
+          type="primary"
+          @click="router.push({ name: 'Login' })"
+          >{{ t('LC_TO_LOGIN') }}</el-button
+        >
       </template>
     </el-result>
   </div>

@@ -16,7 +16,18 @@ const router = createRouter({
     { path: '/record', name: 'Record', component: { template: '<div>Record</div>' } },
     { path: '/chart', name: 'Chart', component: { template: '<div>Chart</div>' } },
     { path: '/setting', name: 'Setting', component: { template: '<div>Setting</div>' } },
-    { path: '/login', name: 'Login', component: { template: '<div>Login</div>' } }
+    { path: '/login', name: 'Login', component: { template: '<div>Login</div>' } },
+    { path: '/register', name: 'Register', component: { template: '<div>Register</div>' } },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: { template: '<div>ForgotPassword</div>' }
+    },
+    {
+      path: '/reset-password',
+      name: 'ResetPassword',
+      component: { template: '<div>ResetPassword</div>' }
+    }
   ]
 })
 // const mockElDialog = {

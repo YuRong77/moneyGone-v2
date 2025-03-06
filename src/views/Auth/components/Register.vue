@@ -78,13 +78,16 @@ function register() {
           v-model.trim="formData.name"
           :placeholder="t('LC_TIPS_ACCOUNT_NAME')"
           class="popupInput"
+          data-test="register_name_input"
         ></el-input>
       </el-form-item>
       <el-form-item prop="email">
         <el-input
           v-model.trim="formData.email"
           :placeholder="t('LC_TIPS_EMAIL')"
+          type="email"
           class="popupInput"
+          data-test="register_email_input"
         ></el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -94,6 +97,7 @@ function register() {
           :placeholder="t('LC_TIPS_PASSWORD')"
           type="password"
           autocomplete="new-password"
+          data-test="register_password_input"
         ></el-input>
       </el-form-item>
       <el-form-item prop="checkPassword">
@@ -102,16 +106,27 @@ function register() {
           class="popupInput"
           :placeholder="t('LC_TIPS_PASSWORD_CHECK')"
           type="password"
+          data-test="register_checkPassword_input"
         ></el-input>
       </el-form-item>
 
-      <el-button class="w-100" type="primary" round :loading="isLoading" @click="register()">{{
-        t('LC_SUBMIT')
-      }}</el-button>
+      <el-button
+        data-test="register_submit_btn"
+        class="w-100"
+        type="primary"
+        round
+        :loading="isLoading"
+        @click="register()"
+        >{{ t('LC_SUBMIT') }}</el-button
+      >
       <div class="mb-2"></div>
-      <el-button class="w-100" round @click="router.push({ name: 'Login' })">{{
-        t('LC_CANCEL')
-      }}</el-button>
+      <el-button
+        data-test="register_cancel_btn"
+        class="w-100"
+        round
+        @click="router.push({ name: 'Login' })"
+        >{{ t('LC_CANCEL') }}</el-button
+      >
     </el-form>
     <el-result
       icon="success"
@@ -120,9 +135,12 @@ function register() {
       v-else
     >
       <template #extra>
-        <el-button type="primary" @click="router.push({ name: 'Login' })">{{
-          t('LC_TO_LOGIN')
-        }}</el-button>
+        <el-button
+          data-test="register_toLogin_btn"
+          type="primary"
+          @click="router.push({ name: 'Login' })"
+          >{{ t('LC_TO_LOGIN') }}</el-button
+        >
       </template>
     </el-result>
   </div>

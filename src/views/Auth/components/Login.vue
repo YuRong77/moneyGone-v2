@@ -92,22 +92,41 @@ onMounted(() => {
     </el-form>
     <div class="flex-sb-c mb-2">
       <el-checkbox v-model="rememberEmail" :label="t('LC_EMAIL_REMEMBER')" size="large" />
-      <el-button link type="info" @click="router.push({ name: 'ForgotPassword' })"
+      <el-button
+        data-test="login_forgotPassword_btn"
+        link
+        type="info"
+        @click="router.push({ name: 'ForgotPassword' })"
         >{{ t('LC_FORGOT_PASSWORD') }}?</el-button
       >
     </div>
-    <el-button class="w-100" type="primary" round :loading="isLoading" @click="login()">{{
-      t('LC_LOGIN')
-    }}</el-button>
+    <el-button
+      data-test="login_submit_btn"
+      class="w-100"
+      type="primary"
+      round
+      :loading="isLoading"
+      @click="login()"
+      >{{ t('LC_LOGIN') }}</el-button
+    >
     <el-divider class="text-center">{{ t('LC_OTHER_LOGIN') }}</el-divider>
-    <el-button class="w-100" round :loading="isLoading" @click="loginTest()">{{
-      t('LC_USE_TEST_ACCOUNT')
-    }}</el-button>
+    <el-button
+      data-test="login_testAccount_btn"
+      class="w-100"
+      round
+      :loading="isLoading"
+      @click="loginTest()"
+      >{{ t('LC_USE_TEST_ACCOUNT') }}</el-button
+    >
     <div class="registerTips">
       {{ t('LC_NO_ACCOUNT') }}
-      <el-button link type="primary" @click="router.push({ name: 'Register' })">{{
-        t('LC_REGISTER')
-      }}</el-button>
+      <el-button
+        data-test="login_toRegister_btn"
+        link
+        type="primary"
+        @click="router.push({ name: 'Register' })"
+        >{{ t('LC_REGISTER') }}</el-button
+      >
     </div>
   </div>
 </template>
