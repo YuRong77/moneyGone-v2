@@ -12,7 +12,8 @@ export default mergeConfig(
       setupFiles: './tests/setup.ts',
       coverage: {
         provider: 'istanbul', // or 'v8'
-        reporter: ['text', 'json', 'html']
+        reporter: ['text', 'json', 'html'],
+        exclude: [...(configDefaults.coverage?.exclude || []), 'src/apis/modules/**']
       },
       reporters: 'verbose',
       server: {
