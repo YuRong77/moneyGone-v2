@@ -82,7 +82,7 @@ provide('date', date)
       />
       <div class="switchBar">
         <el-switch
-          v-model="chartType as string"
+          v-model="chartType"
           :active-text="t('LC_YEAR_REPORT')"
           :inactive-text="t('LC_MONTH_REPORT')"
           active-value="year"
@@ -90,7 +90,7 @@ provide('date', date)
         />
         <el-switch
           v-if="viewType === 'bar' && chartRange && chartType === 'month'"
-          v-model="chartRange as string"
+          v-model="chartRange"
           :active-text="t('LC_SECOND_HALF')"
           :inactive-text="t('LC_FIRST_HALF')"
           active-value="secondHalf"
