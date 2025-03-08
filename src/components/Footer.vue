@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
       <inline-svg :src="item.icon" height="24" width="24"></inline-svg>
       <span class="itemName">{{ item.name }}</span>
     </div>
-    <button class="transactionButton" @click="categoryDialog = true">
+    <button class="transactionButton" aria-label="新增記錄" @click="categoryDialog = true">
       <inline-svg :src="plus" height="30" width="30" color="white"></inline-svg>
     </button>
   </div>

@@ -31,6 +31,7 @@ const props = defineProps({
   >
     <img
       v-if="props.url"
+      alt="分類圖標"
       :src="props.url"
       :style="{
         width: `${props.size - 8}px`,

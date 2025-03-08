@@ -40,6 +40,7 @@ const displayInfo = computed(() => {
     </div>
     <el-progress
       type="dashboard"
+      aria-label="花費額度"
       :percentage="displayInfo.percent"
       :color="colors"
       :stroke-width="10"
@@ -62,7 +63,7 @@ const displayInfo = computed(() => {
   border-radius: 12px 80px 12px 12px;
   .label {
     font-size: 14px;
-    color: #8d8d8d;
+    color: #6b7074;
     margin-bottom: 4px;
   }
   .amount {

@@ -116,7 +116,7 @@ function deleteTransaction(id: number) {
     flex: 1;
     max-width: 90%;
     .name {
-      color: #8d8d8d;
+      color: #6b7074;
       font-size: 14px;
       white-space: nowrap;
       overflow: hidden;
@@ -142,7 +142,7 @@ function deleteTransaction(id: number) {
     align-items: center;
     .date {
       font-size: 14px;
-      color: #8d8d8d;
+      color: #6b7074;
       margin-right: 10px;
     }
   }

@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
     align-items: center;
     .date {
       font-size: 14px;
-      color: #8d8d8d;
+      color: #6b7074;
     }
     .amount {
       font-weight: 500;

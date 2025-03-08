@@ -120,7 +120,7 @@ onUnmounted(() => {
 
 .loading-description {
   font-size: 1rem;
-  color: #8d8d8d;
+  color: #6b7074;
   letter-spacing: 0.3px;
 }
 

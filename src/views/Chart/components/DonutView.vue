@@ -78,7 +78,7 @@ function showCategoryDetails(id: number) {
 
       .name {
         font-size: 14px;
-        color: #8d8d8d;
+        color: #6b7074;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

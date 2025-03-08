@@ -247,7 +247,11 @@ async function updateCategory() {
           :key="image.id"
           @click="categoryData.imageId = image.id"
         >
-          <img :src="image.url" @error="(e) => ((e.target as HTMLImageElement).src = imageNull)" />
+          <img
+            alt="分類圖標"
+            :src="image.url"
+            @error="(e) => ((e.target as HTMLImageElement).src = imageNull)"
+          />
         </div>
         <el-divider v-if="images.userImages.length > 0" />
         <div
@@ -257,7 +261,11 @@ async function updateCategory() {
           :key="image.id"
           @click="categoryData.imageId = image.id"
         >
-          <img :src="image.url" @error="(e) => ((e.target as HTMLImageElement).src = imageNull)" />
+          <img
+            alt="分類圖標"
+            :src="image.url"
+            @error="(e) => ((e.target as HTMLImageElement).src = imageNull)"
+          />
           <div
             data-test="category_deleteImg_btn"
             class="imageDel"
