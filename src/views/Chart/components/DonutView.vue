@@ -37,7 +37,12 @@ function showCategoryDetails(id: number) {
               <div class="amount">$ {{ priceFormat(item.totalAmount) }}</div>
             </div>
           </div>
-          <el-button link type="primary" @click="showCategoryDetails(item.id)">
+          <el-button
+            data-test="chart_category_btn"
+            link
+            type="primary"
+            @click="showCategoryDetails(item.id)"
+          >
             <inline-svg :src="searchSvg" height="18" width="18"></inline-svg>
           </el-button>
         </div>

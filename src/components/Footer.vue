@@ -11,10 +11,10 @@ const router = useRouter()
 const route = useRoute()
 
 const menuItems = [
-  { name: t('LC_HOME'), route: 'Lobby', icon: overview },
-  { name: t('LC_RECORD'), route: 'Record', icon: list },
-  { name: t('LC_CHART'), route: 'Chart', icon: chart },
-  { name: t('LC_SETTING'), route: 'Setting', icon: setting }
+  { name: t('LC_HOME'), route: 'Lobby', icon: overview, dataTest: 'footer_toHome_btn' },
+  { name: t('LC_RECORD'), route: 'Record', icon: list, dataTest: 'footer_toRecord_btn' },
+  { name: t('LC_CHART'), route: 'Chart', icon: chart, dataTest: 'footer_toChart_btn' },
+  { name: t('LC_SETTING'), route: 'Setting', icon: setting, dataTest: 'footer_toSetting_btn' }
 ]
 
 let activeRoute = ref('')
@@ -47,12 +47,18 @@ onBeforeUnmount(() => {
       :key="item.route"
       class="footerItem"
       :class="{ active: item.route === activeRoute }"
+      :data-test="item.dataTest"
       @click="routeTo(item.route)"
     >
       <inline-svg :src="item.icon" height="24" width="24"></inline-svg>
       <span class="itemName">{{ item.name }}</span>
     </div>
-    <button class="transactionButton" aria-label="新增記錄" @click="categoryDialog = true">
+    <button
+      class="transactionButton"
+      data-test="footer_transaction_btn"
+      aria-label="新增記錄"
+      @click="categoryDialog = true"
+    >
       <inline-svg :src="plus" height="30" width="30" color="white"></inline-svg>
     </button>
   </div>

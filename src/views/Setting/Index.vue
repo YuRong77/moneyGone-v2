@@ -134,7 +134,7 @@ onMounted(() => {
           <inline-svg :src="signOut" height="20" width="20"></inline-svg>
           <div>{{ t('LC_LOGOUT') }}</div>
         </div>
-        <el-button @click="logout()">{{ t('LC_LOGOUT') }}</el-button>
+        <el-button data-test="setting_logout_btn" @click="logout()">{{ t('LC_LOGOUT') }}</el-button>
       </div>
     </div>
   </div>
