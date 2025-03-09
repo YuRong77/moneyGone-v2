@@ -10,7 +10,7 @@ import { version } from './package.json'
 export default defineConfig(({ mode }) => {
   console.log(mode, 'mode')
   return {
-    base: './',
+    base: mode === 'development' ? './' : '/moneyGone-v2/',
     plugins: [
       vue(),
       AutoImport({

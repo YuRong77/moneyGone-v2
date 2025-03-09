@@ -8,6 +8,7 @@
     "locales": "node src/locales/xlsxToJson.cjs",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
+    "preview:dev": "vite preview --mode development",
     "test:unit": "vitest",
     "cypress:open": "cypress open",
     "build-only": "vite build",
