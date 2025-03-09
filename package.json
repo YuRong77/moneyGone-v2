@@ -17,9 +17,11 @@
     "build:dev": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "deploy": "gh-pages -d dist",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "partytown": "partytown copylib public/~partytown"
   },
   "dependencies": {
+    "@qwik.dev/partytown": "^0.11.0",
     "@sentry/vue": "^9.0.1",
     "apexcharts": "^3.52.0",
     "axios": "^1.7.4",

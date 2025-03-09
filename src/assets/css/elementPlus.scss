@@ -17,6 +17,9 @@
 }
 .is-fullscreen {
   max-width: 768px;
+  @media (min-width: 768px) and (max-width: 1024px) {
+    max-width: 1024px;
+  }
 }
 .el-drawer {
   max-width: 768px;
