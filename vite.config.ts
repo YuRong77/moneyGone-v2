@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-import path from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -7,7 +6,6 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { VitePWA } from 'vite-plugin-pwa'
 import { version } from './package.json'
-import { partytownVite } from '@qwik.dev/partytown/utils'
 
 export default defineConfig(({ mode }) => {
   console.log(mode, 'mode')
@@ -27,9 +25,6 @@ export default defineConfig(({ mode }) => {
         dirs: ['src/components', 'src/views/**/components'],
         dts: 'components.d.ts',
         resolvers: [ElementPlusResolver()]
-      }),
-      partytownVite({
-        dest: path.join(__dirname, 'dist', '~partytown')
       }),
       VitePWA({
         registerType: 'autoUpdate',

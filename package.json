@@ -19,7 +19,7 @@
     "build:prod": "vite build --mode production",
     "deploy": "gh-pages -d dist",
     "coverage": "vitest run --coverage",
-    "partytown": "partytown copylib public/~partytown"
+    "partytown": "partytown copylib public/partytown"
   },
   "dependencies": {
     "@qwik.dev/partytown": "^0.11.0",
