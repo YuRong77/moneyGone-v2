@@ -179,7 +179,7 @@
   const A = e.parent,
     M = document.implementation.createHTMLDocument(),
     x = A.partytown || {},
-    P = (x.lib || '/partytown/') + '',
+    P = (x.lib || '/moneyGone-v2/partytown/') + '',
     H = (e, t, r) => {
       const n = ((e, t) => {
         return (

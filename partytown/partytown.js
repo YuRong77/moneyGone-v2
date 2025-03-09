@@ -21,7 +21,7 @@ const t = { preserveBehavior: !1 },
   function h() {
     f ||
       ((f = 1),
-      '/' == (c = (s.lib || '/partytown/') + (s.debug ? 'debug/' : ''))[0] &&
+      '/' == (c = (s.lib || '/moneyGone-v2/partytown/') + (s.debug ? 'debug/' : ''))[0] &&
         ((d = r.querySelectorAll('script[type="text/partytown"]')),
         i != t
           ? i.dispatchEvent(new CustomEvent('pt1', { detail: t }))
