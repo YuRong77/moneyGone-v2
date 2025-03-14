@@ -7,10 +7,12 @@ export default defineConfig({
       bundler: 'vite'
     }
   },
-
   e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+    baseUrl: 'http://localhost:5173/',
+    setupNodeEvents(on, config) {},
+    env: {
+      BASE_URL: 'http://localhost:5173/#',
+      API_URL: 'http://localhost:3002'
     }
   }
 })

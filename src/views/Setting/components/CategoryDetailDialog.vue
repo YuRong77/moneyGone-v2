@@ -205,6 +205,7 @@ async function updateCategory() {
               class="popupInput"
               v-model.trim="categoryData.name"
               :placeholder="t('LC_TIPS_NAME')"
+              data-test="category_name_input"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -285,6 +286,7 @@ async function updateCategory() {
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
+          data-test="category_uploadImg_btn"
         >
           <div>{{ t('LC_IMG_UPLOAD') }}</div>
         </el-upload>
