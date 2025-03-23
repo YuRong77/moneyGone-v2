@@ -95,6 +95,7 @@ provide('images', images)
         data-test="category_add_btn"
         color="#208eef"
         class="mainBtn"
+        :disabled="categories.length >= 12"
         @click="addCategory()"
         >{{ t('LC_ADD_CATEGORY') }}</el-button
       >

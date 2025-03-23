@@ -1,6 +1,11 @@
 import { fileURLToPath } from 'node:url'
 import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
-import viteConfig from './vite.config'
+import viteConfigRaw from './vite.config'
+
+const viteConfig =
+  typeof viteConfigRaw === 'function'
+    ? viteConfigRaw({ mode: 'test', command: 'serve' })
+    : viteConfigRaw
 
 export default mergeConfig(
   viteConfig,
@@ -13,7 +18,7 @@ export default mergeConfig(
       coverage: {
         provider: 'istanbul', // or 'v8'
         reporter: ['text', 'json', 'html'],
-        exclude: [...(configDefaults.coverage?.exclude || []), 'src/apis/modules/**']
+        exclude: [...(configDefaults.coverage?.exclude || []), 'src/apis/modules/**', 'public/**']
       },
       reporters: 'verbose',
       server: {

@@ -342,6 +342,7 @@ async function updateCategory() {
           data-test="category_addShortcut_btn"
           link
           type="primary"
+          :disabled="categoryData.shortcuts!.length >= 8"
           @click="categoryData.shortcuts!.push({ name: '' })"
           >{{ t('LC_ADD_SHORTCUTS') }}</el-button
         >
