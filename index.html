@@ -23,8 +23,10 @@
       window.partytown = {
         lib: import.meta.env.MODE === 'development' ? '/partytown/' : '/moneyGone-v2/partytown/'
       }
+      const script = document.createElement('script')
+      script.src = '/partytown/partytown.js'
+      document.head.appendChild(script)
     </script>
-    <script src="/partytown/partytown.js"></script>
     <!-- Google Tag Manager -->
     <script type="text/partytown">
       ;(function (w, d, s, l, i) {
