@@ -20,11 +20,13 @@
     <meta property="og:url" content="https://yurong77.github.io/moneyGone-v2" />
     <meta property="og:type" content="website" />
     <script type="module">
+      const path =
+        import.meta.env.MODE === 'development' ? '/partytown/' : '/moneyGone-v2/partytown/'
       window.partytown = {
-        lib: import.meta.env.MODE === 'development' ? '/partytown/' : '/moneyGone-v2/partytown/'
+        lib: path
       }
       const script = document.createElement('script')
-      script.src = '/partytown/partytown.js'
+      script.src = `${path}partytown.js`
       document.head.appendChild(script)
     </script>
     <!-- Google Tag Manager -->
