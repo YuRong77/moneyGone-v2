@@ -6,7 +6,7 @@ import { emitter } from '@/utils/emitter'
 import type { PropType } from 'vue'
 import type { Transaction, NewTransaction } from '@/types'
 import type { FormInstance, FormRules } from 'element-plus'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { format, isToday, isSameDay } from 'date-fns'
 import { showMessage } from '@/utils/message'
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { userAPI } from '@/apis'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { Storage } from '@/utils/localStorage'
 import { langList } from '@/types/constants'
 import { showMessage } from '@/utils/message'
