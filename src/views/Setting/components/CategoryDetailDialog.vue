@@ -213,6 +213,7 @@ async function updateCategory() {
           <div class="label">{{ t('LC_PREVIEW') }}</div>
           <div class="flex-c-c">
             <categoryIcon
+              v-if="images"
               :categoryName="categoryData.name"
               :color="categoryData.color"
               :url="getImgUrl()"
@@ -271,7 +272,7 @@ async function updateCategory() {
             data-test="category_deleteImg_btn"
             class="imageDel"
             v-if="isImagesDelMode && !image.isDefault"
-            @click="checkDelImage(image)"
+            @click.stop="checkDelImage(image)"
           >
             <span>×</span>
           </div>
